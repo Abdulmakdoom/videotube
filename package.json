@@ -2,9 +2,10 @@
   "name": "videotube",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Abdulmakdoom/videotube/issues"
   },
-  "homepage": "https://github.com/Abdulmakdoom/videotube#readme"
+  "homepage": "https://github.com/Abdulmakdoom/videotube#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2"
+  }
 }
