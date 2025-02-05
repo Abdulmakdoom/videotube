@@ -68,10 +68,13 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError(409, "User with email or username already exists")
     }
 
+    //--------------------------check for images, check for avatar
     const avatarLocalPath = req.files?.avatar[0]?.path; // req.files ka access multer deta hai // ? - agr hai to agay badho
     //console.log(req.files);
-   // const coverImageLocalPath = req.files?.coverImage[0]?.path;
-
+   
+   
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+                        // OR
     let coverImageLocalPath;
     if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
         coverImageLocalPath = req.files.coverImage[0].path
@@ -83,7 +86,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     //--------------------------upload them to cloudinary, avatar
-    const avatar = await uploadOnCloudinary(avatarLocalPath) 
+    const avatar = await uploadOnCloudinary(avatarLocalPath)   //  return response;
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
     if (!avatar) {
@@ -153,7 +156,7 @@ const loginUser = asyncHandler(async (req, res)=> {
     }
  
     //password check
-   const isPasswordValid = await user.isPasswordCorrect(password)
+   const isPasswordValid = await user.isPasswordCorrect(password) // o/p - true or false
 
    if (!isPasswordValid) {
     throw new ApiError(401, "Invalid user credentials")
@@ -162,7 +165,7 @@ const loginUser = asyncHandler(async (req, res)=> {
     //access and referesh token
    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
 
-   // send via cookies
+   // send token via cookies
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
     const options = {  // now you can't modify cookie throw front-end, you can modify throw server only after true these below line.
@@ -187,12 +190,11 @@ const loginUser = asyncHandler(async (req, res)=> {
 
 //--------------------------------------------Logout User
 
-// steps 
+const logoutUser = asyncHandler(async(req, res) => {
+    // steps 
 
 // clear user cookies
 // refreshToken in data also reset
-
-const logoutUser = asyncHandler(async(req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {

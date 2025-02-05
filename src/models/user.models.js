@@ -53,21 +53,23 @@ const userSchema = new Schema(
 )
 
 // password encrpt 
+
 // npm i bcrypt (password protected or password encrpted krta hai)
 userSchema.pre("save", async function (next) {  // middleware (data save hone say phale password encrpt krde)(arrow function use mat krna )
     if(!this.isModified("password")) return next(); // now this middleware work for only password bcz of this line otherwise if you chnage anywhere then it will again encrpted password 
 
-    this.password = await bcrypt.hash(this.password, 10) //((ish password ko )filter, round)
+    this.password = await bcrypt.hash(this.password, 10) // ((ish password ko)filter, round)
     next()
 })
 
-// before impoet User, check password is correct or not 
+// before import User, check password is correct or not 
 //custom method create
 userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password, this.password) //(user enter password(string form), encepted password)  o/p true or false form main
 }
 
 // npm install jsonwebtoken
+// jwt --- 1. sign token , 2. verify and decode token
 userSchema.methods.generateAccessToken = function(){  // access token 
     return jwt.sign(
         {

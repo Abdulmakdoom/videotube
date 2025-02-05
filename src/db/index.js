@@ -14,3 +14,14 @@ const connectDB = async () => {
 }
 
 export default connectDB
+
+
+
+// async function connectDB () {
+//     await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
+// }
+
+//  connectDB.then(()=> {
+//     console.log('connection succesfull');
+    
+//  })
