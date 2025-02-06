@@ -398,12 +398,13 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
 
 
 const getUserChannelProfile = asyncHandler(async(req, res) => {
-    const {username} = req.params
+    const {username} = req.params  // params -- usky url sai 
 
     if (!username?.trim()) {
         throw new ApiError(400, "username is missing")
     }
 
+    // aggregate pipline  --- we get the value in form of array
     const channel = await User.aggregate([
         {
             $match: {
@@ -411,16 +412,18 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
             }
         },
         {
+            // to find subscribers or followrs through channel
             $lookup: {
-                from: "subscriptions",
+                from: "subscription",  // in this sab ki sab lowercase and plural ho jati hai -- model name
                 localField: "_id",
                 foreignField: "channel",
                 as: "subscribers"
             }
         },
         {
+            // to find channels(subscribe or follow) through subscriber  --> mean i much i subscribe the channels
             $lookup: {
-                from: "subscriptions",
+                from: "subscription", // -- model name
                 localField: "_id",
                 foreignField: "subscriber",
                 as: "subscribedTo"
@@ -429,14 +432,16 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         {
             $addFields: {
                 subscribersCount: {
-                    $size: "$subscribers"
+                    $size: "$subscribers"  // as: "subscribers"
                 },
                 channelsSubscribedToCount: {
-                    $size: "$subscribedTo"
+                    $size: "$subscribedTo"   //  as: "subscribedTo"
                 },
+
+                // follow button -- show user subscribed or not via sending true or false
                 isSubscribed: {
                     $cond: {
-                        if: {$in: [req.user?._id, "$subscribers.subscriber"]},
+                        if: {$in: [req.user?._id, "$subscribers.subscriber"]},  // $in --> present hai ya nhi --> it working on array and object also
                         then: true,
                         else: false
                     }
@@ -444,6 +449,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
             }
         },
         {
+            // it give you selected data only not whole data
             $project: {
                 fullName: 1,
                 username: 1,
@@ -453,10 +459,14 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
                 avatar: 1,
                 coverImage: 1,
                 email: 1
-
             }
         }
     ])
+
+    // In aggregate pipline o/p --- A array with multiple objects ;
+    // but In our care we get only -- A array with one objects bcz we have only 1 match.
+    // also see o/p in aggregate pipline mongodb docs
+
 
     if (!channel?.length) {
         throw new ApiError(404, "channel does not exists")
@@ -477,7 +487,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
             }
         },
         {
-            $lookup: {
+            $lookup: { 
                 from: "videos",
                 localField: "watchHistory",
                 foreignField: "_id",
@@ -499,9 +509,9 @@ const getWatchHistory = asyncHandler(async(req, res) => {
                                 }
                             ]
                         }
-                    },
+                    }, // -- jo data hai array [ {} ]
                     {
-                        $addFields:{
+                        $addFields:{  // Now ab jo bhi data hai bo object ki form main front-end ko mil jayega
                             owner:{
                                 $first: "$owner"
                             }
