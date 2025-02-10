@@ -119,3 +119,19 @@ dist
 .pnp.*
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
+
+
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.fseventsd
+.Trashes
+._*
+
+# VS Code settings
+.vscode/
+*.code-workspace
+.history/
