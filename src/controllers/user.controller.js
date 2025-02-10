@@ -69,8 +69,8 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     //--------------------------check for images, check for avatar
-    const avatarLocalPath = req.files?.avatar[0]?.path; // req.files ka access multer deta hai // ? - agr hai to agay badho
-    //console.log(req.files);
+    const avatarLocalPath = req.files?.avatar[0]?.path; // req.files ka access multer deta hai // ? - agr hai to agay badho // jo multer nai upload kiya h
+    //console.log(req.files);  
    
    
     // const coverImageLocalPath = req.files?.coverImage[0]?.path;
@@ -300,7 +300,7 @@ const getCurrentUser = asyncHandler(async(req, res) => {  // user come from auth
     .status(200)
     .json(new ApiResponse(
         200,
-        req.user,
+        req.user,  // verifyJWT middleware come user
         "User fetched successfully"
     ))
 })
@@ -320,7 +320,7 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
                 email: email
             }
         },
-        {new: true} // update honay kay baad information return hoti hai yaha pr
+        {new: true} // update honay kay baad information return hoti hai
         
     ).select("-password")
 
@@ -404,7 +404,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         throw new ApiError(400, "username is missing")
     }
 
-    // aggregate pipline  --- we get the value in form of array
+    // aggregate pipline  --- work only to connect the 2 or mpre models
     const channel = await User.aggregate([
         {
             $match: {
@@ -414,8 +414,8 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         {
             // to find subscribers or followrs through channel
             $lookup: {
-                from: "subscription",  // in this sab ki sab lowercase and plural ho jati hai -- model name
-                localField: "_id",
+                from: "subscription", // -- model name  // in this sab ki sab lowercase and plural ho jati hai -- model name
+                localField: "_id", // users id
                 foreignField: "channel",
                 as: "subscribers"
             }
@@ -437,7 +437,6 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
                 channelsSubscribedToCount: {
                     $size: "$subscribedTo"   //  as: "subscribedTo"
                 },
-
                 // follow button -- show user subscribed or not via sending true or false
                 isSubscribed: {
                     $cond: {
