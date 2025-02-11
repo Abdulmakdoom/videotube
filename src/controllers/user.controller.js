@@ -275,6 +275,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 })
 
+//-------------------------------------------change current password
 
 const changeCurrentPassword = asyncHandler(async(req, res) => {
     const {oldPassword, newPassword} = req.body
@@ -294,6 +295,7 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully"))
 })
 
+//-------------------------------------------get current user
 
 const getCurrentUser = asyncHandler(async(req, res) => {  // user come from auth.middleware
     return res
@@ -304,6 +306,8 @@ const getCurrentUser = asyncHandler(async(req, res) => {  // user come from auth
         "User fetched successfully"
     ))
 })
+
+//-------------------------------------------update account details
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
     const {fullName, email} = req.body
@@ -328,6 +332,8 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Account details updated successfully"))
 });
+
+//-------------------------------------------update user avater
 
 const updateUserAvatar = asyncHandler(async(req, res) => {
     const avatarLocalPath = req.file?.path  // req.file -- it come through multer.middleware.js
@@ -361,6 +367,8 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
         new ApiResponse(200, user, "Avatar image updated successfully")
     )
 })
+
+//-------------------------------------------update cover image
 
 const updateUserCoverImage = asyncHandler(async(req, res) => {
     const coverImageLocalPath = req.file?.path
@@ -396,7 +404,9 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     )
 })
 
+//-------------------------------------------subscriber, subscribtions
 
+// step 3  ---- subscribtion method process
 const getUserChannelProfile = asyncHandler(async(req, res) => {
     const {username} = req.params  // params -- usky url sai 
 
@@ -477,6 +487,8 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         new ApiResponse(200, channel[0], "User channel fetched successfully")
     )
 })
+
+//-------------------------------------------watch history
 
 const getWatchHistory = asyncHandler(async(req, res) => {
     const user = await User.aggregate([

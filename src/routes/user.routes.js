@@ -19,6 +19,7 @@ const router = Router()
 
 // router.route("/register").post(registerUser)//(post(method))
 router.route("/register").post(
+    // middleware multer
     upload.fields([    // fields -- array accept krta hai
         {
             name: "avatar",
@@ -52,4 +53,4 @@ router.route("/history").get(verifyJWT, getWatchHistory)
 
 
 
-export default router
+export default router;
