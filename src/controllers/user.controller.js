@@ -409,22 +409,23 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
 // step 3  ---- subscribtion method process
 const getUserChannelProfile = asyncHandler(async(req, res) => {
     const {username} = req.params  // params -- usky url sai 
+    
 
     if (!username?.trim()) {
         throw new ApiError(400, "username is missing")
     }
 
-    // aggregate pipline  --- work only to connect the 2 or mpre models
+    // aggregate pipline  --- work only to connect the 2 or more models
     const channel = await User.aggregate([
         {
             $match: {
-                username: username?.toLowerCase()
+                username: username?.toLowerCase()  // database -- username == {username} = req.params  -- username bala data find kr kay layega
             }
         },
         {
             // to find subscribers or followrs through channel
             $lookup: {
-                from: "subscription", // -- model name  // in this sab ki sab lowercase and plural ho jati hai -- model name
+                from: "subscriptions", // -- model name  // in this sab ki sab lowercase and plural ho jati hai -- model name
                 localField: "_id", // users id
                 foreignField: "channel",
                 as: "subscribers"
@@ -433,7 +434,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
         {
             // to find channels(subscribe or follow) through subscriber  --> mean i much i subscribe the channels
             $lookup: {
-                from: "subscription", // -- model name
+                from: "subscriptions", // -- model name
                 localField: "_id",
                 foreignField: "subscriber",
                 as: "subscribedTo"
@@ -471,6 +472,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
             }
         }
     ])
+   
 
     // In aggregate pipline o/p --- A array with multiple objects ;
     // but In our care we get only -- A array with one objects bcz we have only 1 match.
@@ -480,13 +482,17 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
     if (!channel?.length) {
         throw new ApiError(404, "channel does not exists")
     }
+    
 
     return res
     .status(200)
     .json(
         new ApiResponse(200, channel[0], "User channel fetched successfully")
     )
+    
 })
+
+
 
 //-------------------------------------------watch history
 
@@ -494,7 +500,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
     const user = await User.aggregate([
         {
             $match: {
-                _id: new mongoose.Types.ObjectId(req.user._id)
+                _id: new mongoose.Types.ObjectId(req.user._id)  // in aggregation -- mongoose can convert it automatically in this form  ObjectId('67a4d24719711816261b099e'), thats why we use this "new mongoose.Types.ObjectId"
             }
         },
         {

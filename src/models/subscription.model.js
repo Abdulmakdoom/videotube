@@ -4,11 +4,11 @@ import mongoose, {Schema} from "mongoose"
 const subscriptionSchema = new Schema(
     {
         subscriber: {
-            type: Schema.Types.ObjectId, // one who is subscribing --- followers
+            type: Schema.Types.ObjectId, // one who is subscribing --- followers  store hongy
             ref: "User"
         },
         channel: {
-            type: Schema.Types.ObjectId, // one to whom 'subscriber' is subscribing -- follow
+            type: Schema.Types.ObjectId, // one to whom 'subscriber' is subscribing -- following store hongy -- jisko hum follow krengy unky channel ki id store hongy
             ref: "User"
         }
 }, {timestamps: true})
