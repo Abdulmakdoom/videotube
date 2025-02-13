@@ -8,97 +8,83 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    //const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
-    //TODO: get all videos based on query, sort, pagination
-    // ✅ Pagination: Fetches videos page-by-page based on page & limit.
-    // ✅ Search (query): Case-insensitive search by title or description.
-    // ✅ Sorting: Sorts by createdAt (default) but allows sorting by other fields.
-    // ✅ User Filtering (userId): Retrieves only videos uploaded by a specific user.
-    // ✅ Efficient Querying: Uses MongoDB operators $regex, $or, and countDocuments for optimization.
+    const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
-    // const { page = 0, limit = 10, query, sortBy = "createdAt", sortType = "desc", userId } = req.query;
-
-    // const filter = {}; // Query filter object
-
-    // // Search by title or description if 'query' is provided
-    // if (query) {
-    //     filter.$or = [
-    //         { title: { $regex: query, $options: "i" } }, // Case-insensitive search
-    //         { description: { $regex: query, $options: "i" } }
-    //     ];
+    // // Validate userId
+    // if (!userId) {
+    //     throw new ApiError(400, "User ID is required");
     // }
 
-    // // Filter videos by userId (if provided)
-    // if (userId) {
-    //     filter.userId = userId;
-    // }
-
-    // // Convert page & limit to numbers
+    // // Convert page and limit to numbers
     // const pageNumber = parseInt(page, 10);
     // const limitNumber = parseInt(limit, 10);
+    // const sortOrder = sortType === "asc" ? 1 : -1;
 
-    // // Sorting
-    // const sortOption = {};
-    // sortOption[sortBy] = sortType === "asc" ? 1 : -1; // Ascending or Descending
-
-    // // Fetch videos with pagination
-    // const videos = await Video.find(filter)
-    //     .sort(sortOption)
+    // // Fetch videos with pagination and sorting
+    // const allVideos = await Video.find({ owner: userId })
+    //     .select("videoFile")
+    //     .sort({ [sortBy]: sortOrder })
     //     .skip((pageNumber - 1) * limitNumber)
     //     .limit(limitNumber);
 
-    // // Get total count for pagination
-    // const totalVideos = await Video.countDocuments(filter);
+    // // If no videos found
+    // if (!allVideos || allVideos.length === 0) {
+    //     throw new ApiError(404, "No videos found for this user");
+    // }
 
-    // return res.status(200).json(new ApiResponse(200, {
-    //     videos,
-    //     totalPages: Math.ceil(totalVideos / limitNumber),
-    //     currentPage: pageNumber,
-    //     totalVideos
-    // }, "Videos retrieved successfully"));
+    // // Send response
+    // res.status(200).json({
+    //     success: true,
+    //     page: pageNumber,
+    //     limit: limitNumber,
+    //     totalVideos: allVideos.length,
+    //     videos: allVideos,
+    // });
 
 
-    let {userId} = req.params;
-    let page = 0, limit = 10;
 
-    let allVideos = await Video.find({owner : userId}).select("videoFile");
-    // {
-    //     _id: new ObjectId('67addb87f6c15f1527a49941'),
-    //     videoFile: 'http://res.cloudinary.com/dmlw1mz3w/video/upload/v1739447173/zzhjxsm6izytdti9l8uw.mp4'
-    //   }
 
-    if (!allVideos) {
-        throw new ApiError(400, "Not founded all videos")
+    const sortOrder = sortType === "asc" ? 1 : -1;
+    const skip = (page - 1) * limit;
+
+    let matchStage = {};
+    if (userId) {
+        matchStage.owner = new mongoose.Types.ObjectId(userId); // Filter by user ID if provided
     }
 
+    try {
+        const videos = await Video.aggregate([
+            { $match: matchStage }, // Apply filtering (if userId is provided)
+            { $sort: { [sortBy]: sortOrder } }, // Sorting
+            { $skip: skip }, // Skip for pagination
+            { $limit: parseInt(limit) }, // Limit for pagination
+            {
+                $lookup: {
+                    from: "users", // Referencing 'User' collection
+                    localField: "owner",
+                    foreignField: "_id",
+                    as: "ownerDetails"
+                }
+            },
+            { $unwind: "$ownerDetails" }, // Flatten owner details
+        ]);
 
-    let descList = allVideos.reverse()
+        // Get total video count for pagination
+        const totalVideos = await Video.countDocuments(matchStage);
 
-    let video;
-
-    function val() {
-        video=""
-        let start = page * limit;
-        let end = start + limit;
-        
-        let data = descList.slice(start, end); // Extract 10 items at a time
-    
-        //console.log(data);
-        video = data
-    
-        page++;  // Increase page number for next click
+        res.status(200).json({
+            success: true,
+            message: "Videos fetched successfully",
+            data: videos,
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(totalVideos / limit),
+                totalVideos,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
-    val()
-
-    return res.status(201).json(
-        new ApiResponse(200, video, "Videos get Successfully")
-    )
-
-    // const page = parseInt(req.query.page) || 1;
-    // const limit = parseInt(req.query.limit) || 10;
-    // const skip = (page - 1) * limit;
-    // let allVideos = await Video.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
-
     
 })
 

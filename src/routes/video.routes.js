@@ -31,7 +31,7 @@ router
     );
 
 router
-    .route("/u/:userId")
+    .route("/u/")
     .get(getAllVideos)
 
 router
