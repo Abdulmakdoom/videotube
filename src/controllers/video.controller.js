@@ -58,9 +58,14 @@ const getAllVideos = asyncHandler(async (req, res) => {
     // }, "Videos retrieved successfully"));
 
 
+    let {userId} = req.params;
     let page = 0, limit = 10;
 
-    let allVideos = await Video.find();
+    let allVideos = await Video.find({owner : userId}).select("videoFile");
+    // {
+    //     _id: new ObjectId('67addb87f6c15f1527a49941'),
+    //     videoFile: 'http://res.cloudinary.com/dmlw1mz3w/video/upload/v1739447173/zzhjxsm6izytdti9l8uw.mp4'
+    //   }
 
     if (!allVideos) {
         throw new ApiError(400, "Not founded all videos")
@@ -78,7 +83,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         
         let data = descList.slice(start, end); // Extract 10 items at a time
     
-        console.log(data);
+        //console.log(data);
         video = data
     
         page++;  // Increase page number for next click
@@ -159,8 +164,15 @@ const publishAVideo = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Thumbnail is required")
     }
 
-    // Convert created_at to a readable format (YYYY-MM-DD HH:mm:ss)
-    const uploadedAt = new Date(videoFile.created_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }); // Convert to IST
+    // // Convert created_at to a readable format (YYYY-MM-DD HH:mm:ss)
+    // const uploadedAt = new Date(videoFile.created_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }); // Convert to IST
+    // console.log(uploadedAt);
+
+    // if (!uploadedAt) {
+    //     throw new ApiError(400, "upload date not found")
+    // }
+
+    
 
 
     const videos = await Video.create({
@@ -169,7 +181,9 @@ const publishAVideo = asyncHandler(async (req, res) => {
         title: title,
         description: description,
         owner: req.user._id,
-        createdAt: uploadedAt
+        createdAt: videoFile.created_at,
+        isPublished: true,
+        duration: videoFile.duration
     })
 
     return res.status(201).json(

@@ -15,7 +15,6 @@ router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 router
     .route("/")
-    .get(getAllVideos)
     .post(verifyJWT,
         upload.fields([
             {
@@ -30,6 +29,10 @@ router
         ]),
         publishAVideo
     );
+
+router
+    .route("/u/:userId")
+    .get(getAllVideos)
 
 router
     .route("/:videoId")
