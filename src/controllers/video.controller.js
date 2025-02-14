@@ -10,6 +10,8 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
+    // 1 method
+
     // // Validate userId
     // if (!userId) {
     //     throw new ApiError(400, "User ID is required");
@@ -42,10 +44,13 @@ const getAllVideos = asyncHandler(async (req, res) => {
     // });
 
 
+    
+    // 2 method
 
+    // get all vidoes based on the userid
 
     const sortOrder = sortType === "asc" ? 1 : -1;
-    const skip = (page - 1) * limit;
+    const skip = (page - 1) * limit; // If page = 2, skip = (2-1) * 10 = 10 (Skips the first 10 videos, starts from the 11th one).
 
     let matchStage = {};
     if (userId) {
@@ -56,7 +61,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         const videos = await Video.aggregate([
             { $match: matchStage }, // Apply filtering (if userId is provided)
             { $sort: { [sortBy]: sortOrder } }, // Sorting
-            { $skip: skip }, // Skip for pagination
+            { $skip: skip }, // Skip for pagination  --- per page pr kitana item lana hai or kitana skip krna
             { $limit: parseInt(limit) }, // Limit for pagination
             {
                 $lookup: {
@@ -66,12 +71,34 @@ const getAllVideos = asyncHandler(async (req, res) => {
                     as: "ownerDetails"
                 }
             },
-            { $unwind: "$ownerDetails" }, // Flatten owner details
+            { $unwind: "$ownerDetails" },//populate // Flatten owner details // The MongoDB $unwind stage is used to break down an array field into individual documents. // The array ownerDetails will be "flattened," creating separate documents for each element in the array.
+            { 
+                $project: { 
+                  "_id": 1, 
+                  "videoFile": 1,
+                  "thumbnail":1,
+                  "title":1,
+                  "description":1,
+                  "views":1,
+                  "isPublished":1,
+                  "owner":1,
+                  "createdAt":1,
+                  "updatedAt":1,
+                  "ownerDetails": {
+                        "_id":1,
+                        "username": 1,
+                        "email": 1
+                  }
+
+                }
+            }    
         ]);
 
         // Get total video count for pagination
         const totalVideos = await Video.countDocuments(matchStage);
 
+        //console.log(videos);
+        
         res.status(200).json({
             success: true,
             message: "Videos fetched successfully",
@@ -87,6 +114,33 @@ const getAllVideos = asyncHandler(async (req, res) => {
     }
     
 })
+
+//console.log(videos);
+
+// [
+//     {
+//         _id: new ObjectId('67addc03f6c15f1527a4995b'),
+//         videoFile: 'http://res.cloudinary.com/dmlw1mz3w/video/upload/v1739447297/vsjgcfmd9sklyjvqxxtj.mp4',
+//         thumbnail: 'http://res.cloudinary.com/dmlw1mz3w/image/upload/v1739447299/vd4b7whv1lxrmmjgqv4c.jpg',
+//         title: 'superfrog',
+//         description: 'the superfrog',
+//         duration: 58,
+//         views: 0,
+//         isPublished: true,
+//         owner: new ObjectId('67ac580572775ad277345c2b'),
+//         createdAt: 2025-02-13T11:48:17.000Z,
+//         updatedAt: 2025-02-13T11:48:17.000Z,
+//         __v: 0,
+//         ownerDetails: {
+//             _id: new ObjectId('67ac580572775ad277345c2b'),
+//             username: 'zaynzayn1',
+//             email: 'zayn1@gmail.com',
+//         }
+//     }
+// ]
+
+
+
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description,} = req.body

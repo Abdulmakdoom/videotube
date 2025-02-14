@@ -419,7 +419,7 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
     const channel = await User.aggregate([
         {
             $match: {
-                username: username?.toLowerCase()  // database -- username == {username} = req.params  -- username bala data find kr kay layega
+                username: username?.toLowerCase()  // database -- User model-- username == {username} = req.params  -- username bala data find kr kay layega
             }
         },
         {
