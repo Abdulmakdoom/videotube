@@ -71,7 +71,7 @@ const addComment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid video ID");
     }
 
-    if (!content || content.trim() === "") {
+    if (!content) {
         throw new ApiError(400, "Comment content is required");
     }
 
