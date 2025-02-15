@@ -86,11 +86,50 @@ const addComment = asyncHandler(async (req, res) => {
 })
 
 
+// const updateComment = asyncHandler(async (req, res) => {
+//     // TODO: update a comment
+//     const {commentId} = req.params
+//     const {content} = req.body;
+//     const userId = req.user._id
+
+
+
+//     if (!mongoose.Types.ObjectId.isValid(commentId)) {
+//         throw new ApiError(400, "Invalid video ID");
+//     }
+
+//     if (!content) {
+//         throw new ApiError(400, "Comment content is required");
+//     }
+
+
+
+//     const updateComment = await Comment.findOne({ _id: commentId, owner: userId });
+
+//     if (!updateComment) {
+//         throw new ApiError(404, "Tweet not found or unauthorized");
+//     }
+
+//     updateComment.content = content;
+//     await updateComment.save();
+
+
+//     if (!updateComment) {
+//         throw new ApiError(404, "Comment not found");
+//     }
+
+
+//     res.status(201).json(new ApiResponse(201, updateComment, "Comment updated successfully"));
+
+// })
+
+
+
 const updateComment = asyncHandler(async (req, res) => {
     // TODO: update a comment
     const {commentId} = req.params
     const {content} = req.body;
-    const userId = req.user._id
+    // const userId = req.user._id
 
 
 
@@ -104,22 +143,35 @@ const updateComment = asyncHandler(async (req, res) => {
 
 
 
-    const updateComment = await Comment.findOne({ _id: commentId, owner: userId });
+    // authorization check
+    const comment = await Comment.findById(commentId);
 
-    if (!updateComment) {
-        throw new ApiError(404, "Tweet not found or unauthorized");
-    }
-
-    updateComment.content = content;
-    await updateComment.save();
-
-
-    if (!updateComment) {
+    if (!comment) {
         throw new ApiError(404, "Comment not found");
     }
 
 
-    res.status(201).json(new ApiResponse(201, updateComment, "Comment updated successfully"));
+    if (commentId?.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "Unauthorized to Update  this Comment");
+    }
+
+    // update comment
+    const updatedComment = await Comment.findByIdAndUpdate(
+
+        comment?._id,
+        { $set: { content } },
+        { new: true }
+
+    )
+
+    if (!updatedComment) {
+        throw new ApiError(404, "Comment not found Please try again")
+    }
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, updatedComment.toJSON(), "Comment Updated Successfully")
+        )
 
 })
 
@@ -147,3 +199,7 @@ export {
     updateComment,
      deleteComment
     }
+
+
+
+ 
