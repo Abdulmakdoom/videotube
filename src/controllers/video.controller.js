@@ -147,6 +147,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description,} = req.body
     // TODO: get video, upload to cloudinary, create video
 
+
     if (   //validation - not empty
         [title, description].some((field) => field?.trim() === "")  // some work like map function working but return porblem 
     ) {
@@ -221,7 +222,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
         thumbnail: thumbnail.url,
         title: title,
         description: description,
-        owner: req.user._id,
+        owner: req.user?._id,
         createdAt: videoFile.created_at,
         isPublished: true,
         duration: videoFile.duration
@@ -236,6 +237,11 @@ const publishAVideo = asyncHandler(async (req, res) => {
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: get video by id
+    // Validate input
+    if (!isValidObjectId(videoId) || !isValidObjectId(req.user?._id)) {
+      throw new ApiError(400, "Invalid videoId or userId");
+    }
+
     let videoById = await Video.findById(videoId)
 
     if(!videoById) {
@@ -243,14 +249,22 @@ const getVideoById = asyncHandler(async (req, res) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(200, videoById, "User upload videos Successfully")
+        new ApiResponse(200, videoById, "User get videos Successfully")
     )
 })
 
 const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     const { title, description,} = req.body
+
+
+    if (videoId?.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "Unauthorized to Update  this Comment");
+    }
+
     let videoFileObj = req.files?.videoFile?.[0];
+
+   
 
 
     // Check if the uploaded file is a valid video format
@@ -298,21 +312,51 @@ const updateVideo = asyncHandler(async (req, res) => {
 const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
-    let deleteVideo = await Video.findByIdAndDelete(videoId)
 
-    if(!deleteVideo) {
-        throw new ApiError(400, "video not deleted")
+    if (videoId?.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "Unauthorized to Update  this Comment");
     }
 
-    return res.status(201).json(
-        new ApiResponse(200, deleteVideo, "User delete videos Successfully")
-    )
+    const video = await Video.findById(videoId);
+  
 
+    if (!video) {
+      throw new ApiError(404, "Video not found");
+    }
+  
+    if (video?.owner.toString() !== req.user?._id.toString()) {
+      throw new ApiError(403, "Unauthorized to delete this video");
+    }
+    
+    try {
+        await Promise.all([
+            Video.findByIdAndDelete(videoId),
+            // Like.deleteMany({ video: videoId }),
+            // Comment.deleteMany({ video: videoId }),
+            // cloudinary.uploader.destroy(video.thumbnail.public_id),
+            // cloudinary.uploader.destroy(video.videoFile.public_id, { resource_type: 'video' }),
+        ]);
+
+        res.status(200).json(new ApiResponse(200, {}, "Video deleted successfully"));
+    } catch (error) {
+      console.error('Error deleting video:', error);
+      throw new ApiError(500, 'Failed to delete video');
+    }
+
+    // await Promise.all([
+    //     cloudinary.uploader.destroy(video.thumbnail.public_id),
+    //     cloudinary.uploader.destroy(video.videoFile.public_id, { resource_type: 'video' }),
+    // ])
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     // video agar publish hai toh unpublise krdo
+
+    if (videoId?.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "Unauthorized to Update  this Comment");
+    }
+
     const video = await Video.findById(videoId);
     if (!video) throw new ApiError(404, "Video not found");
 
