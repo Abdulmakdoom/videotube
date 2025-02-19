@@ -162,11 +162,13 @@ const toggleLike = asyncHandler(async (req, res) => {
 })
 
 const getLikedVideos = asyncHandler(async (req, res) => {
+    // console.log(req.user._id);
+    
     //TODO: get all liked videos
     let likedVideos = await Like.aggregate([
         {
             $match : {
-                likedBy: new mongoose.Types.ObjectId(req.user?._id),
+                likedBy: new mongoose.Types.ObjectId(req.user._id),
             }
         },
         {
@@ -209,11 +211,11 @@ const getLikedVideos = asyncHandler(async (req, res) => {
             $sort: { 'likedVideos.createdAt': -1 },
         },
         {
-            $lookup: {
+            $project: {
                 _id: 1,
                 createdAt: 1,
                 updatedAt: 1,
-                video: 1,
+                likedVideos: 1,
                 likedBy: {
                     username: 1,
                     avatar: 1,
@@ -222,7 +224,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
         }
     ])
 
-    return res.status(200).json(new ApiResponse(200, 'Liked videos', likedVideos));
+    return res.status(200).json(new ApiResponse(200,likedVideos, 'Liked videos'));
 })
 
 // export {
