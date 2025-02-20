@@ -5,6 +5,8 @@ import {Like} from "../models/like.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
+import {Comment} from "../models/comment.model.js"
+import {Tweet} from "../models/tweet.model.js"
 
 const getChannelStats = asyncHandler(async (req, res) => {
     // TODO: Get the channel stats like total video views, total subscribers, total videos, total likes etc.
@@ -15,27 +17,46 @@ const getChannelStats = asyncHandler(async (req, res) => {
         throw new ApiError(401, 'Unauthorized');
     }
     
-    const [totalSubscribers, totalVideos] = await Promise.all([   // Both queries run at the same time.
+    const [totalSubscribers, totalVideos, totalLikes] = await Promise.all([
+        // Count total subscribers
         Subscription.countDocuments({ channel: userId }),
+    
+        // Get total videos & views
         Video.aggregate([
             { $match: { owner: userId } },
             {
                 $group: {
                     _id: null,
-                    totalVideos: { $sum: 1 },
-                    totalViews: { $sum: "$views" },
-                    totalLikes: { $sum: "$likes" }
+                    totalVideos: { $sum: 1 }, // $sum: 1 counts the number of video documents in the "Video" collection.
+                    totalViews: { $sum: "$views" } // Adds up the views for all videos owned by userId
                 }
             }
+        ]),
+    
+        // Get total likes received by user's content
+        Like.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { video: { $in: await Video.distinct("_id", { owner: userId }) } },  // Finds all video IDs where the owner == userId
+                        // Checks if the 'video' field in the Like collection matches any of those video IDs.
+
+                        { comment: { $in: await Comment.distinct("_id", { owner: userId }) } },
+                        { tweet: { $in: await Tweet.distinct("_id", { owner: userId }) } }
+                    ]
+                }
+            },
+            { $count: "totalLikes" }
         ])
     ]);
-
+    
     const channelStats = {
         totalSubscribers,
         totalVideos: totalVideos[0]?.totalVideos || 0,
         totalViews: totalVideos[0]?.totalViews || 0,
-        totalLikes: totalVideos[0]?.totalLikes || 0
+        totalLikes: totalLikes[0]?.totalLikes || 0 // Fixing the totalLikes field
     };
+    
 
     return res.status(200).json(new ApiResponse(200, channelStats, 'Channel stats fetched successfully'));
 })

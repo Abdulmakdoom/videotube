@@ -156,7 +156,7 @@ const toggleLike = asyncHandler(async (req, res) => {
     const likeCount = await Like.countDocuments({ [type]: Id });
 
     return res.status(200).json(
-        new ApiResponse(200, { likeCount }, existingLike ? "Unlike successfully" : "Like successfully")
+        new ApiResponse(200, { likeCount }, existingLike ? "Unlike successfully" : `${type} Like successfully`)
     );
    
 })
@@ -196,6 +196,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
                             title: 1,
                             duration: 1,
                             owner: {
+                                _id: 1,
                                 username: 1,
                                 avatar: 1,
                             },
@@ -208,6 +209,17 @@ const getLikedVideos = asyncHandler(async (req, res) => {
             $unwind: '$likedVideos',
         },
         {
+            $lookup: {
+                from: "users",
+                localField: "likedBy",
+                foreignField: "_id",
+                as: "likedByDetails"
+            }
+        },
+        {
+            $unwind: "$likedByDetails"
+        },
+        {
             $sort: { 'likedVideos.createdAt': -1 },
         },
         {
@@ -217,9 +229,15 @@ const getLikedVideos = asyncHandler(async (req, res) => {
                 updatedAt: 1,
                 likedVideos: 1,
                 likedBy: {
-                    username: 1,
-                    avatar: 1,
+                    _id: "$likedByDetails._id",
+                    username: '$likedByDetails.username',
+                    avatar: '$likedByDetails.avatar',
                 },
+                // likedByDetails: {
+                //     _id: 1,
+                //     username: 1,
+                //     avatar: 1,
+                // },
             }
         }
     ])

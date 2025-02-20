@@ -1,31 +1,49 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from "fs"  // fs -- file system (byDefault atii hai node.js kay saath)  (work - read, write, remove, sync, async... etc)
+import fs from "fs";
 
-// Read cloudinary document
-
-// Configuration
+// Cloudinary Configuration
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
     api_key: process.env.CLOUDINARY_API_KEY, 
     api_secret: process.env.CLOUDINARY_API_SECRET
 }); 
 
-const uploadOnCloudinary = async (localFilePath) => {  // jo bhi parametre ayee usko pass krdo
+const uploadOnCloudinary = async (localFilePath) => {  
+    if (!localFilePath) {
+        throw new Error(`Local path file is required for ${localFilePath}`);
+    }
+
+    //console.log(localFilePath); // Debugging output
+
     try {
-        if (!localFilePath) return null
-        //upload the file on cloudinary
+        // Upload the file to Cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
-        })
-        // file has been uploaded successfull
-        //console.log("file is uploaded on cloudinary ", response.url);
-        fs.unlinkSync(localFilePath) // delete
-        return response;  // link  --> response.url
+        });
+
+        //console.log("File uploaded successfully:", response.url);
+
+        // Check if the file exists before deleting
+        if (fs.existsSync(localFilePath)) {
+            console.log("Deleting local file...");
+            fs.unlinkSync(localFilePath);
+        }
+
+        return response;  // Return Cloudinary response
 
     } catch (error) {
-        fs.unlinkSync(localFilePath) // remove the locally saved temporary file as the upload operation got failed
+        console.error("Cloudinary Upload Error:", error);
+
+        // Ensure the file exists before trying to delete it
+        if (fs.existsSync(localFilePath)) {
+            fs.unlinkSync(localFilePath);
+        }
+
         return null;
     }
 }
 
-export {uploadOnCloudinary}
+export { uploadOnCloudinary };
+
+
+
