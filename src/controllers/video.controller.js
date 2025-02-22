@@ -374,14 +374,18 @@ const viwesUpdate = asyncHandler(async (req, res)=> {
     let user = req.user?._id
     // console.log(user);
     // console.log(videoId);
+
+    const watchHistry = await User.findByIdAndUpdate(
+        user,
+        {
+            $push: {watchHistory : videoId}
+        },
+        {new: true}
+    )
    
     const video = await Video.findOne({_id: videoId});
     // console.log(video);
     
-
-    if (video?.owner.toString() !== req.user?._id.toString()) {
-        throw new ApiError(403, "Unauthorized to Update  this views");
-    }
 
     if (!video) throw new ApiError(404, "Video not found");
 
@@ -401,7 +405,7 @@ const viwesUpdate = asyncHandler(async (req, res)=> {
             },
             { new: true }
         )
-        return res.status(200).json(new ApiResponse(200, increaseViews, "Views status updated"));
+        return res.status(200).json(new ApiResponse(200, {increaseViews, watchHistry}, "Views status updated"));
     } else {
         return res.status(200).json(new ApiResponse(200, null, "User allready viewd"));
     }
