@@ -83,6 +83,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
                   "views":1,
                   "isPublished":1,
                   "owner":1,
+                  "views":1,
+                  "viewers": 1,
                   "createdAt":1,
                   "updatedAt":1,
                   "ownerDetails": {
@@ -367,11 +369,51 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 
 })
 
+const viwesUpdate = asyncHandler(async (req, res)=> {
+    let {videoId} = req.params;
+    let user = req.user?._id
+    // console.log(user);
+    // console.log(videoId);
+   
+    const video = await Video.findOne({_id: videoId});
+    // console.log(video);
+    
+
+    if (video?.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "Unauthorized to Update  this views");
+    }
+
+    if (!video) throw new ApiError(404, "Video not found");
+
+    // Check if the user has already viewed the video
+    const hasViewed = video.viewers.some(viewer => viewer.userId.toString() === user.toString());  // some -- used for array of objects
+
+    // const hasViewed = video.viewers[0].userId.includes(user) // only works on arrays or strings.
+    //console.log(hasViewed);
+    
+
+    if (!hasViewed) {
+        const increaseViews = await Video.findByIdAndUpdate(
+            videoId,
+            {
+                $inc: {views: 1},
+                $push: { viewers: { userId : user, timestamp: new Date() } }
+            },
+            { new: true }
+        )
+        return res.status(200).json(new ApiResponse(200, increaseViews, "Views status updated"));
+    } else {
+        return res.status(200).json(new ApiResponse(200, null, "User allready viewd"));
+    }
+    
+})
+
 export {
     getAllVideos,
     publishAVideo,
     getVideoById,
     updateVideo,
     deleteVideo,
-    togglePublishStatus
+    togglePublishStatus,
+    viwesUpdate
 }
