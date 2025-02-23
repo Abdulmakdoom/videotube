@@ -123,7 +123,7 @@ dist
 
 
 # macOS system files
-
+.DS_Store
 .AppleDouble
 .LSOverride
 .Spotlight-V100
@@ -136,4 +136,4 @@ dist
 *.code-workspace
 .history/
 
-.DS_Store
+*.DS_Store
