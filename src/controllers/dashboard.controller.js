@@ -27,8 +27,8 @@ const getChannelStats = asyncHandler(async (req, res) => {
             {
                 $group: {
                     _id: null,
-                    totalVideos: { $sum: 1 }, // $sum: 1 counts the number of video documents in the "Video" collection.
-                    totalViews: { $sum: "$views" } // Adds up the views for all videos owned by userId
+                    totalVideos: { $sum: 1 }, 
+                    totalViews: { $sum: "$views" } 
                 }
             }
         ]),
@@ -38,9 +38,7 @@ const getChannelStats = asyncHandler(async (req, res) => {
             {
                 $match: {
                     $or: [
-                        { video: { $in: await Video.distinct("_id", { owner: userId }) } },  // Finds all video IDs where the owner == userId
-                        // Checks if the 'video' field in the Like collection matches any of those video IDs.
-
+                        { video: { $in: await Video.distinct("_id", { owner: userId }) } },  
                         { comment: { $in: await Comment.distinct("_id", { owner: userId }) } },
                         { tweet: { $in: await Tweet.distinct("_id", { owner: userId }) } }
                     ]
