@@ -34,8 +34,6 @@ const getUserTweets = asyncHandler(async (req, res) => {
     const {ownerId} = req.params
    // console.log(ownerId);
     
-
-    
     if (!isValidObjectId(ownerId)) {
         throw new ApiError(400, "Invalid user ID");
     }
@@ -45,30 +43,6 @@ const getUserTweets = asyncHandler(async (req, res) => {
     res.status(201).json(new ApiResponse(201, ownerTweets, "Owner tweets get succesfully"))
 })
 
-// const updateTweet = asyncHandler(async (req, res) => {
-//     //TODO: update tweet
-//     const { tweetId } = req.params; 
-//     const {content} = req.body;
-
-//     if (!isValidObjectId(tweetId)) {
-//         throw new ApiError(400, "Invalid tweet ID");
-//     }
-
-//     const Updatetweet = await Tweet.findByIdAndUpdate(
-//         tweetId,
-//         {
-//             $set: {
-//                 content: content
-//             }
-//         },
-//         {new: true}
-       
-//     )
-
-
-//     res.status(201).json(new ApiResponse(201, updateTweet, "Tweet updated succesfully"))
-
-// })
 
 const updateTweet = asyncHandler(async (req, res) => {
     const { tweetId } = req.params; 

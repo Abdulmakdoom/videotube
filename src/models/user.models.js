@@ -1,5 +1,5 @@
 import mongoose, {Schema} from "mongoose";
-import jwt from "jsonwebtoken"; // bearer token hai (jo usko bear krta hai bo shi maan leta hai hum (y token jsky pass hai main usko "Data" bajh dunga (is like "Key")))
+import jwt from "jsonwebtoken"; 
 import bcrypt from "bcrypt"
 
 const userSchema = new Schema(
@@ -10,7 +10,7 @@ const userSchema = new Schema(
             unique: true,
             lowercase: true,
             trim: true, // remove extra space
-            index: true // database ki searching main anyy lag jaye (seraching field enable)
+            index: true 
         },
         email: {
             type: String,
@@ -32,7 +32,7 @@ const userSchema = new Schema(
         coverImage: {
             type: String, // cloudinary url
         },
-        watchHistory: [  // array bcz multiple value add krengy baad main
+        watchHistory: [  
             {
                 type: Schema.Types.ObjectId,
                 ref: "Video"
@@ -52,24 +52,20 @@ const userSchema = new Schema(
     }
 )
 
-// password encrpt 
 
-// npm i bcrypt (password protected or password encrpted krta hai)
-userSchema.pre("save", async function (next) {  // middleware (data save hone say phale password encrpt krde)(arrow function use mat krna )
-    if(!this.isModified("password")) return next(); // now this middleware work for only password bcz of this line otherwise if you chnage anywhere then it will again encrpted password 
+userSchema.pre("save", async function (next) {  
+    if(!this.isModified("password")) return next(); 
 
-    this.password = await bcrypt.hash(this.password, 10) // ((ish password ko)filter, round)
+    this.password = await bcrypt.hash(this.password, 10) 
     next()
 })
 
-// before import User, check password is correct or not 
 //custom method create
 userSchema.methods.isPasswordCorrect = async function(password){
-    return await bcrypt.compare(password, this.password) //(user enter password(string form), encepted password)  o/p true or false form main
+    return await bcrypt.compare(password, this.password) 
 }
 
-// npm install jsonwebtoken
-// jwt --- 1. sign token , 2. verify and decode token
+
 userSchema.methods.generateAccessToken = function(){  // access token 
     return jwt.sign(
         {
@@ -85,7 +81,7 @@ userSchema.methods.generateAccessToken = function(){  // access token
         }
     )
 }
-userSchema.methods.generateRefreshToken = function(){ // Refresh token // async bhi use kr sakte hai
+userSchema.methods.generateRefreshToken = function(){ // Refresh token 
     return jwt.sign(
         {
             _id: this._id,

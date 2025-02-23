@@ -25,11 +25,6 @@ const generateAccessAndRefereshTokens = async(userId)=> {
 //--------------------------------------------Register User
 
 const registerUser = asyncHandler( async (req, res) => {
-    // res.status(200).json({
-    //     message: "ok"
-    // })
-
-
     // Steps -- Logic building
 
     // get user details from frontend
@@ -42,25 +37,17 @@ const registerUser = asyncHandler( async (req, res) => {
     // check for user creation
     // return response
 
-
-
     //--------------------------get user details from frontend
     const {fullName, email, username, password } = req.body    
-    //console.log("email: ", email);
-    
-    // if (fullName === "") {   // validation - not empty
-    //     throw new ApiError(400, "fullname is required")
-    // }
-                // OR
 
     if (   //validation - not empty
-        [fullName, email, username, password].some((field) => field?.trim() === "")  // some work like map function working but return porblem 
+        [fullName, email, username, password].some((field) => field?.trim() === "")  
     ) {
         throw new ApiError(400, "All fields are required")
     }
     
     //--------------------------check if user already exists: username, email
-    const existedUser = await User.findOne({  // via mongodb database
+    const existedUser = await User.findOne({  
         $or: [{ username }, { email }]
     })
 
@@ -71,17 +58,11 @@ const registerUser = asyncHandler( async (req, res) => {
     console.log(req.files);
     
     //--------------------------check for images, check for avatar
-    const avatarLocalPath = req.files?.avatar[0]?.path; // req.files ka access multer deta hai // ? - agr hai to agay badho // jo multer nai upload kiya h
+    const avatarLocalPath = req.files?.avatar[0]?.path; 
     //console.log(req.files);  
    
    
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
-                        // OR
-    // let coverImageLocalPath;
-    // if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-    //     coverImageLocalPath = req.files.coverImage[0].path
-    // }
-
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is required")
@@ -107,7 +88,7 @@ const registerUser = asyncHandler( async (req, res) => {
     
     //--------------------------remove password and refresh token field from response
     const createdUser = await User.findById(user._id).select(
-        "-password -refreshToken" // yaha field nhi ayengy data kay saath
+        "-password -refreshToken" 
     )
     //--------------------------check for user creation
     if (!createdUser) {
@@ -133,21 +114,12 @@ const loginUser = asyncHandler(async (req, res)=> {
     //send these token via cookie
 
  
-    // req body -> data
     const {email, username, password} = req.body
-    //console.log(email);
 
-    // username or email
     if (!username && !email) {
         throw new ApiError(400, "username or email is required")
     }
     
-    // Here is an alternative of above code based on logic discussed in video:
-    // if (!(username || email)) {
-    //     throw new ApiError(400, "username or email is required")
-        
-    // }
-
     //find the user
     const user = await User.findOne({
         $or: [{username}, {email}]
@@ -170,7 +142,7 @@ const loginUser = asyncHandler(async (req, res)=> {
    // send token via cookies
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
-    const options = {  // now you can't modify cookie throw front-end, you can modify throw server only after true these below line.
+    const options = {  
         httpOnly: true,
         secure: true
     }
@@ -201,7 +173,7 @@ const logoutUser = asyncHandler(async(req, res) => {
         req.user._id,
         {
             $unset: {
-                refreshToken: 1 // this removes the field from document
+                refreshToken: 1 
             }
         },
         {
@@ -282,7 +254,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const changeCurrentPassword = asyncHandler(async(req, res) => {
     const {oldPassword, newPassword} = req.body
 
-    const user = await User.findById(req.user?._id) // user come from auth.middleware bcz user login hoga tab hi password change kr payega
+    const user = await User.findById(req.user?._id) 
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
 
     if (!isPasswordCorrect) {
@@ -299,12 +271,12 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 
 //-------------------------------------------get current user
 
-const getCurrentUser = asyncHandler(async(req, res) => {  // user come from auth.middleware
+const getCurrentUser = asyncHandler(async(req, res) => {  
     return res
     .status(200)
     .json(new ApiResponse(
         200,
-        req.user,  // verifyJWT middleware come user
+        req.user,  
         "User fetched successfully"
     ))
 })
@@ -322,11 +294,11 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
         req.user?._id,
         {
             $set: {
-                fullName,   // fullName : fullName
+                fullName,   
                 email: email
             }
         },
-        {new: true} // update honay kay baad information return hoti hai
+        {new: true} 
         
     ).select("-password")
 
@@ -338,7 +310,7 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
 //-------------------------------------------update user avater
 
 const updateUserAvatar = asyncHandler(async(req, res) => {
-    const avatarLocalPath = req.file?.path  // req.file -- it come through multer.middleware.js
+    const avatarLocalPath = req.file?.path  
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is missing")
@@ -410,33 +382,31 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
 
 // step 3  ---- subscribtion method process
 const getUserChannelProfile = asyncHandler(async(req, res) => {
-    const {username} = req.params  // params -- usky url sai 
-    
+    const {username} = req.params  
 
     if (!username?.trim()) {
         throw new ApiError(400, "username is missing")
     }
 
-    // aggregate pipline  --- work only to connect the 2 or more models
+    // aggregate pipline  
     const channel = await User.aggregate([
         {
             $match: {
-                username: username?.toLowerCase()  // database -- User model-- username == {username} = req.params  -- username bala data find kr kay layega
+                username: username?.toLowerCase()  
             }
         },
         {
             // to find subscribers or followrs through channel
             $lookup: {
-                from: "subscriptions", // -- model name  // in this sab ki sab lowercase and plural ho jati hai -- model name
-                localField: "_id", // users id
+                from: "subscriptions", 
+                localField: "_id", 
                 foreignField: "channel",
                 as: "subscribers"
             }
         },
         {
-            // to find channels(subscribe or follow) through subscriber  --> mean i much i subscribe the channels
             $lookup: {
-                from: "subscriptions", // -- model name
+                from: "subscriptions", 
                 localField: "_id",
                 foreignField: "subscriber",
                 as: "subscribedTo"
@@ -450,10 +420,10 @@ const getUserChannelProfile = asyncHandler(async(req, res) => {
                 channelsSubscribedToCount: {
                     $size: "$subscribedTo"   //  as: "subscribedTo"
                 },
-                // follow button -- show user subscribed or not via sending true or false
+                // follow button 
                 isSubscribed: {
                     $cond: {
-                        if: {$in: [req.user?._id, "$subscribers.subscriber"]},  // $in --> present hai ya nhi --> it working on array and object also
+                        if: {$in: [req.user?._id, "$subscribers.subscriber"]}, 
                         then: true,
                         else: false
                     }
@@ -502,7 +472,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
     const user = await User.aggregate([
         {
             $match: {
-                _id: new mongoose.Types.ObjectId(req.user._id)  // in aggregation -- mongoose can convert it automatically in this form  ObjectId('67a4d24719711816261b099e'), thats why we use this "new mongoose.Types.ObjectId"
+                _id: new mongoose.Types.ObjectId(req.user._id)  
             }
         },
         {
@@ -528,9 +498,9 @@ const getWatchHistory = asyncHandler(async(req, res) => {
                                 }
                             ]
                         }
-                    }, // -- jo data hai array [ {} ]
+                    }, 
                     {
-                        $addFields:{  // Now ab jo bhi data hai bo object ki form main front-end ko mil jayega
+                        $addFields:{  
                             owner:{
                                 $first: "$owner"
                             }

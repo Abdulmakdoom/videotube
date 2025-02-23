@@ -86,45 +86,6 @@ const addComment = asyncHandler(async (req, res) => {
 })
 
 
-// const updateComment = asyncHandler(async (req, res) => {
-//     // TODO: update a comment
-//     const {commentId} = req.params
-//     const {content} = req.body;
-//     const userId = req.user._id
-
-
-
-//     if (!mongoose.Types.ObjectId.isValid(commentId)) {
-//         throw new ApiError(400, "Invalid video ID");
-//     }
-
-//     if (!content) {
-//         throw new ApiError(400, "Comment content is required");
-//     }
-
-
-
-//     const updateComment = await Comment.findOne({ _id: commentId, owner: userId });
-
-//     if (!updateComment) {
-//         throw new ApiError(404, "Tweet not found or unauthorized");
-//     }
-
-//     updateComment.content = content;
-//     await updateComment.save();
-
-
-//     if (!updateComment) {
-//         throw new ApiError(404, "Comment not found");
-//     }
-
-
-//     res.status(201).json(new ApiResponse(201, updateComment, "Comment updated successfully"));
-
-// })
-
-
-
 const updateComment = asyncHandler(async (req, res) => {
     // TODO: update a comment
     const {commentId} = req.params

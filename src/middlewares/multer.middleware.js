@@ -1,4 +1,4 @@
-import multer from "multer";  // expressjs multer documentation   https://github.com/expressjs/multer 
+import multer from "multer";  
 
 const storage = multer.diskStorage({   
     destination: function (req, file, cb) {

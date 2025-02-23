@@ -10,58 +10,19 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
-    // 1 method
-
-    // // Validate userId
-    // if (!userId) {
-    //     throw new ApiError(400, "User ID is required");
-    // }
-
-    // // Convert page and limit to numbers
-    // const pageNumber = parseInt(page, 10);
-    // const limitNumber = parseInt(limit, 10);
-    // const sortOrder = sortType === "asc" ? 1 : -1;
-
-    // // Fetch videos with pagination and sorting
-    // const allVideos = await Video.find({ owner: userId })
-    //     .select("videoFile")
-    //     .sort({ [sortBy]: sortOrder })
-    //     .skip((pageNumber - 1) * limitNumber)
-    //     .limit(limitNumber);
-
-    // // If no videos found
-    // if (!allVideos || allVideos.length === 0) {
-    //     throw new ApiError(404, "No videos found for this user");
-    // }
-
-    // // Send response
-    // res.status(200).json({
-    //     success: true,
-    //     page: pageNumber,
-    //     limit: limitNumber,
-    //     totalVideos: allVideos.length,
-    //     videos: allVideos,
-    // });
-
-
-    
-    // 2 method
-
-    // get all vidoes based on the userid
-
     const sortOrder = sortType === "asc" ? 1 : -1;
-    const skip = (page - 1) * limit; // If page = 2, skip = (2-1) * 10 = 10 (Skips the first 10 videos, starts from the 11th one).
+    const skip = (page - 1) * limit; 
 
     let matchStage = {};
     if (userId) {
-        matchStage.owner = new mongoose.Types.ObjectId(userId); // Filter by user ID if provided
+        matchStage.owner = new mongoose.Types.ObjectId(userId); 
     }
 
     try {
         const videos = await Video.aggregate([
-            { $match: matchStage }, // Apply filtering (if userId is provided)
-            { $sort: { [sortBy]: sortOrder } }, // Sorting
-            { $skip: skip }, // Skip for pagination  --- per page pr kitana item lana hai or kitana skip krna
+            { $match: matchStage }, 
+            { $sort: { [sortBy]: sortOrder } }, 
+            { $skip: skip }, // Skip for pagination 
             { $limit: parseInt(limit) }, // Limit for pagination
             
             {
@@ -72,7 +33,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
                     as: "ownerDetails"
                 }
             },
-            { $unwind: "$ownerDetails" },//populate // Flatten owner details // The MongoDB $unwind stage is used to break down an array field into individual documents. // The array ownerDetails will be "flattened," creating separate documents for each element in the array.
+            { $unwind: "$ownerDetails" },
             { 
                 $project: { 
                   "_id": 1, 
@@ -118,56 +79,18 @@ const getAllVideos = asyncHandler(async (req, res) => {
     
 })
 
-//console.log(videos);
-
-// [
-//     {
-//         _id: new ObjectId('67addc03f6c15f1527a4995b'),
-//         videoFile: 'http://res.cloudinary.com/dmlw1mz3w/video/upload/v1739447297/vsjgcfmd9sklyjvqxxtj.mp4',
-//         thumbnail: 'http://res.cloudinary.com/dmlw1mz3w/image/upload/v1739447299/vd4b7whv1lxrmmjgqv4c.jpg',
-//         title: 'superfrog',
-//         description: 'the superfrog',
-//         duration: 58,
-//         views: 0,
-//         isPublished: true,
-//         owner: new ObjectId('67ac580572775ad277345c2b'),
-//         createdAt: 2025-02-13T11:48:17.000Z,
-//         updatedAt: 2025-02-13T11:48:17.000Z,
-//         __v: 0,
-//         ownerDetails: {
-//             _id: new ObjectId('67ac580572775ad277345c2b'),
-//             username: 'zaynzayn1',
-//             email: 'zayn1@gmail.com',
-//         }
-//     }
-// ]
-
-
-
-
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description,} = req.body
     // TODO: get video, upload to cloudinary, create video
 
 
     if (   //validation - not empty
-        [title, description].some((field) => field?.trim() === "")  // some work like map function working but return porblem 
+        [title, description].some((field) => field?.trim() === "")  
     ) {
         throw new ApiError(400, "All fields are required")
     }
 
     let videoFileObj = req.files?.videoFile?.[0];
-    // console.log(videoFileObj);
-    // {
-    //     fieldname: 'videoFile',
-    //     originalname: '7955161-sd_226_426_25fps.mp4',
-    //     encoding: '7bit',
-    //     mimetype: 'video/mp4',
-    //     destination: './public/temp',
-    //     filename: '7955161-sd_226_426_25fps.mp4',
-    //     path: 'public/temp/7955161-sd_226_426_25fps.mp4',
-    //     size: 1502359
-    //   }
 
 
 
@@ -180,23 +103,11 @@ const publishAVideo = asyncHandler(async (req, res) => {
     let videoFilePath = videoFileObj.path;
     let thumbnailPath = req.files?.thumbnail[0]?.path;
 
-    //console.log(videoFilePath);  // public/temp/7955161-sd_226_426_25fps.mp4
+    
 
     let videoFile = await uploadOnCloudinary(videoFilePath);
     let thumbnail = await uploadOnCloudinary(thumbnailPath);
 
-    // {
-    //     "url": "https://res.cloudinary.com/demo/video/upload/v1678901234/sample.mp4",
-    //     "secure_url": "https://res.cloudinary.com/demo/video/upload/v1678901234/sample.mp4",
-    //     "public_id": "some_public_id",
-    //     "format": "mp4",
-    //     "resource_type": "video",
-    //     "created_at": "2025-02-12T12:34:56Z",
-    //     "bytes": 1048576,
-    //     "duration": 120.5,
-    //     "width": 1280,
-    //     "height": 720
-    //   }
       
 
 
@@ -207,16 +118,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
     if (!thumbnailPath) {
         throw new ApiError(400, "Thumbnail is required")
     }
-
-    // // Convert created_at to a readable format (YYYY-MM-DD HH:mm:ss)
-    // const uploadedAt = new Date(videoFile.created_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }); // Convert to IST
-    // console.log(uploadedAt);
-
-    // if (!uploadedAt) {
-    //     throw new ApiError(400, "upload date not found")
-    // }
-
-    
 
 
     const videos = await Video.create({
@@ -333,10 +234,6 @@ const deleteVideo = asyncHandler(async (req, res) => {
     try {
         await Promise.all([
             Video.findByIdAndDelete(videoId),
-            // Like.deleteMany({ video: videoId }),
-            // Comment.deleteMany({ video: videoId }),
-            // cloudinary.uploader.destroy(video.thumbnail.public_id),
-            // cloudinary.uploader.destroy(video.videoFile.public_id, { resource_type: 'video' }),
         ]);
 
         res.status(200).json(new ApiResponse(200, {}, "Video deleted successfully"));
@@ -345,10 +242,6 @@ const deleteVideo = asyncHandler(async (req, res) => {
       throw new ApiError(500, 'Failed to delete video');
     }
 
-    // await Promise.all([
-    //     cloudinary.uploader.destroy(video.thumbnail.public_id),
-    //     cloudinary.uploader.destroy(video.videoFile.public_id, { resource_type: 'video' }),
-    // ])
 })
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
@@ -372,8 +265,6 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 const viwesUpdate = asyncHandler(async (req, res)=> {
     let {videoId} = req.params;
     let user = req.user?._id
-    // console.log(user);
-    // console.log(videoId);
 
     const watchHistry = await User.findByIdAndUpdate(
         user,
@@ -390,10 +281,8 @@ const viwesUpdate = asyncHandler(async (req, res)=> {
     if (!video) throw new ApiError(404, "Video not found");
 
     // Check if the user has already viewed the video
-    const hasViewed = video.viewers.some(viewer => viewer.userId.toString() === user.toString());  // some -- used for array of objects
+    const hasViewed = video.viewers.some(viewer => viewer.userId.toString() === user.toString());  
 
-    // const hasViewed = video.viewers[0].userId.includes(user) // only works on arrays or strings.
-    //console.log(hasViewed);
     
 
     if (!hasViewed) {

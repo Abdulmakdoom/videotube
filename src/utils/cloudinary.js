@@ -13,8 +13,6 @@ const uploadOnCloudinary = async (localFilePath) => {
         throw new Error(`Local path file is required for ${localFilePath}`);
     }
 
-    //console.log(localFilePath); // Debugging output
-
     try {
         // Upload the file to Cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {

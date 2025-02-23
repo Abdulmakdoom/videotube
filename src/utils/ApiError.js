@@ -7,8 +7,8 @@ class ApiError extends Error {
     ){
         // over-write kr rahe hai
         super(message)
-        this.statusCode = statusCode // this.statusCode ko overwrite kr rahe hai statusCode sai
-        this.data = null  // study self
+        this.statusCode = statusCode 
+        this.data = null  
         this.message = message
         this.success = false;
         this.errors = errors
@@ -24,4 +24,3 @@ class ApiError extends Error {
 
 export {ApiError}
 
-// nodejs.org/api/errors.html -- documentation

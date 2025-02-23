@@ -17,10 +17,9 @@ import {verifyJWT} from "../middlewares/auth.middleware.js"
 
 const router = Router()
 
-// router.route("/register").post(registerUser)//(post(method))
 router.route("/register").post(
     // middleware multer
-    upload.fields([    // fields -- array accept krta hai
+    upload.fields([    
         {
             name: "avatar",
             maxCount: 1
@@ -47,7 +46,7 @@ router.route("/update-account").patch(verifyJWT, updateAccountDetails)
 router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
 router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
 
-router.route("/c/:username").get(verifyJWT, getUserChannelProfile)  // /c/:username -->(url) jo app colon(:) ka baad likho gay bahi apko params main milega
+router.route("/c/:username").get(verifyJWT, getUserChannelProfile)  
 router.route("/history").get(verifyJWT, getWatchHistory)
 
 

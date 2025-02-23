@@ -22,6 +22,6 @@ const commentSchema = new Schema(
 )
 
 
-commentSchema.plugin(mongooseAggregatePaginate)  // ki hum usay sab comments nhi day sakty, ya toh unho bo load krega ---- jaha ak saath show karana ha sab baha hum iskay use nhi karengy
+commentSchema.plugin(mongooseAggregatePaginate)  
 
-export const Comment = mongoose.model("Comment", commentSchema) // Comment -- jo ki database main jakar plural jo jaega like commnets
+export const Comment = mongoose.model("Comment", commentSchema) 

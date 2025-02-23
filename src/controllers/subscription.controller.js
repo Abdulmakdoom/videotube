@@ -7,7 +7,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 
 // step 1  ---- subscribtion method process
 const toggleSubscription = asyncHandler(async (req, res) => {
-    const {channelId} = req.params   // user ID --- jsko follow krengy -- bo humay uskay page kay url sai milegi
+    const {channelId} = req.params   
     // TODO: toggle subscription
     const subscriberId = req.user._id; // Logged-in user
 
@@ -115,32 +115,6 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
     );
 })
 
-// {
-//     "statusCode": 200,
-//     "data": [],
-//     "message": "Subscribed channels fetched successfully",
-//     "success": true
-// },
-
-
-// "data": [
-//         {
-//             "_id": "67ac6613ab01091e5493cbf4",
-//             "subscriber": "67ac580572775ad277345c2b",
-//             "channel": {
-//                 "_id": "67a4d24719711816261b099e",
-//                 "username": "zaynzayn",
-//                 "fullName": "zayn",
-//                 "avatar": "http://res.cloudinary.com/dmlw1mz3w/image/upload/v1738854981/g39j82vexffrlf8665fg.jpg"
-//             },
-//             "createdAt": "2025-02-12T09:12:51.004Z",
-//             "updatedAt": "2025-02-12T09:12:51.004Z",
-//             "__v": 0
-//         }
-//     ],
-//     "message": "Subscribed channels fetched successfully",
-//     "success": true
-// }
 
 export {
     toggleSubscription,
