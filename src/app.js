@@ -80,11 +80,6 @@ app.use("/api/v1/dashboard", dashboardRouter)
 export { app }
 
 
-
-
-
-
-
 // 1. app.use(express.json({ limit: "16kb" })):
 // This middleware parses incoming requests with JSON payloads. The limit: "16kb" option limits the size of the incoming request body to 16 kilobytes. If the body exceeds this limit, Express will automatically respond with an error.
 
