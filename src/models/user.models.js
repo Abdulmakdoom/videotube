@@ -1,6 +1,8 @@
 import mongoose, {Schema} from "mongoose";
 import jwt from "jsonwebtoken"; 
 import bcrypt from "bcrypt"
+// import Video from "./video.models.js"
+
 
 const userSchema = new Schema(
     {
@@ -16,7 +18,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            lowecase: true,
+            lowercase: true,
             trim: true, 
         },
         fullName: {
@@ -59,6 +61,13 @@ userSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10) 
     next()
 })
+
+
+// userSchema.post("findOneAndDelete", async (user)=> {
+//     if(user) {
+//         await Video.deleteMany({_id: {$in: user.watchHistory}})  //  query is searching for documents where the "_id" field matches any of the values inside "user.watchHistory".  
+//     }
+// })
 
 //custom method create
 userSchema.methods.isPasswordCorrect = async function(password){

@@ -216,10 +216,6 @@ const deleteVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: delete video
 
-    if (videoId?.owner.toString() !== req.user?._id.toString()) {
-        throw new ApiError(403, "Unauthorized to Update  this Comment");
-    }
-
     const video = await Video.findById(videoId);
   
 
