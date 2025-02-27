@@ -65,7 +65,7 @@ const addComment = asyncHandler(async (req, res) => {
     // TODO: add a comment to a 
     const {videoId} = req.params
     const {content} = req.body;
-    const userId = req.user._id; // Assuming authentication middleware attaches user info
+    const userId = req.user._id; 
 
     if (!mongoose.Types.ObjectId.isValid(videoId)) {
         throw new ApiError(400, "Invalid video ID");
