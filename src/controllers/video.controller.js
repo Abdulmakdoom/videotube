@@ -5,6 +5,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import { v2 as cloudinary } from 'cloudinary';
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
@@ -160,21 +161,33 @@ const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     const { title, description,} = req.body
 
-
-    if (videoId?.owner.toString() !== req.user?._id.toString()) {
-        throw new ApiError(403, "Unauthorized to Update  this Comment");
-    }
-
     let videoFileObj = req.files?.videoFile?.[0];
-
-   
-
 
     // Check if the uploaded file is a valid video format
     const allowedVideoTypes = ["video/mp4", "video/mkv", "video/webm", "video/avi"];
     if (!allowedVideoTypes.includes(videoFileObj.mimetype)) {
         throw new ApiError(400, "Invalid file type. Only video files are allowed.");
     }
+
+    const video = await Video.findById(videoId);
+
+    if (video?.owner.toString() !== req.user?._id.toString()) {
+        throw new ApiError(403, "Unauthorized to Update  this Comment");
+    }
+
+    const getPublicId = (url) => url.split('/').pop().split('.')[0];
+        
+         // Delete the video file from Cloudinary
+         if (video.videoFile) {
+             await cloudinary.uploader.destroy(getPublicId(video.videoFile), { resource_type: "video" });
+         }
+ 
+         // Delete the thumbnail from Cloudinary
+         if (video.thumbnail) {
+             await cloudinary.uploader.destroy(getPublicId(video.thumbnail), { resource_type: "image" });
+         } 
+         
+         
 
     let videoFilePath = videoFileObj.path;
     let thumbnailPath = req.files?.thumbnail[0]?.path;
@@ -226,11 +239,33 @@ const deleteVideo = asyncHandler(async (req, res) => {
     if (video?.owner.toString() !== req.user?._id.toString()) {
       throw new ApiError(403, "Unauthorized to delete this video");
     }
-    
+
     try {
-        await Promise.all([
-            Video.findByIdAndDelete(videoId),
-        ]);
+        // Extract Cloudinary public IDs from URLs
+        const getPublicId = (url) => url.split('/').pop().split('.')[0];
+
+        //console.log(video.videoFile); // http://res.cloudinary.com/dmlw1mz3w/video/upload/v1740648354/pfndmsvivkbdznwxxgnc.mp4
+         
+        //console.log(getPublicId(video.videoFile));   // pfndmsvivkbdznwxxgnc
+        
+         // Delete the video file from Cloudinary
+         if (video.videoFile) {
+             await cloudinary.uploader.destroy(getPublicId(video.videoFile), { resource_type: "video" });
+         }
+ 
+         // Delete the thumbnail from Cloudinary
+         if (video.thumbnail) {
+             await cloudinary.uploader.destroy(getPublicId(video.thumbnail), { resource_type: "image" });
+         }              
+
+        // Delete the video document from the database
+        await Video.findByIdAndDelete(videoId);
+
+
+    // try {
+    //     await Promise.all([
+    //         Video.findByIdAndDelete(videoId),
+    //     ]);
 
         res.status(200).json(new ApiResponse(200, {}, "Video deleted successfully"));
     } catch (error) {
@@ -244,11 +279,14 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     // video agar publish hai toh unpublise krdo
 
-    if (videoId?.owner.toString() !== req.user?._id.toString()) {
+
+    const video = await Video.findById(videoId);
+
+
+    if (video?.owner.toString() !== req.user?._id.toString()) {
         throw new ApiError(403, "Unauthorized to Update  this Comment");
     }
 
-    const video = await Video.findById(videoId);
     if (!video) throw new ApiError(404, "Video not found");
 
     video.isPublished = !video.isPublished;

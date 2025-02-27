@@ -5,6 +5,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+import { v2 as cloudinary } from 'cloudinary';
 
 const generateAccessAndRefereshTokens = async(userId)=> {
     try {
@@ -316,7 +317,18 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Avatar file is missing")
     }
 
+    
+
     //TODO: delete old image - assignment
+    const avaterUser = await User.findById(req.user?._id);
+
+    const getPublicId = (url) => url.split('/').pop().split('.')[0];
+            
+    // Delete the video file from Cloudinary
+    if (avaterUser.avatar) {
+        await cloudinary.uploader.destroy(getPublicId(avaterUser.avatar), { resource_type: "image" });
+    }
+             
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
@@ -352,6 +364,14 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
     }
 
     //TODO: delete old image - assignment
+    const CoverImageUser = await User.findById(req.user?._id);
+
+    const getPublicId = (url) => url.split('/').pop().split('.')[0];
+            
+    // Delete the video file from Cloudinary
+    if (CoverImageUser.coverImage) {
+        await cloudinary.uploader.destroy(getPublicId(CoverImageUser.coverImage), { resource_type: "image" });
+    }
 
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
