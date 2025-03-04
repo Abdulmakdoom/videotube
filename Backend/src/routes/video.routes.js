@@ -12,6 +12,12 @@ import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
 
 const router = Router();
+
+router
+    .route("/u/")
+    .get(getAllVideos)
+
+
 router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 router
@@ -31,13 +37,13 @@ router
         publishAVideo
     );
 
-router
-    .route("/u/")
-    .get(getAllVideos)
+
 
 router
     .route("/views/:videoId")
     .get(verifyJWT, viwesUpdate)
+
+
 
 router
     .route("/:videoId")

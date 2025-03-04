@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 const app = express()
 
+
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true
@@ -36,6 +37,30 @@ app.use("/api/v1/comments", commentRouter)
 app.use("/api/v1/likes", likeRouter)
 app.use("/api/v1/playlist", playlistRouter)
 app.use("/api/v1/dashboard", dashboardRouter)
+
+
+// Global error handler (must be at the bottom)
+import { ApiError } from "./utils/ApiError.js";
+
+app.use((err, req, res, next) => {
+    console.error("Error:", err);
+
+    if (err instanceof ApiError) {
+        return res.status(err.statusCode).json({
+            success: false,
+            message: err.message,
+            statusCode: err.statusCode,
+            errors: err.errors || []
+        });
+    }
+
+    return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+        statusCode: 500,
+        errors: []
+    });
+});
 
 
 export { app }
