@@ -27,19 +27,22 @@ function Signup() {
         e.preventDefault();
         setError("");
 
-         // // Prepare FormData for multipart/form-data
-    // const formDataToSend = new FormData();
-    // formDataToSend.append("fullName", formData.fullName);
-    // formDataToSend.append("email", formData.email);
-    // formDataToSend.append("username", formData.username.toLowerCase()); // Convert to lowercase
-    // formDataToSend.append("password", formData.password);
-    // if (formData.avatar) formDataToSend.append("avatar", formData.avatar);
-    // if (formData.coverImage) formDataToSend.append("coverImage", formData.coverImage);
+        // // Prepare FormData for multipart/form-data
+        // const formDataToSend = new FormData();
+        // formDataToSend.append("fullName", formData.fullName);
+        // formDataToSend.append("email", formData.email);
+        // formDataToSend.append("username", formData.username.toLowerCase()); // Convert to lowercase
+        // formDataToSend.append("password", formData.password);
+        // if (formData.avatar) formDataToSend.append("avatar", formData.avatar);
+        // if (formData.coverImage) formDataToSend.append("coverImage", formData.coverImage);
 
         const formDataToSend = new FormData();
         for (const key in formData) {
             formDataToSend.append(key, formData[key]);
         }
+
+        // console.log(formDataToSend);
+        
 
         try {
             const response = await fetch("/api/v1/users/register", {

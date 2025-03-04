@@ -6,7 +6,108 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { v2 as cloudinary } from 'cloudinary';
+import { Subscription } from "../models/subscription.model.js"
 
+
+
+const getVideos = asyncHandler(async(req, res)=> {
+    const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc"} = req.query;
+    const {userId} = req.params  
+
+    // try {
+    //     // Step 1: Find all subscriptions of the user
+    //     const subscriptions = await Subscription.find({ subscriber: userId }).select("channel");
+
+    //     // Step 2: Extract channel (owner) IDs
+    //     const channelIds = subscriptions.map(sub => sub.channel);
+
+    //     // Step 3: Find videos owned by those channels
+    //     const videos = await Video.find({ owner: { $in: channelIds } }).populate("owner", "username fullName avatar");
+
+    //     return videos;
+    // } catch (error) {
+    //     console.error("Error fetching subscribed channel videos:", error);
+    //     throw error;
+    // }
+
+
+    const sortOrder = sortType === "asc" ? 1 : -1;
+    const skip = (page - 1) * limit; 
+
+    let matchStage = {};
+    if (userId) {
+        matchStage.subscriber = new mongoose.Types.ObjectId(userId); 
+    }
+
+    try {
+        const videos = await Subscription.aggregate([
+            { $match: matchStage }, 
+            { $sort: { [sortBy]: sortOrder } }, 
+            { $skip: skip }, // Skip for pagination 
+            { $limit: parseInt(limit) }, // Limit for pagination
+
+            {
+                $lookup: {
+                    from: "videos",         // Collection to join (case-sensitive)
+                    localField: "channel",  // Field in Subscription model
+                    foreignField: "owner",  // Field in Video model
+                    as: "channelVideos"     // Output array field
+                }
+            },
+            {
+                $unwind: "$channelVideos" // Flatten the channelVideos array
+            },
+            {
+                $replaceRoot: { newRoot: "$channelVideos" } // Replace root with video data
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "owner",
+                    foreignField: "_id",
+                    as: "ownerDetails"
+                }
+            },
+            {
+                $unwind: "$ownerDetails"
+            },
+            {
+                $project: {
+                    _id: 1,
+                    title: 1,
+                    description: 1,
+                    videoFile: 1,
+                    thumbnail: 1,
+                    duration: 1,
+                    views: 1,
+                    isPublished: 1,
+                    createdAt: 1,
+                    owner: {
+                        _id: "$ownerDetails._id",
+                        username: "$ownerDetails.username",
+                        fullName: "$ownerDetails.fullName",
+                        avatar: "$ownerDetails.avatar"
+                    }
+                }
+            }
+        ]);
+
+        const totalVideos = await Subscription.countDocuments(matchStage);
+
+        res.status(200).json({
+            success: true,
+            message: "Videos fetched successfully",
+            data: videos,
+            pagination: {
+                currentPage: parseInt(page),
+                totalPages: Math.ceil(totalVideos / limit),
+                totalVideos,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }    
+})
 
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc", userId } = req.query;
@@ -342,5 +443,6 @@ export {
     updateVideo,
     deleteVideo,
     togglePublishStatus,
-    viwesUpdate
+    viwesUpdate,
+    getVideos
 }
