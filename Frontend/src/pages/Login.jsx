@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import LogoutBtn from "../components/LogoutBtn";
+import { useDispatch } from "react-redux";
+import { login as authLogin } from "../store/authSlice";
+// import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     })
+
+
+    // const userData1 = useSelector((state)=> state.auth.userData)
+   
 
     const inputHandler = (e)=> {
         let {name, value} = e.target;
@@ -33,21 +42,25 @@ function Login() {
             body: JSON.stringify(formData)
         })
         
-        const data = await response.json()
-        // console.log("Response Data:", data);
-        
+        const Data = await response.json()
+        //console.log("Response Data:", Data.data.user);
+
+        const userData = Data.data.user
+        dispatch(authLogin(userData))
 
         if(!response.ok) {
-            throw new Error(data.message || "Something went wrong")
+            throw new Error(Data.message || "Something went wrong")
         }
 
         alert("Login successfully!");
+        navigate("/home")
+       
         
        } catch (error) {
         console.log(error);
         setError(error.message)
        }
-
+       
     }
 
 

@@ -7,21 +7,22 @@ import {
     togglePublishStatus,
     updateVideo,
     viwesUpdate,
-    getVideos
+    getVideos,
+    getAllUserVideos
 } from "../controllers/video.controller.js"
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
 
 const router = Router();
 
+
 router
     .route("/u/")
     .get(getAllVideos)
 
 router
-    .route("/u/:userId")
-    .get(getVideos)
-
+    .route("/u/videos")
+    .get(getAllUserVideos)
 
 router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
@@ -43,6 +44,9 @@ router
     );
 
 
+router
+    .route("/u/:userId")
+    .get(getVideos)
 
 router
     .route("/views/:videoId")

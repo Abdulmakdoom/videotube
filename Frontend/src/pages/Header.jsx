@@ -9,6 +9,10 @@ function Header() {
 
     const navItems = [
         {
+          name: "Home",
+          page: "/home"
+        },
+        {
             name: "SignUp",
             page: "/signup"
 
@@ -17,7 +21,7 @@ function Header() {
             name: "Login",
             page: "/login"
 
-        }
+        },
     ]
 
     return (

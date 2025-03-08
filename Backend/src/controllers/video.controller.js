@@ -109,6 +109,24 @@ const getVideos = asyncHandler(async(req, res)=> {
     }    
 })
 
+const getAllUserVideos = asyncHandler(async (req,res)=> {
+        try {
+            // Fetch all videos from the database
+            let allVideos = await Video.find().populate("owner", "username fullName avatar"); // Assuming you're using Mongoose
+    
+            // Check if no videos are found
+            if (!allVideos) {
+                return res.status(404).json({ message: "No videos found." });
+            }
+    
+            // Return the videos in the response
+            res.status(200).json({ data: allVideos });
+        } catch (err) {
+            console.error("Error fetching videos:", err);
+            res.status(500).json({ message: "Something went wrong while fetching videos." });
+        } 
+})
+
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc", userId } = req.query;
 
@@ -444,5 +462,6 @@ export {
     deleteVideo,
     togglePublishStatus,
     viwesUpdate,
-    getVideos
+    getVideos,
+    getAllUserVideos
 }
