@@ -66,22 +66,26 @@ function Login() {
 
     return (
         <>
-        <div className="max-w-md mx-auto p-8 bg-white rounded-lg shadow-lg border border-gray-200">
-            <h2 className="text-center text-3xl font-extrabold leading-tight mb-6 text-gray-900">
-                Login
-            </h2>
+            <div className="flex flex-col h-screen">
+                <main className="flex-grow flex items-center justify-center p-4">
+                    <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg border border-gray-200">
+                        <h2 className="text-center text-3xl font-extrabold leading-tight mb-6 text-gray-900">
+                            Login
+                        </h2>
 
-            {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}
-        
-            <form onSubmit={loginHandler} className="space-y-5"> 
-            <Input label="Email" type="email" name="email" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500"/>
-            <Input label="Password" type="password" name="password" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500"/>
+                        {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}
+                    
+                        <form onSubmit={loginHandler} className="space-y-5"> 
+                            <Input label="Email" type="email" name="email" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500"/>
+                            <Input label="Password" type="password" name="password" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500"/>
 
-            <Button type="submit" className="w-full bg-red-600 text-white hover:bg-red-700 transition duration-200 rounded-lg shadow-md py-3 font-semibold text-lg">
-                Login
-            </Button>
-            </form>
-        </div>
+                            <Button type="submit" className="w-full bg-red-600 text-white hover:bg-red-700 transition duration-200 rounded-lg shadow-md py-3 font-semibold text-lg">
+                                Login
+                            </Button>
+                        </form>
+                    </div>
+                </main>
+            </div>
         </>
     )
 }
