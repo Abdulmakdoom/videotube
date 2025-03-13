@@ -24,6 +24,10 @@ router
     .route("/u/videos")
     .get(getAllUserVideos)
 
+router
+    .route("/:videoId")
+    .get(getVideoById)
+
 router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 router
@@ -56,7 +60,6 @@ router
 
 router
     .route("/:videoId")
-    .get(getVideoById)
     .delete(verifyJWT, deleteVideo)
     .patch(verifyJWT, upload.fields([
         { name: "videoFile", maxCount: 1 },

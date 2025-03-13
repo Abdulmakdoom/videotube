@@ -1,25 +1,24 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import Login from './pages/Login'
 import { Outlet } from 'react-router-dom'
-import Footer from './pages/Footer'
+import Footer from './pages/Footer.jsx'
 import Header from './pages/Header'
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <Header/>
-    <main>
-      <Outlet/>
-    </main>
-    <Footer/>
-    </>
-  )
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      {/* Make sure main takes all available space */}
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      {/* <Footer /> */}
+    </div>
+  );
 }
+
+
+  
 
 export default App

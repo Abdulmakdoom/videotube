@@ -20,7 +20,7 @@ function LogoutBtn() {
 
     return (
         <>
-        <Button onClick={logoutHandler} className="bg-red-600">
+        <Button onClick={logoutHandler} className="bg-red-600 hover:bg-red-500">
             Log Out
         </Button>
         </>

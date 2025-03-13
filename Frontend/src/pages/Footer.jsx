@@ -3,8 +3,8 @@ import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-red-700 text-white text-sm py-6 w-full ">
-        <div className="max-w-full px-10">
+    <footer className="bg-red-700 text-white text-sm py-6 w-full static">
+        <div className="px-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
             {/* About Section */}
             <div>
@@ -50,7 +50,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <p className="text-center text-gray-200 mt-6 opacity-80">
-            &copy; {new Date().getFullYear()} YouTube Clone. All Rights Reserved.
+            &copy; {new Date().getFullYear()} VideoTube. All Rights Reserved.
           </p>
         </div>
     </footer>

@@ -12,7 +12,7 @@ import { Subscription } from "../models/subscription.model.js"
 
 const getVideos = asyncHandler(async(req, res)=> {
     const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc"} = req.query;
-    const {userId} = req.params  
+    const {userId} = req.params;
 
     // try {
     //     // Step 1: Find all subscriptions of the user
@@ -29,7 +29,6 @@ const getVideos = asyncHandler(async(req, res)=> {
     //     console.error("Error fetching subscribed channel videos:", error);
     //     throw error;
     // }
-
 
     const sortOrder = sortType === "asc" ? 1 : -1;
     const skip = (page - 1) * limit; 
@@ -259,13 +258,14 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
+
     //TODO: get video by id
     // Validate input
-    if (!isValidObjectId(videoId) || !isValidObjectId(req.user?._id)) {
+    if (!isValidObjectId(videoId)) {
       throw new ApiError(400, "Invalid videoId or userId");
     }
 
-    let videoById = await Video.findById(videoId)
+    let videoById = await Video.findById(videoId).populate("owner", "username fullName avatar")
 
     if(!videoById) {
         throw new ApiError(400, "video not founded")
