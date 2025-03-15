@@ -7,6 +7,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { v2 as cloudinary } from 'cloudinary';
 import { Subscription } from "../models/subscription.model.js"
+import { Like } from "../models/like.model.js"
 
 
 
@@ -265,8 +266,9 @@ const getVideoById = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Invalid videoId or userId");
     }
 
-    let videoById = await Video.findById(videoId).populate("owner", "username fullName avatar")
 
+    let videoById = await Video.findById(videoId).populate("owner", "username fullName avatar")
+    
     if(!videoById) {
         throw new ApiError(400, "video not founded")
     }

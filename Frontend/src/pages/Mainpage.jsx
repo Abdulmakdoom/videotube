@@ -57,7 +57,7 @@ function Mainpage() {
           
                 {error && <p className="text-red-500">{error}</p>}
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
                     {data.map((video) => (
                         <Link to={`videos/${video._id}`} key={video._id}>
                             <Card 

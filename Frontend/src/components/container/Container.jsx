@@ -1,9 +1,9 @@
 import React from "react";
 
-function Container({children}) {  // we define styling property only
+function Container({ children }) {
     return (
-        <div className="w-400  mx-auto">{children}</div>
-    )
+        <div className="w-full mx-auto">{children}</div>
+    );
 }
 
 export default Container;

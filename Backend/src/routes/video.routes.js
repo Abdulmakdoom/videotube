@@ -54,7 +54,7 @@ router
 
 router
     .route("/views/:videoId")
-    .get(verifyJWT, viwesUpdate)
+    .post(verifyJWT, viwesUpdate)
 
 
 

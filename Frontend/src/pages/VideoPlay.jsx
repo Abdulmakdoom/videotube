@@ -42,7 +42,7 @@ function VideoPlay() {
 
     return (
         <>
-        <div className="flex flex-col h-screen mt-30">
+        <div className="flex flex-col h-screen mt-20">
             <div>
             {loader ? <div className="mt-60"><Spinner /> </div>: null}
                 {error ? (
