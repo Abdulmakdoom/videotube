@@ -14,7 +14,7 @@ function LogoutBtn() {
             method: "POST"
         })
         dispatch(authLogout())
-        alert("Logout successfully!");
+        // alert("Logout successfully!");
         navigate("/login")
     }
 

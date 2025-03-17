@@ -52,7 +52,7 @@ function Login() {
             throw new Error(Data.message || "Something went wrong")
         }
 
-        alert("Login successfully!");
+        // alert("Login successfully!");
         navigate("/home")
        
         

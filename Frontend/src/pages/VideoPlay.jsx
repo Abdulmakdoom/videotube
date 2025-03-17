@@ -53,7 +53,8 @@ function VideoPlay() {
                     title={videoLink.title} 
                     avatar={videoLink.owner.avatar}
                     description={videoLink.description}
-                    channelName={videoLink.username}
+                    channelName={videoLink.owner.username}
+                    userChannelId={videoLink.owner._id}
                     views={videoLink.views}
                     uploadTime={videoLink.createdAt}
                     />

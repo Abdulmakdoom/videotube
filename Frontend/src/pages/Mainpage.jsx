@@ -65,7 +65,7 @@ function Mainpage() {
                                 duration={video.duration} 
                                 thumbnail={video.thumbnail} 
                                 ownerAvatar={video.owner.avatar} 
-                                channelName={video.owner.username}
+                                channelName={video.owner.username} 
                                 views={video.views} 
                                 uploadDate={video.createdAt} 
                             />

@@ -60,8 +60,10 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
         "fullName username avatar"
     );
 
+    const countSubscribers = await Subscription.countDocuments({channel: channelId})
+
     return res.status(200).json(
-        new ApiResponse(200, subscribers, "Subscribers fetched successfully")
+        new ApiResponse(200, {subscribers, countSubscribers}, "Subscribers fetched successfully")
     );
 })
 // 1 subscribe then this result
@@ -110,8 +112,10 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
         "fullName username avatar"
     );
 
+    const countSubscribers = await Subscription.countDocuments({subscriber: subscriberId})
+
     return res.status(200).json(
-        new ApiResponse(200, channels, "Subscribed channels fetched successfully")
+        new ApiResponse(200, {channels, countSubscribers}, "Subscribed channels fetched successfully")
     );
 })
 

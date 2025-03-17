@@ -4,6 +4,7 @@
   flex-direction: column;
 }
 
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -41,3 +42,6 @@
 }  */
 
 
+/* #root {
+  background-color: black;
+} */

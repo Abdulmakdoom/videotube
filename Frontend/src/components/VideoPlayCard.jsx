@@ -20,31 +20,43 @@ function VideoPlayCard({
   avatar,
   channelName,
   uploadTime,
-  subscribers,
   views,
   description,
+  userChannelId
 }) {
     const [likes, setLikes] = useState(0);
+    const [subscribersCount, setSubscribersCount] = useState(0)
     let { videoId } = useParams();
     const [hasSeen30, setHasSeen30] = useState(false); 
     const [showFullDescription, setShowFullDescription] = useState(false);
+    const [subscribeDone , setSubscrbeDone] = useState(false)
     let navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
-    console.log(userId);
-    
+    //console.log(userId);        
 
   // Fetch the likes count when the component mounts
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response = await fetch(`/api/v1/likes/videos/${videoId}`);
-        const result = await response.json();
+        const response1 = await fetch(`/api/v1/likes/videos/${videoId}`);
+        const response2 = await fetch(`/api/v1/subscriptions/c/${userChannelId}`)
+
+        const result = await response1.json();
+        const result2 = await response2.json();
+
+        // console.log(result2.data.countSubscribers);
         
         if (result.success) {
           setLikes(result.data.LikeVideoCount); // Update the like count from API response
         } else {
           console.error("Error fetching likes:", result.message);
+        }
+
+        if (result2.success) {
+          setSubscribersCount(result2.data.countSubscribers); // Update the subscribers count from API response
+        } else {
+          console.error("Error fetching likes:", result2.message);
         }
       } catch (error) {
         console.error("Error during fetch:", error);
@@ -54,6 +66,20 @@ function VideoPlayCard({
     fetchLikes();
   });
 
+  const handleSubscribeButtion = async()=> {
+   try {
+    const response = await fetch(`/api/v1/subscriptions/c/${userChannelId}`)
+    let result = await response.json()
+    console.log(result);
+    if (result.success) {
+      setSubscrbeDone(!subscribeDone)
+    } else {
+      console.error("Error fetching likes:", result2.message);
+    }  
+   } catch (error) {
+    console.error("Error during fetch:", error);
+   }
+  }
   const handleVideoProgress = (event) => {
     const videoElement = event.target;
     const currentTime = videoElement.currentTime;
@@ -113,7 +139,7 @@ function VideoPlayCard({
 
   return (
     <Container>
-      <div className="w-full max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="w-full max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden mt-2">
         {/* Video Section */}
         <div className="flex justify-center bg-black">
           <video
@@ -144,11 +170,20 @@ function VideoPlayCard({
             />
             <div>
               <div className="text-md sm:text-lg font-medium text-gray-800">{channelName}</div>
-              <div className="text-xs sm:text-sm text-gray-600">{subscribers} subscribers</div>
+              <div className="text-xs sm:text-xs text-gray-600">{formatNumber(subscribersCount)} subscribers</div>
             </div>
-            <button className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium hover:bg-red-700">
+            {/* <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium hover:bg-red-700">
               Subscribe
-            </button>
+            </button> */}
+            {userId ? (!subscribeDone ?  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium">
+              Subscribe
+            </button> :  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-300 text-white rounded-full text-xs sm:text-sm font-medium">
+              Subscribed
+            </button>) :   <button disabled className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-400 text-white rounded-full text-xs sm:text-sm font-medium">
+              Please log in to subscribe
+            </button>}
+            
+            {/* {userId? :} */}
 
 
           <div className="ml-auto mr-10">
