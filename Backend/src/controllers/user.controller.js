@@ -56,7 +56,7 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError(409, "User with email or username already exists")
     }
 
-    console.log(req.files);
+    //console.log(req.files);
     
     //--------------------------check for images, check for avatar
     const avatarLocalPath = req.files?.avatar[0]?.path; 
@@ -101,7 +101,7 @@ const registerUser = asyncHandler( async (req, res) => {
     )
 })
 
-//--------------------------------------------Login User
+// //--------------------------------------------Login User
 
 const loginUser = asyncHandler(async (req, res)=> {
     
@@ -145,7 +145,7 @@ const loginUser = asyncHandler(async (req, res)=> {
 
     const options = {  
         httpOnly: true,
-        secure: true
+        secure: true,
     }
 
     return res.status(200)
@@ -162,6 +162,8 @@ const loginUser = asyncHandler(async (req, res)=> {
     )
       
 })
+
+
 
 //--------------------------------------------Logout User
 
@@ -184,7 +186,8 @@ const logoutUser = asyncHandler(async(req, res) => {
 
     const options = { 
         httpOnly: true,
-        secure: true
+        secure: true,
+        // sameSite: "strict",
     }
 
     return res
@@ -228,22 +231,20 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         // now send in cookie
         const options = {
             httpOnly: true,
-            secure: true
+            secure: true,
+            // sameSite: "strict",
         }
     
-        const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
-    
+        const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id);
+
         return res
-        .status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", newRefreshToken, options)
-        .json(
-            new ApiResponse(
-                200, 
-                {accessToken, refreshToken: newRefreshToken},
-                "Access token refreshed"
-            )
-        )
+          .status(200)
+          .cookie("accessToken", accessToken, options)
+          .cookie("refreshToken", newRefreshToken, options)
+          .json(
+            new ApiResponse(200, { accessToken, refreshToken: newRefreshToken }, "Access token refreshed")
+          );
+        
     } catch (error) {
         throw new ApiError(401, error?.message || "Invalid refresh token")
     }

@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors"; 
 import cookieParser from "cookie-parser"; 
 
-const app = express()
 
+const app = express()
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -41,6 +41,7 @@ app.use("/api/v1/dashboard", dashboardRouter)
 
 // Global error handler (must be at the bottom)
 import { ApiError } from "./utils/ApiError.js";
+
 
 app.use((err, req, res, next) => {
     console.error("Error:", err);
