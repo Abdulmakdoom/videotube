@@ -47,6 +47,7 @@ function Signup() {
         try {
             const response = await fetch("/api/v1/users/register", {
                 method: "POST",
+                credentials: 'include',
                 body: formDataToSend,
             });
 

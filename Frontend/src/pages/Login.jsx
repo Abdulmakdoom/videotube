@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
 import { login as authLogin } from "../store/authSlice";
+import fetchWithAuth from "../utils/api";
 // import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -14,10 +15,7 @@ function Login() {
         email: "",
         password: "",
     })
-
-
     // const userData1 = useSelector((state)=> state.auth.userData)
-   
 
     const inputHandler = (e)=> {
         let {name, value} = e.target;
@@ -28,23 +26,20 @@ function Login() {
 
     // console.log(formData);
     
-
     const loginHandler = async(e)=> {
         e.preventDefault();
         setError("")
         
        try {
-        const response = await fetch("/api/v1/users/login", {
+        const response = await fetchWithAuth("/api/v1/users/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            // credentials: "include", 
+            credentials: "include", // Ensures cookies are sent
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
         })
         
         const Data = await response.json()
-        //console.log("Response Data:", Data.data.user);
+        //console.log("Response Data:", Data);
 
         const userData = Data.data.user
         dispatch(authLogin(userData))
@@ -55,7 +50,6 @@ function Login() {
 
         // alert("Login successfully!");
         navigate("/home")
-       
         
        } catch (error) {
         console.log(error);

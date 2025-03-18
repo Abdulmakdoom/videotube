@@ -11,7 +11,8 @@ function LogoutBtn() {
 
     const logoutHandler = async()=> {
         await fetch("/api/v1/users/logout", {
-            method: "POST"
+            method: "POST",
+            credentials: "include",
         })
         dispatch(authLogout())
         // alert("Logout successfully!");

@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Loader";
+import fetchWithAuth from "../utils/api";
 
 function Mainpage() {
     const [error, setError] = useState("");
@@ -17,21 +18,23 @@ function Mainpage() {
         const listData = async () => {
             setLoader(true); // Set loader to true before fetching
             try {
-                const response = await fetch(
+                const response = await fetchWithAuth(
                     userId
                         ? `/api/v1/videos/u/${userId}?page=1&limit=10&sortBy=views&sortType=desc`
-                        : `/api/v1/videos/u/videos`
+                        : `/api/v1/videos/u/videos`,
+                        {
+                            method: "GET", // The correct place to define the HTTP method
+                            credentials: 'include', // To ensure cookies are sent with the request
+                        }
                 );
 
                 const result = await response.json();
-                // console.log(result);
-                
 
                 if (!response.ok) {
                     throw new Error(result.message || "Failed to fetch videos");
                 }
 
-                setData(result.data);
+                setData(result.data); // Set the data after successful fetch
             } catch (err) {
                 setError(err.message || "An unexpected error occurred");
             } finally {
