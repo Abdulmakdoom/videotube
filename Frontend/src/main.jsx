@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import {RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
 import App from './App.jsx'
-import store from './store/store.js'
+import { PersistGate } from "redux-persist/integration/react";
+import store,{ persistor }  from './store/store.js'
 import { Provider } from 'react-redux'
 import {VideoPlay, Login, Signup, Mainpage} from "./pages/allpage.js"
 
@@ -43,7 +44,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-    <RouterProvider router={router}/>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router}/>
+      </PersistGate>
     </Provider>
   </StrictMode>,
 )

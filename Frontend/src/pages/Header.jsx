@@ -1,11 +1,13 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import LogoutBtn from "../components/LogoutBtn";
+import { useSelector } from "react-redux";
 
 
 function Header() {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const navigate = useNavigate()
+    const userData = useSelector((state) => state.auth.userData);
 
     const navItems = [
         {
@@ -23,6 +25,7 @@ function Header() {
 
         },
     ]
+
 
     return (
         <>
@@ -48,6 +51,7 @@ function Header() {
 
       {/* Navigation Items for Desktop */}
       <ul className='hidden md:flex items-center space-x-4'>
+        <div>{userData?.username}</div>
         {navItems.map((item) => (
           <li key={item.name}>
             <button

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     userData: null,
+    // refreshData: null
 }
 
 const authSlice = createSlice({
@@ -15,7 +16,10 @@ const authSlice = createSlice({
 
         logout: (state) => {
             state.userData = null;
-        }
+        },
+        // restoreUser: (state, action) => {
+        //     state.refreshData = action.payload; // Restore user on refresh
+        // }
     }
 })
 

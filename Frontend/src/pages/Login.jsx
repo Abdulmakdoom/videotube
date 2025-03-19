@@ -3,7 +3,8 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
 import { login as authLogin } from "../store/authSlice";
-import fetchWithAuth from "../utils/api";
+// import {restoreUser} from "../store/authSlice"
+// import fetchWithAuth from "../utils/api";
 // import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -31,18 +32,24 @@ function Login() {
         setError("")
         
        try {
-        const response = await fetchWithAuth("/api/v1/users/login", {
+        const response = await fetch("/api/v1/users/login", {
             method: "POST",
             credentials: "include", // Ensures cookies are sent
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+            
         })
         
         const Data = await response.json()
+        //console.log(Data);
+        
         //console.log("Response Data:", Data);
 
         const userData = Data.data.user
         dispatch(authLogin(userData))
+        // dispatch(restoreUser(userData))
 
         if(!response.ok) {
             throw new Error(Data.message || "Something went wrong")

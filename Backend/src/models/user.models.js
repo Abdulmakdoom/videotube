@@ -94,7 +94,6 @@ userSchema.methods.generateRefreshToken = function(){ // Refresh token
     return jwt.sign(
         {
             _id: this._id,
-            
         },
         process.env.REFRESH_TOKEN_SECRET,
         {

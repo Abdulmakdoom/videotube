@@ -147,7 +147,7 @@ const loginUser = asyncHandler(async (req, res)=> {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+       // maxAge: 7 * 24 * 60 * 60 * 1000,
     }
 
     return res.status(200)
@@ -189,7 +189,7 @@ const logoutUser = asyncHandler(async(req, res) => {
     const options = { 
         httpOnly: true,
         secure: true,
-        // sameSite: "strict",
+        sameSite: "strict",
     }
 
     return res
@@ -252,6 +252,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 
 })
+
 
 //-------------------------------------------change current password
 

@@ -3,7 +3,7 @@ import Container from "./container/Container";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import fetchWithAuth from "../utils/api";
+// import fetchWithAuth from "../utils/api";
 
 // Utility function to format the like count
 const formatNumber = (number) => {
@@ -40,10 +40,10 @@ function VideoPlayCard({
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response1 = await fetchWithAuth(`/api/v1/likes/videos/${videoId}`, {
+        const response1 = await fetch(`/api/v1/likes/videos/${videoId}`, {
           credentials: 'include',
         });
-        const response2 = await fetchWithAuth(`/api/v1/subscriptions/c/${userChannelId}`, {
+        const response2 = await fetch(`/api/v1/subscriptions/c/${userChannelId}`, {
           credentials: 'include',
         })
 
@@ -73,7 +73,7 @@ function VideoPlayCard({
 
   const handleSubscribeButtion = async()=> {
    try {
-    const response = await fetchWithAuth(`/api/v1/subscriptions/c/${userChannelId}`, {
+    const response = await fetch(`/api/v1/subscriptions/c/${userChannelId}`, {
       credentials: 'include',
     })
     let result = await response.json()
@@ -99,7 +99,7 @@ function VideoPlayCard({
       // Call the API to increase the view count
       const updateViews = async () => {
         try {
-          const response = await fetchWithAuth(`/api/v1/videos/views/${videoId}`, {
+          const response = await fetch(`/api/v1/videos/views/${videoId}`, {
             method: "POST", // Assuming the API uses POST to update views
             credentials: 'include',
           });
@@ -123,7 +123,7 @@ function VideoPlayCard({
   // Handle like button click
   const handleLike = async () => {
     try {
-      const response = await fetchWithAuth(`/api/v1/likes/toggle/v/video/${videoId}`, {
+      const response = await fetch(`/api/v1/likes/toggle/v/video/${videoId}`, {
         method: "POST", // Assuming the API uses POST to toggle likes
         credentials: 'include',
       });
