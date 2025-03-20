@@ -21,7 +21,8 @@ function Login() {
     const inputHandler = (e)=> {
         let {name, value} = e.target;
         setFormData((prevData)=> ({
-            ...prevData, [name]: value
+            ...prevData, 
+            [name]: value
         }))
     }
 
@@ -41,13 +42,17 @@ function Login() {
             body: JSON.stringify(formData),
             
         })
+
+        //console.log(formData);
+        
         
         const Data = await response.json()
-        //console.log(Data);
-        
+        console.log(Data.message);
         //console.log("Response Data:", Data);
 
-        const userData = Data.data.user
+        const userData = Data.data?.user
+       // console.log(userData);
+        
         dispatch(authLogin(userData))
         // dispatch(restoreUser(userData))
 
@@ -57,9 +62,9 @@ function Login() {
 
         // alert("Login successfully!");
         navigate("/home")
+        setError(Data.message)
         
        } catch (error) {
-        console.log(error);
         setError(error.message)
        }
        

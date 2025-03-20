@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import fetchWithAuth from "../utils/api";
+import CommentBox from "./CommentsBox";
 
 // Utility function to format the like count
 const formatNumber = (number) => {
@@ -29,10 +30,12 @@ function VideoPlayCard({
     const [subscribersCount, setSubscribersCount] = useState(0)
     let { videoId } = useParams();
     const [hasSeen30, setHasSeen30] = useState(false); 
+    const [buttonPressed, setButtonPressed] = useState(false)
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [subscribeDone , setSubscrbeDone] = useState(false)
     let navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
+
     const userId = userData?._id;
     //console.log(userId);        
 
@@ -44,13 +47,22 @@ function VideoPlayCard({
           credentials: 'include',
         });
         const response2 = await fetch(`/api/v1/subscriptions/c/${userChannelId}`, {
+          method: "GET",
           credentials: 'include',
         })
 
         const result = await response1.json();
         const result2 = await response2.json();
+        //console.log(result2.data.subscribers);
 
-        // console.log(result2.data.countSubscribers);
+        let data = result2.data.subscribers
+        const match = data.find(item => item.subscriber._id === userId);
+        let switchColor = match ? true : false;
+        //console.log(switchColor);
+        setSubscrbeDone(switchColor)
+        //console.log(subscribeDone);
+        
+       // console.log(result2.data.countSubscribers);
         
         if (result.success) {
           setLikes(result.data.LikeVideoCount); // Update the like count from API response
@@ -69,20 +81,21 @@ function VideoPlayCard({
     };
 
     fetchLikes();
-  });
+  }, [buttonPressed, likes]);
+  
 
   const handleSubscribeButtion = async()=> {
    try {
     const response = await fetch(`/api/v1/subscriptions/c/${userChannelId}`, {
+      method: "POST",
       credentials: 'include',
     })
     let result = await response.json()
-    console.log(result);
-    if (result.success) {
-      setSubscrbeDone(!subscribeDone)
-    } else {
-      console.error("Error fetching likes:", result2.message);
-    }  
+     console.log(result);
+     setButtonPressed(result)
+     if (!result.success) {
+      throw new Error("Failed to fetch video");
+  }
    } catch (error) {
     console.error("Error during fetch:", error);
    }
@@ -184,9 +197,9 @@ function VideoPlayCard({
             {/* <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium hover:bg-red-700">
               Subscribe
             </button> */}
-            {userId ? (!subscribeDone ?  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium">
+            {userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium">
               Subscribe
-            </button> :  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-300 text-white rounded-full text-xs sm:text-sm font-medium">
+            </button> :  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-400 text-white rounded-full text-xs sm:text-sm font-medium">
               Subscribed
             </button>) :   <button disabled className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-400 text-white rounded-full text-xs sm:text-sm font-medium">
               Please log in to subscribe
@@ -205,9 +218,9 @@ function VideoPlayCard({
                     onClick={handleLike}
                     className="flex items-center sm:text-sm space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
-                    <span className={likes > 0 ? "text-red-600" : "text-gray-700"}>Like</span>
+                    <span className={"text-gray-700"}>Like</span>
                     <div className="text-sm text-gray-700 font-medium">
-                      <span className="mr-1">{formatNumber(likes)}</span>
+                      <span className="mr-1 text-red-700">{formatNumber(likes)}</span>
                     </div>
                   </button>
                 ) : (
@@ -289,7 +302,7 @@ function VideoPlayCard({
               </div>
           </div>
 
-         <div className="bg-gray-200 rounded-xl mb-5 mr-3">
+         <div className="bg-gray-200 rounded-xl mb-5 mr-4">
            {/* Stats Section */}
            <div className="ml-4 pb-3 pt-0.5 mt-2">
            <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-gray-500 mt-4">
@@ -313,6 +326,7 @@ function VideoPlayCard({
            </div>
          </div>
         </div>
+        <CommentBox className="ml-4 mr-4 flex space-x-2 mb-4" videoId={videoId}/>
       </div>
     </Container>
   );

@@ -54,10 +54,10 @@ const getVideoComments = asyncHandler(async (req, res) => {
         }
     ]);
 
-    // Get total video count for pagination
-    const totalVideos = await Comment.countDocuments(matchStage);
+    // Get total comments count for pagination
+    const totalComments = await Comment.countDocuments(matchStage);
 
-    res.status(201).json(new ApiResponse(201, comments, "Get comment successfully"));
+    res.status(201).json(new ApiResponse(201, {comments, totalComments}, "Get comment successfully"));
 
 })
 
