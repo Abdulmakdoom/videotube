@@ -10,11 +10,14 @@ import { upload } from '../middlewares/multer.middleware.js';
 
 const router = Router();
 
+router
+    .route("/:videoId")
+        .get(getVideoComments)
+
 router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 router
     .route("/:videoId")
-        .get(getVideoComments)
         .post(verifyJWT, upload.none(), addComment);
 router
     .route("/c/:commentId")
