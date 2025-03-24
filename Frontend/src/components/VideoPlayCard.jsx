@@ -5,6 +5,10 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import fetchWithAuth from "../utils/api";
 import CommentBox from "./CommentsBox";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
+
 
 // Utility function to format the like count
 const formatNumber = (number) => {
@@ -272,7 +276,7 @@ function VideoPlayCard({
                     onClick={handleLike}
                     className="flex items-center sm:text-sm space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
-                    <span className={"text-gray-700"}>Like</span>
+                    <span className={"text-gray-700"}> <FontAwesomeIcon icon={faThumbsUp} /></span>
                     <div className="text-sm text-gray-700 font-medium">
                       <span className="mr-1 text-red-700">{formatNumber(likes)}</span>
                     </div>
@@ -294,20 +298,7 @@ function VideoPlayCard({
                 <button
                   className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M18 15l4-4m0 0l-4-4m4 4H6"
-                    />
-                  </svg>
+                  <FontAwesomeIcon icon={faShare} />
                   <span>Share</span>
                 </button>
 
@@ -315,20 +306,7 @@ function VideoPlayCard({
                 <button
                   className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 3v12m0 0l-4-4m4 4l4-4m-4 4h7"
-                    />
-                  </svg>
+                  <FontAwesomeIcon icon={faDownload} />
                   <span>Download</span>
                 </button>
 
@@ -336,20 +314,7 @@ function VideoPlayCard({
                 <button
                   className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"
-                    />
-                  </svg>
+                 <FontAwesomeIcon icon={faBookmark} />
                   <span>Save</span>
                 </button>
                 </div>

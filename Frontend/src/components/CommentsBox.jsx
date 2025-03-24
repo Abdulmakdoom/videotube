@@ -225,18 +225,202 @@
 
 
 
+// import React, { useEffect, useState } from "react";
+// import Input from "./Input";
+// import Button from "./Button";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faHeart } from '@fortawesome/free-regular-svg-icons';
+// import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+
+// function CommentBox ({videoId, className, formatNumber, userId}) {
+//     const [input, setInput] = useState({content: ""});
+//     const [getComments, setGetComments] = useState([]);
+//     const [commentCount, setCommentCount] = useState("");
+//     const [modalState, setModalState] = useState({}); // Track modal visibility for each comment
+
+//     const inputHandler = (e) => {
+//         let { value } = e.target;
+//         setInput((prevData) => ({
+//             ...prevData,
+//             content: value
+//         }));
+//     };
+
+//     const formDataHandler = async (e) => {
+//         e.preventDefault();
+
+//         try {
+//             const response = await fetch(`/api/v1/comments/${videoId}`, {
+//                 method: "POST",
+//                 credentials: "include",
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//                 body: JSON.stringify(input),
+//             });
+
+//             const result = await response.json();
+
+//             if (!response.ok) {
+//                 throw new Error(result.message || "Something went wrong");
+//             }
+
+//             setInput({ content: "" });
+
+//             // Fetch updated comments
+//             const responseComments = await fetch(`/api/v1/comments/${videoId}`);
+//             const resultComments = await responseComments.json();
+
+//             if (!responseComments.ok) {
+//                 throw new Error(resultComments?.message || "Something went wrong");
+//             }
+
+//             setGetComments(resultComments?.data?.comments);
+//             setCommentCount(resultComments?.data?.totalComments);
+
+//         } catch (error) {
+//             console.log(error.message);
+//         }
+//     };
+
+//     useEffect(() => {
+//         const fetchComments = async () => {
+//             try {
+//                 const response = await fetch(`/api/v1/comments/${videoId}`);
+//                 const result = await response.json();
+
+//                 if (!response.ok) {
+//                     throw new Error(result?.message || "Something went wrong");
+//                 }
+
+//                 setGetComments(result?.data?.comments);
+//                 setCommentCount(result?.data?.totalComments);
+//             } catch (error) {
+//                 console.log(error.message);
+//             }
+//         };
+
+//         fetchComments();
+//     }, [videoId]);
+
+//     const deleteCommentHandler = async (commentId) => {
+//         try {
+//             const response = await fetch(`/api/v1/comments/c/${commentId}`, {
+//                 method: 'DELETE',
+//                 credentials: "include",
+//             });
+//             const result = await response.json();
+
+//             if (!response.ok) {
+//                 throw new Error(result?.message || "Something went wrong");
+//             }
+
+//             // Optionally remove comment from state after successful deletion
+//             setGetComments(getComments.filter((comment) => comment._id !== commentId));
+
+//         } catch (error) {
+//             console.log(error.message);
+//         }
+//     };
+
+//     const toggleCommentDeleteHandler = (commentId) => {
+//         setModalState((prevState) => ({
+//             ...prevState,
+//             [commentId]: !prevState[commentId]  // Toggle visibility for the clicked comment
+//         }));
+//     };
+
+//     return (
+//         <>
+//             <div className="ml-5 text-xl font-bold mb-3">
+//                 <h1>{formatNumber(commentCount)} Comments</h1>
+//             </div>
+//             <form onSubmit={formDataHandler}>
+//                 <div className={className}>
+//                     <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." />
+//                     {userId ? <Button type="submit" className="bg-red-600">Send</Button> : <Button disabled className="bg-gray-400">Send</Button>}
+//                 </div>
+//             </form>
+
+//             <div className="space-y-4">
+//                 {getComments.map((data) => (
+//                     <div key={data._id} className="flex items-start space-x-4 p-4 border-b border-gray-300">
+//                         {/* Avatar */}
+//                         <div className="flex-shrink-0">
+//                             <img
+//                                 src={data?.ownerDetails?.avatar} // Replace with actual avatar image URL
+//                                 alt="User Avatar"
+//                                 className="w-10 h-10 rounded-full"
+//                             />
+//                         </div>
+
+//                         {/* Comment content */}
+//                         <div className="flex-1">
+//                             {/* Username */}
+//                             <div className="flex items-center justify-between text-sm font-semibold text-gray-800">
+//                                 <div className="truncate">{data?.ownerDetails?.username}</div>
+
+//                                 {/* Modal to confirm deletion */}
+//                                 {modalState[data._id] && (
+//                                   <div className="">
+//                                   <div className="absolute right-0 transform translate-x-4  mt-4 bg-gray-300 rounded shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
+//                                       <div className="flex justify-end">
+//                                           <button
+//                                               onClick={() => deleteCommentHandler(data._id)}
+//                                               className="px-4 py-2 rounded mr-4">
+//                                               Delete
+//                                           </button>
+//                                       </div>
+//                                   </div>
+//                               </div>
+//                                 )}
+
+//                                 {/* Ellipsis button to show modal */}
+//                                 <button onClick={() => toggleCommentDeleteHandler(data._id)} className="w-9 h-9 ml-3 sm:text-sm mr-12">
+//                                     <FontAwesomeIcon icon={faEllipsisVertical} />
+//                                 </button>
+//                             </div>
+
+//                             {/* Comment text */}
+//                             <div className="text-sm text-gray-700 mt-2 sm:mt-1">
+//                                 {data.content}
+//                             </div>
+
+//                             {/* Actions (like, reply, etc.) */}
+//                             <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
+//                                 <button className="hover:text-red-600">
+//                                     <FontAwesomeIcon icon={faHeart} />
+//                                 </button>
+//                                 <button className="hover:text-red-600">Reply</button>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 ))}
+//             </div>
+//         </>
+//     );
+// }
+
+// export default CommentBox;
+
+
+
+
+
+
 import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+import CommentLike from "./commentLike";
 
 function CommentBox ({videoId, className, formatNumber, userId}) {
     const [input, setInput] = useState({content: ""});
     const [getComments, setGetComments] = useState([]);
     const [commentCount, setCommentCount] = useState("");
-    const [modalState, setModalState] = useState({}); // Track modal visibility for each comment
+    const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
 
     const inputHandler = (e) => {
         let { value } = e.target;
@@ -295,6 +479,8 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
                 setGetComments(result?.data?.comments);
                 setCommentCount(result?.data?.totalComments);
+                //setGetCommentsLike(getComments.filter((comment) => comment._id !== commentId));
+
             } catch (error) {
                 console.log(error.message);
             }
@@ -315,8 +501,9 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                 throw new Error(result?.message || "Something went wrong");
             }
 
-            // Optionally remove comment from state after successful deletion
+            // Remove the comment from the state after successful deletion
             setGetComments(getComments.filter((comment) => comment._id !== commentId));
+            setShowModalId(null); // Close the modal after deletion
 
         } catch (error) {
             console.log(error.message);
@@ -324,11 +511,12 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     };
 
     const toggleCommentDeleteHandler = (commentId) => {
-        setModalState((prevState) => ({
-            ...prevState,
-            [commentId]: !prevState[commentId]  // Toggle visibility for the clicked comment
-        }));
+        // Show the modal for the clicked comment, and close others
+        setShowModalId((prevState) => (prevState === commentId ? null : commentId));
     };
+
+
+    
 
     return (
         <>
@@ -338,7 +526,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             <form onSubmit={formDataHandler}>
                 <div className={className}>
                     <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." />
-                    {userId ? <Button type="submit" className="bg-red-600">Send</Button> : <Button disabled className="bg-gray-400">Send</Button>}
+                    {userId ? <Button type="submit" className="bg-red-600"><FontAwesomeIcon icon={faPaperPlane} /></Button> : <Button disabled className="bg-gray-400"><FontAwesomeIcon icon={faPaperPlane} /></Button>}
                 </div>
             </form>
 
@@ -361,28 +549,20 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                                 <div className="truncate">{data?.ownerDetails?.username}</div>
 
                                 {/* Modal to confirm deletion */}
-                                {modalState[data._id] && (
-                                  <div className="">
-                                  <div className="absolute right-0 transform translate-x-4  mt-4 bg-gray-300 rounded shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
+                                {showModalId === data._id && (
+                                  <div className="absolute right-0 transform translate-x-4 mt-21 bg-gray-300 rounded shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
                                       <div className="flex justify-end">
                                           <button
                                               onClick={() => deleteCommentHandler(data._id)}
                                               className="px-4 py-2 rounded mr-4">
                                               Delete
                                           </button>
-                                          {/* Optionally add a Cancel button */}
-                                          {/* <button
-                                              onClick={() => toggleCommentDeleteHandler(data._id)}  // Close modal
-                                              className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
-                                              Cancel
-                                          </button> */}
                                       </div>
                                   </div>
-                              </div>
                                 )}
 
                                 {/* Ellipsis button to show modal */}
-                                <button onClick={() => toggleCommentDeleteHandler(data._id)} className="w-9 h-9 ml-3 sm:text-sm mr-12">
+                                <button onClick={()=> toggleCommentDeleteHandler(data._id)} className="w-9 h-9 ml-3 sm:text-sm mr-12">
                                     <FontAwesomeIcon icon={faEllipsisVertical} />
                                 </button>
                             </div>
@@ -394,9 +574,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
                             {/* Actions (like, reply, etc.) */}
                             <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
-                                <button className="hover:text-red-600">
-                                    <FontAwesomeIcon icon={faHeart} />
-                                </button>
+                                <CommentLike commentId={data._id} userId={userId} showModalId={showModalId}/>
                                 <button className="hover:text-red-600">Reply</button>
                             </div>
                         </div>
@@ -408,3 +586,224 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 }
 
 export default CommentBox;
+
+
+
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import Input from "./Input";
+// import Button from "./Button";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faHeart, faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+// import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+
+// function CommentBox({ videoId, className, formatNumber, userId }) {
+//     const [input, setInput] = useState({ content: "" });
+//     const [getComments, setGetComments] = useState([]);
+//     const [commentCount, setCommentCount] = useState("");
+//     const [commentLikes, setCommentLikes] = useState({});  // Track like count for each comment
+//     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
+
+//     const inputHandler = (e) => {
+//         let { value } = e.target;
+//         setInput((prevData) => ({
+//             ...prevData,
+//             content: value
+//         }));
+//     };
+
+//     const formDataHandler = async (e) => {
+//         e.preventDefault();
+
+//         try {
+//             const response = await fetch(`/api/v1/comments/${videoId}`, {
+//                 method: "POST",
+//                 credentials: "include",
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//                 body: JSON.stringify(input),
+//             });
+
+//             const result = await response.json();
+
+//             if (!response.ok) {
+//                 throw new Error(result.message || "Something went wrong");
+//             }
+
+//             setInput({ content: "" });
+
+//             // Fetch updated comments
+//             const responseComments = await fetch(`/api/v1/comments/${videoId}`);
+//             const resultComments = await responseComments.json();
+
+//             if (!responseComments.ok) {
+//                 throw new Error(resultComments?.message || "Something went wrong");
+//             }
+
+//             setGetComments(resultComments?.data?.comments);
+//             setCommentCount(resultComments?.data?.totalComments);
+
+//             // Update like counts for the newly fetched comments
+//             const initialLikes = {};
+//             resultComments?.data?.comments.forEach(comment => {
+//                 initialLikes[comment._id] = comment.likeCount || 0;
+//             });
+//             setCommentLikes(initialLikes);
+
+//         } catch (error) {
+//             console.log(error.message);
+//         }
+//     };
+
+//     useEffect(() => {
+//         const fetchComments = async () => {
+//             try {
+//                 const response = await fetch(`/api/v1/comments/${videoId}`);
+//                 const result = await response.json();
+
+//                 if (!response.ok) {
+//                     throw new Error(result?.message || "Something went wrong");
+//                 }
+
+//                 setGetComments(result?.data?.comments);
+//                 setCommentCount(result?.data?.totalComments);
+
+//                 // Set initial like counts for each comment
+//                 const initialLikes = {};
+//                 result?.data?.comments.forEach(comment => {
+//                     initialLikes[comment._id] = comment.likeCount || 0;
+//                 });
+//                 setCommentLikes(initialLikes);
+//             } catch (error) {
+//                 console.log(error.message);
+//             }
+//         };
+
+//         fetchComments();
+//     }, [videoId]);
+
+//     const deleteCommentHandler = async (commentId) => {
+//         try {
+//             const response = await fetch(`/api/v1/comments/c/${commentId}`, {
+//                 method: 'DELETE',
+//                 credentials: "include",
+//             });
+//             const result = await response.json();
+
+//             if (!response.ok) {
+//                 throw new Error(result?.message || "Something went wrong");
+//             }
+
+//             // Remove the comment from the state after successful deletion
+//             setGetComments(getComments.filter((comment) => comment._id !== commentId));
+//             setShowModalId(null); // Close the modal after deletion
+
+//         } catch (error) {
+//             console.log(error.message);
+//         }
+//     };
+
+//     const toggleCommentDeleteHandler = (commentId) => {
+//         setShowModalId((prevState) => (prevState === commentId ? null : commentId));
+//     };
+
+//     const commentLikeHandler = async (commentId) => {
+//         console.log(commentId);
+//         try {
+//             const response = await fetch(`/api/v1/likes/toggle/v/comment/${commentId}`, {
+//                 method: "POST",
+//                 credentials: "include",
+//             });
+//             const result = await response.json();
+//             console.log(result);
+
+//             // Update the like count for the specific comment
+//             if (result.success) {
+//                 setCommentLikes((prevState) => ({
+//                     ...prevState,
+//                     [commentId]: result.data.likeCount,
+//                 }));
+//             }
+
+//         } catch (error) {
+//             console.log(error.message);
+//         }
+//     };
+
+//     return (
+//         <>
+//             <div className="ml-5 text-xl font-bold mb-3">
+//                 <h1>{formatNumber(commentCount)} Comments</h1>
+//             </div>
+//             <form onSubmit={formDataHandler}>
+//                 <div className={className}>
+//                     <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." />
+//                     {userId ? <Button type="submit" className="bg-red-600"><FontAwesomeIcon icon={faPaperPlane} /></Button> : <Button disabled className="bg-gray-400"><FontAwesomeIcon icon={faPaperPlane} /></Button>}
+//                 </div>
+//             </form>
+
+//             <div className="space-y-4">
+//                 {getComments.map((data) => (
+//                     <div key={data._id} className="flex items-start space-x-4 p-4 border-b border-gray-300">
+//                         {/* Avatar */}
+//                         <div className="flex-shrink-0">
+//                             <img
+//                                 src={data?.ownerDetails?.avatar} // Replace with actual avatar image URL
+//                                 alt="User Avatar"
+//                                 className="w-10 h-10 rounded-full"
+//                             />
+//                         </div>
+
+//                         {/* Comment content */}
+//                         <div className="flex-1">
+//                             {/* Username */}
+//                             <div className="flex items-center justify-between text-sm font-semibold text-gray-800">
+//                                 <div className="truncate">{data?.ownerDetails?.username}</div>
+
+//                                 {/* Modal to confirm deletion */}
+//                                 {showModalId === data._id && (
+//                                   <div className="absolute right-0 transform translate-x-4 mt-21 bg-gray-300 rounded shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
+//                                       <div className="flex justify-end">
+//                                           <button
+//                                               onClick={() => deleteCommentHandler(data._id)}
+//                                               className="px-4 py-2 rounded mr-4">
+//                                               Delete
+//                                           </button>
+//                                       </div>
+//                                   </div>
+//                                 )}
+
+//                                 {/* Ellipsis button to show modal */}
+//                                 <button onClick={() => toggleCommentDeleteHandler(data._id)} className="w-9 h-9 ml-3 sm:text-sm mr-12">
+//                                     <FontAwesomeIcon icon={faEllipsisVertical} />
+//                                 </button>
+//                             </div>
+
+//                             {/* Comment text */}
+//                             <div className="text-sm text-gray-700 mt-2 sm:mt-1">
+//                                 {data.content}
+//                             </div>
+
+//                             {/* Actions (like, reply, etc.) */}
+//                             <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
+//                                 <button onClick={() => commentLikeHandler(data._id)} className="hover:text-red-600">
+//                                     <FontAwesomeIcon icon={faHeart} />
+//                                     <span className="ml-1">{commentLikes[data._id] || 0}</span>
+//                                 </button>
+//                                 <button className="hover:text-red-600">Reply</button>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 ))}
+//             </div>
+//         </>
+//     );
+// }
+
+// export default CommentBox;
