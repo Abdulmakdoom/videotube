@@ -3,11 +3,16 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Mainpage from "./Mainpage";
 import VideoPlayCard from "../components/VideoPlayCard";
+import History from "./History";
+import Footer from "./Footer";
+
 
 export {
     VideoPlay,
     Login,
     Signup,
     Mainpage,
-    VideoPlayCard
+    VideoPlayCard,
+    History,
+    Footer
 }

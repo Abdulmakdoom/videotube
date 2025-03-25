@@ -61,19 +61,19 @@ function CommentLike({commentId, userId}) {
 
     };
 
-    console.log(showModalId);
+    // console.log(showModalId);
     
 
     return (
         <>
         {userId ? (
-            <button onClick={() => commentLikeHandler()}>
+            <button className="text-gray-400" onClick={() => commentLikeHandler()}>
             <FontAwesomeIcon icon={findUser ? darkHeart : faHeart} className={findUser ? 'text-red-600' : ''} />
-            <span className="ml-1">{commentLikeCount}</span>
+            <span className="ml-1 text-gray-400">{commentLikeCount}</span>
             </button>
         ) : (
             <>
-            <button onClick={()=> (toggleCommentHandler(commentId))}>
+            <button className="text-gray-400" onClick={()=> (toggleCommentHandler(commentId))}>
                 <FontAwesomeIcon icon={findUser ? darkHeart : faHeart} className={findUser ? 'text-red-600' : ''} />
                 <span className="ml-1">{commentLikeCount}</span>
             </button>
@@ -86,7 +86,7 @@ function CommentLike({commentId, userId}) {
                           <Link to="/login" >
                             <button
                                 // onClick={loginHandler}
-                                className="bg-blue-500 font-bold text-white py-2 px-6 rounded-lg hover:bg-blue-600 focus:outline-none"
+                                className="bg-red-500 font-bold text-white py-2 px-6 rounded-lg hover:bg-red-600 focus:outline-none"
                             >
                                 Log in
                             </button>

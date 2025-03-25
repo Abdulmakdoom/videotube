@@ -1,8 +1,10 @@
 
 import React, { useState } from "react";
-import Input from "../components/Input";
+// import Input from "../components/Input";
 import Button from "../components/Button";
 // import { Link } from "react-router-dom";
+import "../../public/signup.css"
+
 
 function Signup() {
     const [error, setError] = useState("");
@@ -15,13 +17,34 @@ function Signup() {
         coverImage: null,
     });
 
+    // const inputHandler = (e) => {
+    //     const { name, value, type, files } = e.target;
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         [name]: type === "file" ? files[0] : value,
+    //     }));
+    // };
+
+    // Input handler to manage file input changes
     const inputHandler = (e) => {
         const { name, value, type, files } = e.target;
+
+        // Update the formData state based on the input type (file or text)
         setFormData((prevData) => ({
-            ...prevData,
-            [name]: type === "file" ? files[0] : value,
+        ...prevData,
+        [name]: type === 'file' ? files[0] : value, // Store the file or the text value
         }));
+
+        // If it's a file input, update the corresponding file name in the DOM
+        if (type === 'file') {
+        const fileName = files[0] ? files[0].name : 'No file chosen';
+        document.getElementById(`file-name-${name}`).textContent = fileName;
+        }
     };
+
+    // console.log(formData);
+    
+    
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -64,45 +87,101 @@ function Signup() {
     };
 
     return (
-        <div className="flex flex-col h-screen">
-        <main className="flex-grow flex items-center justify-center p-4">
-            <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg border border-gray-200">
-                <h2 className="text-center text-3xl font-extrabold leading-tight mb-6 text-gray-900">
-                    Create Your VideoTube Account
-                </h2>
-                <p className="mt-2 text-center text-base text-black/60">
-                    Already have an account?&nbsp;
-                    {/* Uncomment the link below to enable navigation to the login page */}
-                    {/* <Link to="/login" className="font-medium text-primary transition-all duration-200 hover:underline">Sign In</Link> */}
-                </p>
+        <section>
+        {/* Span elements for styling */}
+        {[...Array(150)].map((_, index) => (
+        <span key={index}></span>
+        ))}
 
+        <div className="signin1">
+            <div className="content1 ">
+                <h2 className="text-red-700">Sign In</h2>
                 {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}
-            
-                <form onSubmit={handleCreate} className="space-y-5">
-                <div className="flex space-x-4"> {/* Add space-x-4 for horizontal spacing */}
-                    <div className="flex-1"> {/* Allow this div to grow */}
-                        <Input label="Full Name" type="text" name="fullName" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
-                        <Input label="Email" type="email" name="email" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
-                        <Input label="Username" type="text" name="username" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+                <form className="form" onSubmit={handleCreate}>
+                        <div className="flex">
+                            <div className="largeBox1">
+                                <div className="inputBox box1">
+                                    <input label="Full Name" type="text" name="fullName" onChange={inputHandler} required />
+                                    <i>Full Name</i>
+                                </div>
+                                <div className="inputBox box2">
+                                    <input label="Email" type="email" name="email" onChange={inputHandler} required />
+                                    <i>Email</i>
+                                </div>
+                                    <div className="inputBox box3">
+                                    <input label="Username" type="text" name="username" onChange={inputHandler} required />
+                                    <i>Username</i>
+                                </div>
+                            </div>
+                            <div className="largeBox2">
+                                <div className="inputBox box4">
+                                    <input label="Password" type="password" name="password" onChange={inputHandler} required />
+                                    <i>Password</i>
+                                </div>
+                                {/* Avatar Input */}
+                                <div className="inputBox box5">
+                                    <input
+                                    type="file"
+                                    name="avatar"
+                                    id="avatarInput"
+                                    onChange={inputHandler}
+                                    required
+                                    className="hidden"
+                                    />
+                                    {/* Custom label for avatar input */}
+                                    <label
+                                    htmlFor="avatarInput"
+                                    className="cursor-pointer inline-block px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                    >
+                                    Choose Avatar
+                                    </label>
+                                    {/* Display file name for avatar */}
+                                    <div id="file-name-avatar" className="mt-2 text-gray-600 italic">No file chosen</div>
+                                </div>
+
+                                {/* Cover Image Input */}
+                                <div className="inputBox box6">
+                                    <input
+                                    type="file"
+                                    name="coverImage"
+                                    id="coverInput"
+                                    onChange={inputHandler}
+                                    required
+                                    className="hidden"
+                                    />
+                                    {/* Custom label for cover image input */}
+                                    <label
+                                    htmlFor="coverInput"
+                                    className="cursor-pointer inline-block px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                    >
+                                    Choose Cover Image
+                                    </label>
+                                    {/* Display file name for cover image */}
+                                    <div id="file-name-coverImage" className="mt-2 text-gray-600 italic">No file chosen</div>
+                                </div>
+
+                                {/* <div className="inputBox box6">
+                                    <input label="Cover Image" type="file" name="coverImage" onChange={inputHandler} required />
+                                    <i>Cover Image</i>
+                                </div> */}
+                              
+                            </div>
+                        </div>
+                    <div className="links">
+                    <a href="#">Forgot Password</a>
+                    <a href="/login">Login</a>
                     </div>
-                    <div className="flex-1"> {/* Allow this div to grow */}
-                        <Input label="Password" type="password" name="password" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
-                        <Input label="Avatar" type="file" name="avatar" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
-                        <Input label="Cover Image" type="file" name="coverImage" onChange={inputHandler} className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
-                    </div>
-                </div>
-                    <Button type="submit" className="w-full bg-red-600 text-white hover:bg-red-700 transition duration-200 rounded-lg shadow-md py-3 font-semibold text-lg">
-                        Create Account
+                    <Button type="submit" className="inputBox bg-red-800">
+                        Signup
                     </Button>
                 </form>
-            
-                <p className="mt-6 text-center text-sm text-gray-600">
-                    By creating an account, you agree to our <a href="#" className="text-blue-500 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-500 hover:underline">Privacy Policy</a>.
-                </p>
             </div>
-        </main>
-    </div>
+        </div>
+    </section>
     );
 }
 
 export default Signup;
+
+
+

@@ -8,6 +8,7 @@ import Spinner from "../components/Loader";
 // import { restoreUser } from "../store/authSlice";
 // import fetchWithAuth from "../utils/api";
 // import Cookies from "js-cookie"; 
+import timeAgo from "../components/time.js"
 
 function Mainpage() {
     const [error, setError] = useState("");
@@ -113,7 +114,7 @@ function Mainpage() {
                                 ownerAvatar={video.owner.avatar} 
                                 channelName={video.owner.username} 
                                 views={video.views} 
-                                uploadDate={video.createdAt} 
+                                uploadDate={timeAgo(video.createdAt)} 
                             />
                         </Link>
                     ))}

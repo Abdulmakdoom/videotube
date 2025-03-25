@@ -413,7 +413,7 @@ import Input from "./Input";
 import Button from "./Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
-import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import CommentLike from "./commentLike";
 
 function CommentBox ({videoId, className, formatNumber, userId}) {
@@ -520,19 +520,19 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
     return (
         <>
-            <div className="ml-5 text-xl font-bold mb-3">
+            <div className="ml-5 text-xl font-bold mb-3 text-white">
                 <h1>{formatNumber(commentCount)} Comments</h1>
             </div>
             <form onSubmit={formDataHandler}>
                 <div className={className}>
-                    <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." />
-                    {userId ? <Button type="submit" className="bg-red-600"><FontAwesomeIcon icon={faPaperPlane} /></Button> : <Button disabled className="bg-gray-400"><FontAwesomeIcon icon={faPaperPlane} /></Button>}
+                    <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." className="placeholder-gray-400"/>
+                    {userId ? <Button type="submit" className="bg-red-600"><FontAwesomeIcon icon={faPaperPlane} /></Button> : <Button disabled className="bg-gray-600"><FontAwesomeIcon icon={faPaperPlane} /></Button>}
                 </div>
             </form>
 
             <div className="space-y-4">
                 {getComments.map((data) => (
-                    <div key={data._id} className="flex items-start space-x-4 p-4 border-b border-gray-300">
+                    <div key={data._id} className="flex items-start space-x-4 p-4 border-gray-300">
                         {/* Avatar */}
                         <div className="flex-shrink-0">
                             <img
@@ -545,17 +545,17 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                         {/* Comment content */}
                         <div className="flex-1">
                             {/* Username */}
-                            <div className="flex items-center justify-between text-sm font-semibold text-gray-800">
+                            <div className="flex items-center justify-between text-sm font-semibold text-white">
                                 <div className="truncate">{data?.ownerDetails?.username}</div>
 
                                 {/* Modal to confirm deletion */}
                                 {showModalId === data._id && (
-                                  <div className="absolute right-0 transform translate-x-4 mt-21 bg-gray-300 rounded shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
+                                  <div className="absolute right-0 transform translate-x-4 mt-21 bg-[#696868] text-black rounded-2xl shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
                                       <div className="flex justify-end">
                                           <button
                                               onClick={() => deleteCommentHandler(data._id)}
-                                              className="px-4 py-2 rounded mr-4">
-                                              Delete
+                                              className="px-4 py-2 rounded mr-2">
+                                              <FontAwesomeIcon icon={faTrashCan} className="mr-2"/>Delete
                                           </button>
                                       </div>
                                   </div>
@@ -568,14 +568,14 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                             </div>
 
                             {/* Comment text */}
-                            <div className="text-sm text-gray-700 mt-2 sm:mt-1">
+                            <div className="text-sm text-white mt-2 sm:mt-1">
                                 {data.content}
                             </div>
 
                             {/* Actions (like, reply, etc.) */}
                             <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
                                 <CommentLike commentId={data._id} userId={userId} showModalId={showModalId}/>
-                                <button className="hover:text-red-600">Reply</button>
+                                <button className="hover:text-red-600 text-gray-400">Reply</button>
                             </div>
                         </div>
                     </div>

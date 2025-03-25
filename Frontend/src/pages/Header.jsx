@@ -1,117 +1,140 @@
-import React, {useEffect, useState} from "react";
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoutBtn from "../components/LogoutBtn";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
+const Sidebar = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.userData);
 
-function Header() {
-    const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const navigate = useNavigate()
-    const userData = useSelector((state) => state.auth.userData);
+  const navItems = [
+    { name: 'Home', icon: '🏠', path: '/home' },
+    { name: 'Trending', icon: '🔥', path: '/trending' },
+    { name: 'Subscriptions', icon: '📺', path: '/subscriptions' },
+    { name: 'Library', icon: '📚', path: '/library' },
+    { name: 'History', icon: '⏳', path: '/history' },
+    { name: 'Your Videos', icon: '🎬', path: '/your-videos' },
+    { name: 'Watch Later', icon: '⏰', path: '/watch-later' },
 
-    const navItems = [
-        {
-          name: "Home",
-          page: "/home"
-        },
-        {
-            name: "SignUp",
-            page: "/signup"
+  ];
 
-        },
-        {
-            name: "Login",
-            page: "/login"
+  const navItems2 = [
+    {
+        name: "SignUp",
+        page: "/signup"
+    },
+    {
+        name: "Login",
+        page: "/login"
+    },
+  ];
 
-        },
-    ]
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
-
-    return (
-        <>
-        <header className='flex items-center justify-between p-4 bg-white shadow-md w-full fixed top-0 left-0 z-50'>
-      <div className='flex items-center'>
-        {/* YouTube Logo */}
-        <div className='text-2xl font-bold text-red-600'>
-          VideoTube
+  return (
+    <>
+      <header className='flex items-center justify-between p-4  shadow-md w-full fixed top-0 left-0 z-20 bg-[#0A0A0A]'>
+        <div className='flex items-center'>
+          {/* Logo */}
+          <div className='text-2xl ml-12 font-bold text-red-600'>
+            VideoTube
+          </div>
         </div>
-      </div>
 
-      {/* Search Bar */}
-      <div className='flex flex-grow mx-4'>
-        <input
-          type='text'
-          placeholder='Search'
-          className='flex-grow px-4 py-2 border border-gray-300 rounded-l-full focus:outline-none'
-        />
-        <button className='px-4 py-2 bg-red-600 text-white rounded-r-full'>
-          Search
-        </button>
-      </div>
-
-      {/* Navigation Items for Desktop */}
-      <ul className='hidden md:flex items-center space-x-4'>
-        <div>{userData?.username}</div>
-        {navItems.map((item) => (
-          <li key={item.name}>
-            <button
-              onClick={() => navigate(item.page)}
-              className='px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-full'
-            >
-              {item.name}
+        {/* Search Bar */}
+        <div className="flex justify-center mx-4">
+          <div className="flex h-10 w-full sm:max-w-xs md:max-w-md lg:max-w-lg">
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full sm:w-140 px-2 py-1 border bg-[#1C1C1C] text-white border-gray-700 placeholder-gray-500 rounded-l-full focus:outline-none"
+            />
+            <button className="w-16 px-2 py-1 bg-[#1C1C1C] text-white rounded-r-full">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
-          </li>
-        ))}
-        <li>
-          <LogoutBtn />
-        </li>
-      </ul>
-
-      {/* Mobile Menu Button */}
-      <div className='md:hidden'>
-        <button
-          onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-          className='text-gray-700 focus:outline-none'
-        >
-          {/* Icon for mobile menu (hamburger icon) */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className='absolute top-16 left-0 w-full bg-white shadow-lg md:hidden'>
-          <ul className='flex flex-col items-center space-y-2 p-4'>
-            {navItems.map((item) => (
-              <li key={item.name}>
-                <button
-                  onClick={() => {
-                    navigate(item.page);
-                    setMobileMenuOpen(false); // Close the menu after navigation
-                  }}
-                  className='w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-full'
-                >
-                  {item.name}
-                </button>
-              </li>
-            ))}
-            <li>
-              <LogoutBtn />
-            </li>
-          </ul>
+          </div>
         </div>
-      )}
-    </header>
-        </>
-    )
-}
 
-export default Header;
+        {/* Navigation Items for Desktop */}
+        <ul className='hidden md:flex items-center space-x-4'>
+          <div>{userData?.username}</div>
+          {navItems2.map((item) => (
+            <li key={item.name}>
+              <button
+                onClick={() => navigate(item.page)}
+                className='px-4 py-2 text-white rounded-full'
+              >
+                {item.name}
+              </button>
+            </li>
+          ))}
+          <li>
+           {userData && <LogoutBtn />}
+          </li>
+        </ul>
+
+        {/* Mobile Menu Button */}
+        <div className='md:hidden'>
+          <button
+            onClick={toggleSidebar}
+            className='text-gray-700 focus:outline-none'
+          >
+            <FontAwesomeIcon icon={faBars} className="h-6 w-6" />
+          </button>
+        </div>
+      </header>
+
+      <div className="relative">
+        {/* Hamburger Icon for small screens */}
+        <div className="absolute top-4 left-4 z-50">
+            <button onClick={toggleSidebar}>
+                <FontAwesomeIcon icon={faBars} className="text-3xl text-gray-200 mt-1 fixed top-4 left-4" />
+            </button>
+        </div>
+
+        {/* Sidebar (always visible on large screens, toggles on small screens) */}
+        <div
+          className={`fixed top-0 left-0 h-full bg-[#0A0A0A] shadow-lg w-64 transform transition-transform ${
+            isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } z-40`} 
+        >
+          <div className="flex flex-col items-start p-4">
+            <div className="text-2xl ml-12 mt-1 font-bold text-red-600 mb-8">VideoTube</div>
+            <ul className="space-y-6">
+              {navItems.map((item) => (
+                <li key={item.name}>
+                  <button
+                    onClick={() => navigate(item.path)}
+                    className="flex items-center space-x-3 text-white hover:bg-gray-100 hover:text-black px-4 py-2 rounded-md w-full"
+                  >
+                    <span>{item.icon}</span>
+                    <span>{item.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Overlay (for when sidebar is open) */}
+        {isSidebarOpen && (
+          <div
+            className="sticky top-0 left-0 w-full h-full bg-black opacity-50 z-30"
+            onClick={toggleSidebar}
+          />
+        )}
+      </div>
+    </>
+  );
+};
+
+export default Sidebar;
+
+
+

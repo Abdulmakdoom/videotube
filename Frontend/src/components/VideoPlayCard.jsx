@@ -8,6 +8,7 @@ import CommentBox from "./CommentsBox";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import timeAgo from "./time";
 
 
 // Utility function to format the like count
@@ -19,58 +20,6 @@ const formatNumber = (number) => {
   }
   return number; // Return the number as is if less than 1000
 };
-
-function timeAgo(isoString) {
-  const date = new Date(isoString);
-  const now = new Date();
-  const diffInSeconds = Math.floor((now - date) / 1000); // Get the difference in seconds
-
-  const years = Math.floor(diffInSeconds / (60 * 60 * 24 * 365)); // Calculate years
-  const months = Math.floor(diffInSeconds / (60 * 60 * 24 * 30)); // Calculate months
-  const days = Math.floor(diffInSeconds / (60 * 60 * 24)); // Calculate days
-  const hours = Math.floor(diffInSeconds / (60 * 60)); // Calculate hours
-  const minutes = Math.floor(diffInSeconds / 60); // Calculate minutes
-
-  if (diffInSeconds < 0) {
-      // For future dates
-      const futureDiffInSeconds = Math.abs(diffInSeconds);
-      const futureYears = Math.floor(futureDiffInSeconds / (60 * 60 * 24 * 365));
-      const futureMonths = Math.floor(futureDiffInSeconds / (60 * 60 * 24 * 30));
-      const futureDays = Math.floor(futureDiffInSeconds / (60 * 60 * 24));
-      const futureHours = Math.floor(futureDiffInSeconds / (60 * 60));
-      const futureMinutes = Math.floor(futureDiffInSeconds / 60);
-
-      if (futureYears > 0) {
-          return futureYears === 1 ? "In 1 year" : `${futureYears} years`;
-      } else if (futureMonths > 0) {
-          return futureMonths === 1 ? "In 1 month" : `${futureMonths} months`;
-      } else if (futureDays > 0) {
-          return futureDays === 1 ? "In 1 day" : `${futureDays} days`;
-      } else if (futureHours > 0) {
-          return futureHours === 1 ? "In 1 hour" : `${futureHours} hours`;
-      } else if (futureMinutes > 0) {
-          return futureMinutes === 1 ? "In 1 minute" : `${futureMinutes} minutes`;
-      } else {
-          return "In the future"; // For less than a minute future difference
-      }
-  }
-
-  if (years > 0) {
-      return years === 1 ? "1 year ago" : `${years} years ago`;
-  } else if (months > 0) {
-      return months === 1 ? "1 month ago" : `${months} months ago`;
-  } else if (days > 0) {
-      return days === 1 ? "1 day ago" : `${days} days ago`;
-  } else if (hours > 0) {
-      return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
-  } else if (minutes > 0) {
-      return minutes === 1 ? "1 minute ago" : `${minutes} minutes ago`;
-  } else {
-      return "Just now"; // If the difference is less than a minute
-  }
-}
-
-
 
 function VideoPlayCard({
   videoFile,
@@ -219,7 +168,7 @@ function VideoPlayCard({
 
   return (
     <Container>
-      <div className="w-full max-w-full mx-auto bg-white rounded-lg shadow-lg overflow-hidden mt-2">
+      <div className="w-full max-w-full mx-auto bg-[#0A0A0A] rounded-lg shadow-lg overflow-hidden mt-2">
         {/* Video Section */}
         <div className="flex justify-center bg-black">
           <video
@@ -235,7 +184,7 @@ function VideoPlayCard({
         {/* Video Details Section */}
         <div className="p-4">
           {/* Title Section */}
-          <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 truncate">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-white truncate">
             {title}
           </h1>
         </div>
@@ -249,17 +198,17 @@ function VideoPlayCard({
               className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-200"
             />
             <div>
-              <div className="text-md sm:text-lg font-medium text-gray-800">{channelName}</div>
-              <div className="text-xs sm:text-xs text-gray-600">{formatNumber(subscribersCount)} subscribers</div>
+              <div className="text-md sm:text-lg font-medium text-white">{channelName}</div>
+              <div className="text-xs sm:text-xs text-gray-400">{formatNumber(subscribersCount)} subscribers</div>
             </div>
             {/* <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium hover:bg-red-700">
               Subscribe
             </button> */}
             {userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium">
               Subscribe
-            </button> :  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-400 text-white rounded-full text-xs sm:text-sm font-medium">
+            </button> :  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-[#2d2d2d] text-white rounded-full text-xs sm:text-sm font-medium">
               Subscribed
-            </button>) :   <button disabled className="px-3 py-1 sm:px-4 sm:py-2 bg-gray-400 text-white rounded-full text-xs sm:text-sm font-medium">
+            </button>) :   <button disabled className="px-3 py-1 sm:px-4 sm:py-2 bg-[#2d2d2d] text-white rounded-full text-xs sm:text-sm font-medium">
               Please log in to subscribe
             </button>}
             
@@ -286,7 +235,7 @@ function VideoPlayCard({
                     onClick={() => navigate('/login')}
                     className="flex items-center sm:text-sm space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
-                    <span className="text-gray-700">Like</span>
+                    <span className="text-gray-700"> <FontAwesomeIcon icon={faThumbsUp} /></span>
                     <div className="text-sm text-gray-700 font-medium">
                       <span className="mr-1">{formatNumber(likes)}</span>
                     </div>
@@ -321,10 +270,10 @@ function VideoPlayCard({
               </div>
           </div>
 
-         <div className="bg-gray-200 rounded-xl mb-5 mr-4">
+         <div className="bg-[#2d2d2d] rounded-xl mb-5 mr-4">
            {/* Stats Section */}
            <div className="ml-4 pb-3 pt-0.5 mt-2">
-           <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-gray-500 mt-4">
+           <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-white mt-4">
             <div className="flex items-center space-x-2">
               <span>{views} views</span>
               <span>&bull;</span>
@@ -333,7 +282,7 @@ function VideoPlayCard({
           </div>
 
           {/* Description Section */}
-          <div className="text-xs sm:text-sm text-gray-700">
+          <div className="text-xs sm:text-sm text-white ">
           {showFullDescription ? description : truncatedDescription}
             <button
               onClick={toggleDescription}
