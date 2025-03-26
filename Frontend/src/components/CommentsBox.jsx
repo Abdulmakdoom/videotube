@@ -409,12 +409,11 @@
 
 
 import React, { useEffect, useState } from "react";
-import Input from "./Input";
-import Button from "./Button";
+import {Input, Button, CommentLike} from "./allComponents.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import { faEllipsisVertical, faTrashCan} from '@fortawesome/free-solid-svg-icons';
-import CommentLike from "./commentLike";
+import { Link } from "react-router-dom";
 
 function CommentBox ({videoId, className, formatNumber, userId}) {
     const [input, setInput] = useState({content: ""});
@@ -525,7 +524,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             </div>
             <form onSubmit={formDataHandler}>
                 <div className={className}>
-                    <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." className="placeholder-gray-400"/>
+                    <Input onChange={inputHandler} value={input.content} type="text" name="content" placeholder="Add a comment..." className="placeholder-gray-400 text-white"/>
                     {userId ? <Button type="submit" className="bg-red-600"><FontAwesomeIcon icon={faPaperPlane} /></Button> : <Button disabled className="bg-gray-600"><FontAwesomeIcon icon={faPaperPlane} /></Button>}
                 </div>
             </form>
@@ -535,19 +534,22 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                     <div key={data._id} className="flex items-start space-x-4 p-4 border-gray-300">
                         {/* Avatar */}
                         <div className="flex-shrink-0">
-                            <img
-                                src={data?.ownerDetails?.avatar} // Replace with actual avatar image URL
-                                alt="User Avatar"
-                                className="w-10 h-10 rounded-full"
-                            />
+                            <Link to={`/${data?.ownerDetails?.username}`}>
+                                <img
+                                    src={data?.ownerDetails?.avatar} // Replace with actual avatar image URL
+                                    alt="User Avatar"
+                                    className="w-10 h-10 rounded-full"
+                                />
+                            </Link>
                         </div>
 
                         {/* Comment content */}
                         <div className="flex-1">
                             {/* Username */}
                             <div className="flex items-center justify-between text-sm font-semibold text-white">
-                                <div className="truncate">{data?.ownerDetails?.username}</div>
-
+                                <Link to={`/${data?.ownerDetails?.username}`}>
+                                    <div className="truncate">{data?.ownerDetails?.username}</div>
+                                </Link>    
                                 {/* Modal to confirm deletion */}
                                 {showModalId === data._id && (
                                   <div className="absolute right-0 transform translate-x-4 mt-21 bg-[#696868] text-black rounded-2xl shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">

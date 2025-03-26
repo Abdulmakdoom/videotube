@@ -5,6 +5,7 @@ import Mainpage from "./Mainpage";
 import VideoPlayCard from "../components/VideoPlayCard";
 import History from "./History";
 import Footer from "./Footer";
+import ChannelProfile from "./ChannelProfile";
 
 
 export {
@@ -14,5 +15,6 @@ export {
     Mainpage,
     VideoPlayCard,
     History,
-    Footer
+    Footer,
+    ChannelProfile
 }

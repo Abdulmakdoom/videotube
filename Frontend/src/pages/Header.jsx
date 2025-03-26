@@ -4,21 +4,25 @@ import { useNavigate } from "react-router-dom";
 import LogoutBtn from "../components/LogoutBtn";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import { faBars, faMagnifyingGlass, faClockRotateLeft, faHouse, faCirclePlay} from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 
 const Sidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  //console.log(userData);
+  
 
   const navItems = [
-    { name: 'Home', icon: '🏠', path: '/home' },
+    { name: 'Home', icon: <FontAwesomeIcon icon={faHouse}/>, path: '/home' },
     { name: 'Trending', icon: '🔥', path: '/trending' },
-    { name: 'Subscriptions', icon: '📺', path: '/subscriptions' },
+    { name: 'Subscriptions', icon: <FontAwesomeIcon icon={faCirclePlay}/>, path: '/subscriptions' },
     { name: 'Library', icon: '📚', path: '/library' },
-    { name: 'History', icon: '⏳', path: '/history' },
+    { name: 'History', icon: <FontAwesomeIcon icon={faClockRotateLeft}/>, path: '/home/history' },
     { name: 'Your Videos', icon: '🎬', path: '/your-videos' },
     { name: 'Watch Later', icon: '⏰', path: '/watch-later' },
+    { name: 'user', icon: <FontAwesomeIcon icon={faCircleUser}/>, path: `/${userData?.username}`}
 
   ];
 
@@ -66,12 +70,12 @@ const Sidebar = () => {
           <div>{userData?.username}</div>
           {navItems2.map((item) => (
             <li key={item.name}>
-              <button
+              {!userData && <button
                 onClick={() => navigate(item.page)}
                 className='px-4 py-2 text-white rounded-full'
               >
                 {item.name}
-              </button>
+              </button>}
             </li>
           ))}
           <li>
@@ -111,7 +115,7 @@ const Sidebar = () => {
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.path)}
-                    className="flex items-center space-x-3 text-white hover:bg-gray-100 hover:text-black px-4 py-2 rounded-md w-full"
+                    className="flex items-center space-x-3 text-white hover:bg-gray-400 hover:text-black px-4 py-2 rounded-md w-full"
                   >
                     <span>{item.icon}</span>
                     <span>{item.name}</span>

@@ -10,11 +10,16 @@ function Card({ title, duration, thumbnail, ownerAvatar, channelName, views, upl
                 <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-1 rounded">{duration}</span>
             </div>
             <div className="p-4 flex">
-                <img src={ownerAvatar} className="w-10 h-10 rounded-full mr-3" alt="Owner Avatar" />
+                
+                    <img src={ownerAvatar} className="w-10 h-10 rounded-full mr-3" alt="Owner Avatar" />
+                
                 <div className="flex-1"> {/* Allow this div to grow */}
+               
                     <h2 className="text-md font-semibold text-white truncate">{title}</h2> {/* Truncate long titles */}
                     <div className="text-sm text-gray-400">
+                    <Link to={`/${channelName}`}>
                         <p className="truncate">{channelName}</p> {/* Truncate long channel names */}
+                        </Link>
                         <p>{views} views • {uploadDate}</p>
                     </div>
                 </div>
@@ -25,3 +30,13 @@ function Card({ title, duration, thumbnail, ownerAvatar, channelName, views, upl
 }
 
 export default Card;
+
+
+
+
+
+
+
+
+
+

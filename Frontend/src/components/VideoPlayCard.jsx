@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import fetchWithAuth from "../utils/api";
-import CommentBox from "./CommentsBox";
+import {CommentBox, timeAgo} from "./allComponents.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
-import timeAgo from "./time";
+import { Link } from "react-router-dom";
 
 
 // Utility function to format the like count
@@ -29,7 +29,7 @@ function VideoPlayCard({
   uploadTime,
   views,
   description,
-  userChannelId
+  userChannelId,
 }) {
     const [likes, setLikes] = useState(0);
     const [subscribersCount, setSubscribersCount] = useState(0)
@@ -192,13 +192,17 @@ function VideoPlayCard({
         <div className="ml-3">
           {/* Channel Info Section */}
           <div className="flex flex-wrap items-center space-x-4">
-            <img
-              src={avatar}
-              alt={channelName}
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-200"
-            />
+            <Link to={`/${channelName}`}>
+              <img
+                src={avatar}
+                alt={channelName}
+                className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-200"
+              />
+            </Link>
             <div>
+            <Link to={`/${channelName}`}>
               <div className="text-md sm:text-lg font-medium text-white">{channelName}</div>
+            </Link>
               <div className="text-xs sm:text-xs text-gray-400">{formatNumber(subscribersCount)} subscribers</div>
             </div>
             {/* <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium hover:bg-red-700">

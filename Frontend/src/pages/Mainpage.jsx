@@ -1,14 +1,12 @@
 
 import React, { useState, useEffect } from "react";
-import Card from "../components/Card";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Spinner from "../components/Loader";
 // import { useDispatch } from "react-redux";
 // import { restoreUser } from "../store/authSlice";
 // import fetchWithAuth from "../utils/api";
 // import Cookies from "js-cookie"; 
-import timeAgo from "../components/time.js"
+import {Card, Spinner, timeAgo} from "../components/allComponents.js"
 
 function Mainpage() {
     const [error, setError] = useState("");
@@ -94,6 +92,7 @@ function Mainpage() {
             setData([]); // Clear data on unmount or before new fetch
         };
     }, [userId]);
+    
 
     return (
         <div className="flex flex-col h-screen mt-20">
@@ -125,3 +124,8 @@ function Mainpage() {
 }
 
 export default Mainpage;
+
+
+
+
+
