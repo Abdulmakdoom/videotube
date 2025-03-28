@@ -1,9 +1,13 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+// import {Link} from 'react-router-dom'
+// import { useNavigate } from "react-router-dom"; 
 
-function Card({ title, duration, thumbnail, ownerAvatar, channelName, views, uploadDate, className = "", ...props }) {
+function Card({title, duration, thumbnail, ownerAvatar, channelName, views, uploadDate, className = "", ...props }) {
+    // const navigate = useNavigate();
+
+
+   
     return (
-        // <Link to={`/post/${$id}`}>   // Edit part
         <div className={`bg-[#0A0A0A] shadow-lg rounded-lg overflow-hidden ${className}`} {...props}>
             <div className="relative">
                 <img src={thumbnail} alt={title} className="w-full h-70  object-cover rounded-t-lg" /> {/* Increased height */}
@@ -17,15 +21,14 @@ function Card({ title, duration, thumbnail, ownerAvatar, channelName, views, upl
                
                     <h2 className="text-md font-semibold text-white truncate">{title}</h2> {/* Truncate long titles */}
                     <div className="text-sm text-gray-400">
-                    <Link to={`/${channelName}`}>
-                        <p className="truncate">{channelName}</p> {/* Truncate long channel names */}
-                        </Link>
+                        {/* <Link to={`/${channelName}`}> */}
+                           <p className="truncate">{channelName}</p> {/* Truncate long channel names */}
+                        {/* </Link> */}
                         <p>{views} views • {uploadDate}</p>
                     </div>
                 </div>
             </div>
         </div>
-        // </Link>
     );
 }
 

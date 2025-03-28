@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 // import { restoreUser } from "../store/authSlice";
-// import fetchWithAuth from "../utils/api";
+import fetchWithAuth from "../utils/api";
 // import Cookies from "js-cookie"; 
 import {Card, Spinner, timeAgo} from "../components/allComponents.js"
 
@@ -53,12 +53,13 @@ function Mainpage() {
     // console.log(userData);
     
     const userId = userData?._id;
+    
 
     useEffect(() => {
         const listData = async () => {
             setLoader(true); // Set loader to true before fetching
             try {
-                const response = await fetch(
+                const response = await fetchWithAuth(
                     userId
                         ? `/api/v1/videos/u/${userId}?page=1&limit=10&sortBy=views&sortType=desc`
                         : `/api/v1/videos/u/videos`,

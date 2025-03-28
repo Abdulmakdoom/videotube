@@ -158,6 +158,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 $project: { 
                   "_id": 1, 
                   "videoFile": 1,
+                  "duration": 1,
                   "thumbnail":1,
                   "title":1,
                   "description":1,
@@ -171,7 +172,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
                   "ownerDetails": {
                         "_id":1,
                         "username": 1,
-                        "email": 1
+                        "email": 1,
+                        "avatar": 1
                   }
 
                 }

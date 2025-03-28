@@ -107,6 +107,8 @@ function VideoPlayCard({
     console.error("Error during fetch:", error);
    }
   }
+
+  
   const handleVideoProgress = (event) => {
     const videoElement = event.target;
     const currentTime = videoElement.currentTime;

@@ -8,7 +8,7 @@ import Spinner from "./Loader";
 import LogoutBtn from "./LogoutBtn";
 import VideoPlayCard from "./VideoPlayCard";
 import timeAgo from "./time.js";
-
+import PlaylistCard from "./Playlist.jsx";
 
 export {
     Button,
@@ -20,5 +20,6 @@ export {
     Spinner,
     LogoutBtn,
     VideoPlayCard,
-    timeAgo
+    timeAgo,
+    PlaylistCard,
 }

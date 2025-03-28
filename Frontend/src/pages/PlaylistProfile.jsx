@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import {Spinner, Card, timeAgo} from '../components/allComponents.js'
+import {Spinner, PlaylistCard, timeAgo} from '../components/allComponents.js'
 import { useSelector } from 'react-redux';
 import { FaVideo, FaInfoCircle } from 'react-icons/fa';
 import { RiPlayList2Fill } from "react-icons/ri";
 
 
-function ChannelProfile() {
+function PlaylistProfile() {
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
     const [buttonPressed, setButtonPressed] = useState(false)
     const [subscribeDone , setSubscrbeDone] = useState(false)
-    const [activeTab, setActiveTab] = useState('videos');
+    const [activeTab, setActiveTab] = useState('playlists');
     const [videoData, setVideoData] = useState([])
      const [loader, setLoader] = useState(true);
     
@@ -90,7 +90,7 @@ function ChannelProfile() {
         
 
 
-        const videoHandler = async () => {
+        const playListHandler = async () => {
             if (!data?._id) {
                 // Prevent the fetch call if there is no valid ID
                 return;
@@ -100,7 +100,7 @@ function ChannelProfile() {
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`);
+                let response = await fetch(`/api/v1/playlist/user/${data?._id}`);
                 let result = await response.json();
         
                 // console.log(result);
@@ -126,6 +126,8 @@ function ChannelProfile() {
         //     if (!data?._id) {
         //         return; // Prevent the fetch call if there is no valid ID
         //     }
+        //           setVideoData([])
+        //     setLoader(true);
         //     let response = await fetch(`/api/v1/playlist/user/${data?._id}`)
         //     let result = await response.json()
         //     //console.log(result);
@@ -134,11 +136,13 @@ function ChannelProfile() {
         
 
         useEffect(()=> {
-            videoHandler();
+            playListHandler();
         }, [data])
 
-        //console.log(videoData);
+        console.log(videoData);
         
+    
+    
 
     if (loading) return <Spinner />;
 
@@ -243,26 +247,26 @@ function ChannelProfile() {
     <div className="bg-[#0A0A0A] p-4 sm:p-6 text-white">
             <div className="flex justify-around space-x-4 sm:space-x-6 relative">
                 {/* Button for Videos */}
-                <button
+               <Link to={`/${username}`}>
+               <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
                     ${activeTab === 'videos' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => (setActiveTab('videos'), videoHandler())}
+                    onClick={() => setActiveTab('videos')}
                 >
                     <FaVideo className="inline-block mr-2 mb-1" /> {/* Icon */}
                     Videos
                 </button>
+               </Link>
 
                 {/* Button for Playlists */}
-                <Link to={`/${username}/playlist`}>
                 <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
                     ${activeTab === 'playlists' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => setActiveTab('playlists')}
+                    onClick={() => (setActiveTab('playlists'), playListHandler())}
                 >
                     <RiPlayList2Fill className="inline-block mr-2 text-[16px] mb-1" /> {/* Icon */}
                     Playlists
                 </button>
-                </Link>
 
                 {/* Button for About */}
                 <button
@@ -278,29 +282,33 @@ function ChannelProfile() {
 
         <hr className="border-t-2 border-[#444] mb-6" />
 
-         {/* Videos Content */}
-        <div className="flex flex-col h-screen mt-20">
-        
+         {/* playlist Content */}
+         <div className="flex flex-col h-screen mt-20">
+            {/* Main content */}
             <main className="flex-grow p-4 flex flex-col items-center justify-start">
-                
-                {loader ? <div className="mt-60"><Spinner /> </div>: null}
-        
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
-                {videoData.map((video)=> (
-                    <Link to={`/home/videos/${video._id}`} key={video._id}>
-                        <Card 
-                            title={video.title}
-                            duration={video.duration} 
-                            thumbnail={video.thumbnail} 
-                            ownerAvatar={video.ownerDetails.avatar} 
-                            channelName={video.ownerDetails.username} 
-                            views={video.views} 
-                            uploadDate={timeAgo(video.createdAt)} 
-                        />
-                    </Link>
-                ))}
+                {/* Loader spinner when loading */}
+                {loader ? (
+                <div className="flex justify-center items-center mt-60">
+                    <Spinner />
                 </div>
+                ) : null}
+
+                {/* Grid layout for playlists */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 mt-10">
+    {videoData.map((video, index) => (
+        <div key={index} className="w-full">
+            <Link to={`/playlist/${video?._id}`}>
+                <PlaylistCard
+                    thumbnail={video?.videos[0]?.thumbnail}
+                    videoCount={video?.videosCount}
+                    title={video?.name}
+                    updatedAt={timeAgo(video?.updatedAt)}
+                />
+            </Link>
+        </div>
+    ))}
+</div>
+
             </main>
         </div>
 
@@ -314,4 +322,4 @@ function ChannelProfile() {
     );
 }
 
-export default ChannelProfile;
+export default PlaylistProfile;

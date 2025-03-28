@@ -39,7 +39,7 @@ function History() {
     return (
         <>
       <div className="mt-25 font-bold border-b border-gray-700">
-      <p className="text-white ml-55 text-4xl pb-5"><FontAwesomeIcon icon={faClockRotateLeft} className="mr-3"/>History</p>
+      <p className="text-white ml-55 text-4xl pb-5"><FontAwesomeIcon icon={faClockRotateLeft} className="mr-3"/>Watch History</p>
       </div>
         
             <div className="mt-10">

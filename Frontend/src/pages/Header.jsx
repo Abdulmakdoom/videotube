@@ -22,9 +22,15 @@ const Sidebar = () => {
     { name: 'History', icon: <FontAwesomeIcon icon={faClockRotateLeft}/>, path: '/home/history' },
     { name: 'Your Videos', icon: '🎬', path: '/your-videos' },
     { name: 'Watch Later', icon: '⏰', path: '/watch-later' },
-    { name: 'user', icon: <FontAwesomeIcon icon={faCircleUser}/>, path: `/${userData?.username}`}
+    // { name: 'user', icon: <FontAwesomeIcon icon={faCircleUser}/>, path: `/${userData?.username}`}
 
-  ];
+      // Conditionally adding the "user" item only if userData exists
+      // userData ? { name: 'user', icon: <FontAwesomeIcon icon={faCircleUser} />, path: `/${userData?.username}` } : null
+      // ].filter(item => item !== null)
+
+  userData ? { name: 'user', icon: <FontAwesomeIcon icon={faCircleUser} />, path: `/${userData?.username}` } : null
+  ].filter(Boolean);
+
 
   const navItems2 = [
     {
