@@ -11,6 +11,8 @@ function SmallCard({
   views,
   uploadTime,
   duration,
+  className = "", 
+  ...props
 }) {
     
   // Format upload time
@@ -25,7 +27,7 @@ function SmallCard({
   return (
 
         <>
-            <div className="flex flex-col sm:flex-row sm:space-x-4 sm:ml-16 sm:mr-16 md:ml-50 md:mr-32">
+            <div className={`flex flex-col sm:flex-row sm:space-x-4 sm:ml-16 sm:mr-16 md:ml-50 md:mr-32 ${className}`} {...props}>
 
             {/* Thumbnail Section */}
             <div className="relative rounded-lg w-full sm:w-60 h-40 shadow-lg mb-4 sm:mb-0 sm:mt-0 bg-[#0A0A0A]">

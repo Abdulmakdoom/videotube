@@ -106,7 +106,7 @@ function Mainpage() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
                     {data.map((video) => (
-                        <Link to={`videos/${video._id}`} key={video._id}>
+                        <Link to={`/home/videos/${video._id}`} key={video._id}>
                             <Card 
                                 title={video.title}
                                 duration={video.duration} 

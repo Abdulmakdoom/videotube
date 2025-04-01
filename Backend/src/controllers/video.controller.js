@@ -458,6 +458,29 @@ const viwesUpdate = asyncHandler(async (req, res)=> {
     
 })
 
+const totalViews = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+
+    if (!userId) {
+        return res.status(400).json(new ApiResponse(400, null, "User ID is required"));
+    }
+
+    try {
+        const views = await Video.find({owner : userId }).select("views");
+        console.log(views);
+        
+
+        if (!views || views.length === 0) {
+            throw new ApiError(404, "Views not found for this user");
+        }
+
+        return res.status(200).json(new ApiResponse(200, views, "Views fetched successfully"));
+    } catch (error) {
+        return res.status(error.status || 500).json(new ApiResponse(error.status || 500, null, error.message));
+    }
+});
+
+
 export {
     getAllVideos,
     publishAVideo,
@@ -467,5 +490,6 @@ export {
     togglePublishStatus,
     viwesUpdate,
     getVideos,
-    getAllUserVideos
+    getAllUserVideos,
+    totalViews
 }

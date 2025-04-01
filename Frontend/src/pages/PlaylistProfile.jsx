@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {Spinner, PlaylistCard, timeAgo} from '../components/allComponents.js'
 import { useSelector } from 'react-redux';
-import { FaVideo, FaInfoCircle } from 'react-icons/fa';
+import { FaVideo } from 'react-icons/fa';
 import { RiPlayList2Fill } from "react-icons/ri";
+import { TbMessageChatbotFilled } from "react-icons/tb";
 
 
 function PlaylistProfile() {
@@ -14,6 +15,8 @@ function PlaylistProfile() {
     const [activeTab, setActiveTab] = useState('playlists');
     const [videoData, setVideoData] = useState([])
      const [loader, setLoader] = useState(true);
+    const [videoCount, setVideoCount] = useState([])
+     const [viewsCount, setViewsCount] = useState()
     
     const { username } = useParams();
     const userData = useSelector((state) => state.auth.userData);
@@ -122,25 +125,55 @@ function PlaylistProfile() {
         
         
 
-        // const playListHandler = async()=>{
-        //     if (!data?._id) {
-        //         return; // Prevent the fetch call if there is no valid ID
-        //     }
-        //           setVideoData([])
-        //     setLoader(true);
-        //     let response = await fetch(`/api/v1/playlist/user/${data?._id}`)
-        //     let result = await response.json()
-        //     //console.log(result);
-            
-        // }
+        const viewsHandler = async()=> {
+            if (!data?._id) {
+                return; // Prevent the fetch call if there is no valid ID
+            }
+            let response = await fetch(`/api/v1/videos/views/${data?._id}`)
+            let result = await response.json()
+            //console.log(result);
+            setViewsCount(result)
+        }
         
 
         useEffect(()=> {
             playListHandler();
+            viewsHandler()
         }, [data])
 
-        console.log(videoData);
+        //console.log(data);
+
         
+        
+        const videoHandler = async () => {
+                    if (!data?._id) {
+                        // Prevent the fetch call if there is no valid ID
+                        return;
+                    }
+                    setVideoCount([])
+                    try {
+                        let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`);
+                        let result = await response.json();
+                
+                        // console.log(result);
+                        
+                        if (!response.ok) {
+                            throw new Error(result.message || "Failed to fetch videos");
+                        }
+                
+                        setVideoCount(result.data);
+                
+                    } catch (error) {
+                        console.log(error.message);
+                        // Optionally, set an error state here to show an error message to the user
+                        // setError(error.message); // example
+                    }
+                }
+                useEffect(()=> {
+                    videoHandler();
+                }, [data])
+        
+    //console.log(videoCount);
     
     
 
@@ -225,17 +258,21 @@ function PlaylistProfile() {
     </div>
 
     {/* Channel Stats Section */}
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg mb-6 text-white">
+    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg mb-6 text-white">
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{data?.videoCount || 0}</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold">{videoCount?.length || 0}</h3>
             <p className="text-sm">Videos</p>
         </div>
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{data?.totalViews || 0}</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold">{viewsCount?.data[0]?.views || 0}</h3>
             <p className="text-sm">Total Views</p>
         </div>
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{data?.playlistsCount || 0}</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold">{ "" || 0}</h3>
+            <p className="text-sm">Total Likes</p>
+        </div>
+        <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
+            <h3 className="text-xl sm:text-2xl font-semibold">{videoData?.length || 0}</h3>
             <p className="text-sm">Playlists</p>
         </div>
     </div>
@@ -268,14 +305,14 @@ function PlaylistProfile() {
                     Playlists
                 </button>
 
-                {/* Button for About */}
+                {/* Button for Tweets */}
                 <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
-                    ${activeTab === 'about' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => setActiveTab('about')}
+                    ${activeTab === 'Tweets' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
+                    onClick={() => setActiveTab('Tweets')}
                 >
-                    <FaInfoCircle className="inline-block mr-2 mb-1" /> {/* Icon */}
-                    About
+                     <TbMessageChatbotFilled className="inline-block text-[20px] mr-2 mb-0 " />
+                    Tweets
                 </button>
             </div>
         </div>
@@ -285,7 +322,7 @@ function PlaylistProfile() {
          {/* playlist Content */}
          <div className="flex flex-col h-screen mt-20">
             {/* Main content */}
-            <main className="flex-grow p-4 flex flex-col items-center justify-start">
+            <div className="flex-grow p-4 flex flex-col items-center justify-start">
                 {/* Loader spinner when loading */}
                 {loader ? (
                 <div className="flex justify-center items-center mt-60">
@@ -295,21 +332,21 @@ function PlaylistProfile() {
 
                 {/* Grid layout for playlists */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 mt-10">
-    {videoData.map((video, index) => (
-        <div key={index} className="w-full">
-            <Link to={`/playlist/${video?._id}`}>
-                <PlaylistCard
-                    thumbnail={video?.videos[0]?.thumbnail}
-                    videoCount={video?.videosCount}
-                    title={video?.name}
-                    updatedAt={timeAgo(video?.updatedAt)}
-                />
-            </Link>
-        </div>
-    ))}
-</div>
+                    {videoData.map((video, index) => (
+                        <div key={index} className="w-full">
+                            <Link to={`/playlist/${video?._id}`}>
+                                <PlaylistCard
+                                    thumbnail={video?.videos[0]?.thumbnail}
+                                    videoCount={video?.videosCount}
+                                    title={video?.name}
+                                    updatedAt={timeAgo(video?.updatedAt)}
+                                />
+                            </Link>
+                        </div>
+                    ))}
+                </div>
 
-            </main>
+            </div>
         </div>
 
     {/* Channel Content */}

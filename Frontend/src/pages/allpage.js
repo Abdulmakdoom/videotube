@@ -8,6 +8,10 @@ import Footer from "./Footer";
 import ChannelProfile from "./ChannelProfile";
 import PlaylistProfile from "./PlaylistProfile";
 import PlaylistPage from "./MainPlaylist";
+import Subscribers from "./Subscriptions";
+import YourVideos from "./YourVideos";
+import OwnerAllVideos from "./ownerAllVideos";
+import OwnerAllPlaylist from "./OwnerAllPlaylists";
 
 
 export {
@@ -20,5 +24,9 @@ export {
     Footer,
     ChannelProfile,
     PlaylistProfile,
-    PlaylistPage
+    PlaylistPage,
+    Subscribers,
+    YourVideos,
+    OwnerAllVideos,
+    OwnerAllPlaylist
 }

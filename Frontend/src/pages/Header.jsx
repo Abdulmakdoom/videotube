@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faMagnifyingGlass, faClockRotateLeft, faHouse, faCirclePlay} from '@fortawesome/free-solid-svg-icons';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
+import { BiSolidVideos } from "react-icons/bi";
+
 
 const Sidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -16,12 +18,12 @@ const Sidebar = () => {
 
   const navItems = [
     { name: 'Home', icon: <FontAwesomeIcon icon={faHouse}/>, path: '/home' },
-    { name: 'Trending', icon: '🔥', path: '/trending' },
+    { name: 'Trending', icon: '🔥', path: '' },
     { name: 'Subscriptions', icon: <FontAwesomeIcon icon={faCirclePlay}/>, path: '/subscriptions' },
-    { name: 'Library', icon: '📚', path: '/library' },
+    { name: 'Library', icon: '📚', path: '' },
     { name: 'History', icon: <FontAwesomeIcon icon={faClockRotateLeft}/>, path: '/home/history' },
-    { name: 'Your Videos', icon: '🎬', path: '/your-videos' },
-    { name: 'Watch Later', icon: '⏰', path: '/watch-later' },
+    { name: 'Your Videos', icon: <BiSolidVideos className="text-xl" />, path: '/videos' },
+    { name: 'Watch Later', icon: '⏰', path: '' },
     // { name: 'user', icon: <FontAwesomeIcon icon={faCircleUser}/>, path: `/${userData?.username}`}
 
       // Conditionally adding the "user" item only if userData exists
