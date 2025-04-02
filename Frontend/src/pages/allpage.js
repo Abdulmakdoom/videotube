@@ -12,6 +12,8 @@ import Subscribers from "./Subscriptions";
 import YourVideos from "./YourVideos";
 import OwnerAllVideos from "./ownerAllVideos";
 import OwnerAllPlaylist from "./OwnerAllPlaylists";
+import PublishVideo from "./inputPages/PublishVideo";
+import EditVideo from "./inputPages/EditVideo";
 
 
 export {
@@ -28,5 +30,7 @@ export {
     Subscribers,
     YourVideos,
     OwnerAllVideos,
-    OwnerAllPlaylist
+    OwnerAllPlaylist,
+    PublishVideo,
+    EditVideo
 }

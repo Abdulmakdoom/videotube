@@ -9,6 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { Link } from "react-router-dom";
+import { MdDeleteForever } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+
+
 
 
 // Utility function to format the like count
@@ -40,7 +44,6 @@ function VideoPlayCard({
     const [subscribeDone , setSubscrbeDone] = useState(false)
     let navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
-
     const userId = userData?._id;
     //console.log(userId);        
 
@@ -108,6 +111,32 @@ function VideoPlayCard({
    }
   }
 
+  const deleteHandler = async()=> {
+    try {
+      const response = await fetch(`/api/v1/videos/${videoId}`, {
+        method: "DELETE",
+       credentials: "include"
+      })
+      const result =  await response.json()
+      //console.log(result);
+      
+
+      if (result.success) {
+        console.log("Delete successfully.");
+        navigate(`/videos/${userId}`)
+      } else {
+        console.error("Error Delete:", result.message);
+      }
+      
+    } catch (error) {
+      console.error("Error during deletion:", error);
+    }
+  }
+
+
+  // const editHandler = async()=> {
+  //     navigate(`/home/videos/edit=${videoId}`)
+  // }
   
   const handleVideoProgress = (event) => {
     const videoElement = event.target;
@@ -126,7 +155,7 @@ function VideoPlayCard({
             credentials: 'include',
           });
           const result = await response.json();
-          console.log(result);
+          //console.log(result);
           
           if (result.success) {
             console.log("View count updated successfully.");
@@ -249,29 +278,47 @@ function VideoPlayCard({
                 )}
 
 
-                {/* Share Button with Share Icon */}
-                <button
-                  className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
-                >
-                  <FontAwesomeIcon icon={faShare} />
-                  <span>Share</span>
-                </button>
+                  {/* Share Button with Share Icon */}
+                  <button
+                    className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
+                  >
+                    <FontAwesomeIcon icon={faShare} />
+                    <span>Share</span>
+                  </button>
 
-                {/* Download Button with Download Icon */}
-                <button
-                  className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
-                >
-                  <FontAwesomeIcon icon={faDownload} />
-                  <span>Download</span>
-                </button>
+                  {/* Download Button with Download Icon */}
+                  <button
+                    className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
+                  >
+                    <FontAwesomeIcon icon={faDownload} />
+                    <span>Download</span>
+                  </button>
 
-                {/* Save Button with Save Icon */}
-                <button
-                  className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
-                >
-                 <FontAwesomeIcon icon={faBookmark} />
-                  <span>Save</span>
-                </button>
+                  {/* Save Button with Save Icon */}
+                  <button
+                    className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
+                  >
+                  <FontAwesomeIcon icon={faBookmark} />
+                    <span>Save</span>
+                  </button>
+
+                   {/* Delete Button with Delete Icon */}
+                   {userId === userChannelId  && ( <button onClick={deleteHandler}
+                    className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
+                  >
+                  <MdDeleteForever className="text-xl"/>
+                    <span>Delete</span>
+                  </button>)}
+
+                   {/* Edit Button with Edit Icon */}
+                  <Link to={`/home/videos/edit/${videoId}`}>
+                  {userId === userChannelId  && ( <button
+                    className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
+                  >
+                  <FaEdit className="text-md"/>
+                    <span>Edit</span>
+                  </button>)}
+                  </Link>
                 </div>
               </div>
           </div>

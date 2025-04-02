@@ -10,7 +10,6 @@ import { TbMessageChatbotFilled } from "react-icons/tb";
 
 function ChannelProfile() {
     const [data, setData] = useState({});
-    const [loading, setLoading] = useState(true);
     const [buttonPressed, setButtonPressed] = useState(false)
     const [subscribeDone , setSubscrbeDone] = useState(false)
     const [activeTab, setActiveTab] = useState('videos');
@@ -27,14 +26,14 @@ function ChannelProfile() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            setLoading(true);
+            setLoader(true);
             const response = await fetch(`/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
             });
             const result = await response.json();
             setData(result.data);
-            setLoading(false);
+            setLoader(false);
         };
 
         fetchUser();
@@ -160,10 +159,13 @@ function ChannelProfile() {
         
         
 
-    if (loading) return <Spinner />;
+    
 
     return (
         <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20">
+            
+        {loader && (<Spinner/>)}
+            
     {/* Banner Section */}
     <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
         <img

@@ -6,7 +6,7 @@ import App from './App.jsx'
 import { PersistGate } from "redux-persist/integration/react";
 import store,{ persistor }  from './store/store.js'
 import { Provider } from 'react-redux'
-import {VideoPlay, Login, Signup, Mainpage, History, ChannelProfile, PlaylistProfile, PlaylistPage, Subscribers, YourVideos, OwnerAllVideos, OwnerAllPlaylist} from "./pages/allpage.js"
+import {VideoPlay, Login, Signup, Mainpage, History, ChannelProfile, PlaylistProfile, PlaylistPage, Subscribers, YourVideos, OwnerAllVideos, OwnerAllPlaylist, PublishVideo, EditVideo} from "./pages/allpage.js"
 import { useSelector } from 'react-redux'
 
 
@@ -66,6 +66,14 @@ const router = createBrowserRouter([
       {
         path: "/videos/playlist/:userId",
         element: <OwnerAllPlaylist/>
+      },
+      {
+        path: "/home/videos/publish",
+        element: <PublishVideo/>
+      },
+      {
+        path: "/home/videos/edit/:videoId",
+        element: <EditVideo/>
       }
 
     ]

@@ -7,7 +7,7 @@ function Input({ label, type, className = "", ...props }) {
         <div className="w-full">
             {label && (
                 <label
-                    className="block mb-1 text-gray-700 font-medium"
+                    className="block mb-1 text-white font-medium"
                     htmlFor={id}
                 >
                     {label}
