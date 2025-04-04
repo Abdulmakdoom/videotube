@@ -21,32 +21,32 @@ function PublishVideo() {
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [videoFileName, setVideoFileName] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
-//   const [oldData, setOldData] = useState("")
+  const [oldData, setOldData] = useState("")
 
   const originalData = async(e)=> {
     const response = await fetch(`/api/v1/videos/${videoId}`)
     const result = await response.json()
 
-    console.log(result);
-    // setOldData(result)
+    //console.log(result);
+    setOldData(result)
     if(response.ok) {
         setFormData({
             title: result.data.title,
             description: result.data.description,
-            thumbnail: null,
+            thumbnail: result.data.thumbnail,
             videoFile: null,
 
         })
 
         // Set preview for thumbnail if it exists
-      if (result.data.thumbnail) {
-        setThumbnailPreview(result.data.thumbnail); // Assuming 'thumbnail' is a URL
-      }
+      // if (result.data.thumbnail) {
+      //   setThumbnailPreview(result.data.thumbnail); // Assuming 'thumbnail' is a URL
+      // }
 
-      // Set preview for video file if it exists
-      if (result.data.videoFile) {
-        setVideoFileName(result.data.videoFile); // Assuming 'videoFile' is a URL or filename
-      }
+      // // Set preview for video file if it exists
+      // if (result.data.videoFile) {
+      //   setVideoFileName(result.data.videoFile); // Assuming 'videoFile' is a URL or filename
+      // }
     }
     
   }
@@ -136,16 +136,16 @@ function PublishVideo() {
     // Only append new files, otherwise use the original ones.
     if (formData[key]) {
       formDataToSend.append(key, formData[key]);
-    } else if (key === "thumbnail" && thumbnailPreview) {
-      // If thumbnail was not updated, use the old one
-      formDataToSend.append(key, thumbnailPreview);
-    } else if (key === "videoFile" && videoFileName) {
-      // If video file was not updated, use the old one
-      formDataToSend.append(key, videoFileName);
+    // } else if (key === "thumbnail" && thumbnailPreview) {
+    //   // If thumbnail was not updated, use the old one
+    //   formDataToSend.append(key, thumbnailPreview);
+    // } else if (key === "videoFile" && videoFileName) {
+    //   // If video file was not updated, use the old one
+    //   formDataToSend.append(key, videoFileName);
     }
   }
 
-    console.log(formDataToSend);
+    //console.log(formDataToSend);
     
     setLoading(true)
 
@@ -190,7 +190,7 @@ function PublishVideo() {
 
   }
 
-   console.log(formData);
+   //console.log(formData);
   
 
   return (
@@ -224,57 +224,84 @@ function PublishVideo() {
               ></textarea>
             </div>
 
-            <div className="flex-1 ml-6">
-              <div className="flex flex-col mb-4">
-                <label className="text-gray-300">Thumbnail</label>
-                <div
-                  className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center"
-                  onDrop={(e) => handleDrop(e, "thumbnail")}
-                  onDragOver={handleDragOver}
-                >
-                  <input
-                    //value={formData?.thumbnail}
-                    onChange={inputHandler}
-                    className="absolute opacity-0 cursor-pointer"
-                    name="thumbnail"
-                    type="file"
-                    accept="image/*"
-                    id="thumbnail-upload"
-                  />
-                  <label htmlFor="thumbnail-upload" className="cursor-pointer text-gray-400">
-                    Drag & drop your thumbnail here or click to select
-                  </label>
-                  {thumbnailPreview && (
-                    <img src={thumbnailPreview} alt="Thumbnail Preview" className="mt-2 rounded-md w-full max-h-60 max-w-60" />
-                  )}
-                  <p className="text-gray-500 text-xs mt-1">Max size: 2MB</p>
-                </div>
-              </div>
+            <div className="flex">
+              <div className="flex-1 ml-6">
+                  <div className="flex flex-col mb-4">
+                    <label className="text-gray-300">Thumbnail</label>
+                    <div
+                      className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center"
+                      onDrop={(e) => handleDrop(e, "thumbnail")}
+                      onDragOver={handleDragOver}
+                    >
+                      <input
+                        //value={formData?.thumbnail}
+                        onChange={inputHandler}
+                        className="absolute opacity-0 cursor-pointer"
+                        name="thumbnail"
+                        type="file"
+                        accept="image/*"
+                        id="thumbnail-upload"
+                      />
+                      <label htmlFor="thumbnail-upload" className="cursor-pointer text-gray-400">
+                        Drag & drop your thumbnail here or click to select
+                      </label>
+                      {thumbnailPreview && (
+                        <img src={thumbnailPreview} alt="Thumbnail Preview" className="mt-2 rounded-md w-full max-h-60 max-w-60" />
+                      )}
+                      <p className="text-gray-500 text-xs mt-1">Max size: 2MB</p>
+                    </div>
+                  </div>
 
-              <div className="flex flex-col mb-4">
-                <label className="text-gray-300">Video File</label>
-                <div
-                  className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center"
-                  onDrop={(e) => handleDrop(e, "videoFile")}
-                  onDragOver={handleDragOver}
-                >
-                  <input
-                    onChange={inputHandler}
-                    className="absolute opacity-0 cursor-pointer"
-                    name="videoFile"
-                    type="file"
-                    accept="video/*"
-                    id="video-upload"
-                  />
-                  <label htmlFor="video-upload" className="cursor-pointer text-gray-400">
-                    Drag & drop your video here or click to select
-                  </label>
-                  {videoFileName && (
-                    <p className="mt-2 text-gray-300">{videoFileName}</p>
-                  )}
-                  <p className="text-gray-500 text-xs mt-1">Max size: 100MB</p>
+                  <div className="flex flex-col mb-4">
+                    <label className="text-gray-300">Video File</label>
+                    <div
+                      className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center"
+                      onDrop={(e) => handleDrop(e, "videoFile")}
+                      onDragOver={handleDragOver}
+                    >
+                      <input
+                        onChange={inputHandler}
+                        className="absolute opacity-0 cursor-pointer"
+                        name="videoFile"
+                        type="file"
+                        accept="video/*"
+                        id="video-upload"
+                      />
+                      <label htmlFor="video-upload" className="cursor-pointer text-gray-400">
+                        Drag & drop your video here or click to select
+                      </label>
+                      {videoFileName && (
+                        <p className="mt-2 text-gray-300">{videoFileName}</p>
+                      )}
+                      <p className="text-gray-500 text-xs mt-1">Max size: 100MB</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+                {/* <div>
+                {formData && (
+                        <img src={formData.thumbnail} alt="Thumbnail Preview" className="mt-2 rounded-md w-full max-h-60 max-w-60" />
+                      )}
+                </div> */}
+                <div className="flex justify-center ml-4 mt-5">
+                  {oldData && (
+                    <div className="relative w-full max-w-xs max-h-60">
+                      <img 
+                        src={oldData?.data?.thumbnail} 
+                        alt="Thumbnail Preview" 
+                        className="w-full h-full object-cover rounded-xl shadow-2xl transition-transform transform hover:scale-105 hover:shadow-2xl"
+                      />
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-xl opacity-30"></div>
+                      {/* Border */}
+                      <div className="absolute inset-0 rounded-xl border-4 border-gradient-to-r from-teal-400 via-blue-500 to-purple-600 opacity-80"></div>
+                      {/* Optional text or icon overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-2 text-center text-white font-semibold opacity-80">
+                        <span className="bg-black bg-opacity-50 px-4 py-2 rounded-full text-sm">Old Thumbnail Preview</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
             </div>
           </div>
 

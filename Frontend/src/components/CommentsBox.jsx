@@ -420,6 +420,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     const [getComments, setGetComments] = useState([]);
     const [commentCount, setCommentCount] = useState("");
     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
+    const [commentUserData, setCommentUserData] = useState("")
 
     const inputHandler = (e) => {
         let { value } = e.target;
@@ -443,6 +444,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             });
 
             const result = await response.json();
+            console.log(result);            
 
             if (!response.ok) {
                 throw new Error(result.message || "Something went wrong");
@@ -515,6 +517,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     };
 
 
+    console.log();
     
 
     return (
@@ -543,14 +546,19 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                             </Link>
                         </div>
 
+
+                        {/* {console.log(data.ownerDetails._id)} */}
+                        
                         {/* Comment content */}
                         <div className="flex-1">
                             {/* Username */}
                             <div className="flex items-center justify-between text-sm font-semibold text-white">
                                 <Link to={`/${data?.ownerDetails?.username}`}>
                                     <div className="truncate">{data?.ownerDetails?.username}</div>
-                                </Link>    
-                                {/* Modal to confirm deletion */}
+                                </Link>  
+
+
+                                {/* Comment to confirm deletion */}
                                 {showModalId === data._id && (
                                   <div className="absolute right-0 transform translate-x-4 mt-21 bg-[#696868] text-black rounded-2xl shadow-lg p-1 sm:p-1 mr-24 w-30 sm:w-30 z-50">
                                       <div className="flex justify-end">
@@ -564,9 +572,9 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                                 )}
 
                                 {/* Ellipsis button to show modal */}
-                                <button onClick={()=> toggleCommentDeleteHandler(data._id)} className="w-9 h-9 ml-3 sm:text-sm mr-12">
+                                {data.ownerDetails._id === userId && <button onClick={()=> toggleCommentDeleteHandler(data._id)} className="w-9 h-9 ml-3 sm:text-sm mr-12">
                                     <FontAwesomeIcon icon={faEllipsisVertical} />
-                                </button>
+                                </button>}
                             </div>
 
                             {/* Comment text */}

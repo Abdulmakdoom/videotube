@@ -25,7 +25,7 @@ function OwnerAllVideos() {
             let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${userId}`);
             let result = await response.json();
     
-            console.log(result);
+            //console.log(result);
             
             if (!response.ok) {
                 throw new Error(result.message || "Failed to fetch videos");

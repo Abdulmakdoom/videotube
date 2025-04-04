@@ -14,7 +14,7 @@ import OwnerAllVideos from "./ownerAllVideos";
 import OwnerAllPlaylist from "./OwnerAllPlaylists";
 import PublishVideo from "./inputPages/PublishVideo";
 import EditVideo from "./inputPages/EditVideo";
-
+// import AddVideoInPlaylist from "./inputPages/AddVideoInPlaylist.jsx";
 
 export {
     VideoPlay,
@@ -32,5 +32,6 @@ export {
     OwnerAllVideos,
     OwnerAllPlaylist,
     PublishVideo,
-    EditVideo
+    EditVideo,
+    // AddVideoInPlaylist
 }

@@ -264,7 +264,7 @@ function PlaylistProfile() {
             <p className="text-sm">Videos</p>
         </div>
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{viewsCount?.data[0]?.views || 0}</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold">{viewsCount?.data?.countDocuments || 0}</h3>
             <p className="text-sm">Total Views</p>
         </div>
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
