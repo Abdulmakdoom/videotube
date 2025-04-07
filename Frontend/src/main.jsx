@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import {VideoPlay, 
   Login, Signup, Mainpage, History, ChannelProfile, 
   PlaylistProfile, PlaylistPage, Subscribers, YourVideos, 
-  OwnerAllVideos, OwnerAllPlaylist, PublishVideo, EditVideo, 
+  OwnerAllVideos, OwnerAllPlaylist, PublishVideo, EditVideo, UpdatePlaylist, PostProfile, OwnerAllPosts
   // AddVideoInPlaylist
 } from "./pages/allpage.js"
 import { useSelector } from 'react-redux'
@@ -80,10 +80,18 @@ const router = createBrowserRouter([
         path: "/home/videos/edit/:videoId",
         element: <EditVideo/>
       },
-      // {
-      //   path: "/playlist/add/:userId",
-      //   element: <AddVideoInPlaylist/>
-      // }
+      {
+        path: "/playlist/edit/:playlistId",
+        element: <UpdatePlaylist/>
+      },
+      {
+        path: "/:username/post",
+        element: <PostProfile/>
+      },
+      {
+        path: "/post/:userId",
+        element: <OwnerAllPosts/>
+      }
 
     ]
   }

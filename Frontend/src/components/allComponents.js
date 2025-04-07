@@ -9,6 +9,7 @@ import LogoutBtn from "./LogoutBtn";
 import VideoPlayCard from "./VideoPlayCard";
 import timeAgo from "./time.js";
 import PlaylistCard from "./Playlist.jsx";
+import PostCard from "./PostCard.jsx";
 
 export {
     Button,
@@ -22,4 +23,5 @@ export {
     VideoPlayCard,
     timeAgo,
     PlaylistCard,
+    PostCard
 }

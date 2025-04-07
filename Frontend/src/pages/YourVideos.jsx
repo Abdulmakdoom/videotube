@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Spinner, Card, timeAgo, PlaylistCard} from '../components/allComponents.js'
+import {Spinner, Card, timeAgo, PlaylistCard, PostCard} from '../components/allComponents.js'
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ function YourVideos () {
     const [videoData, setVideoData] = useState([])
     const [loading, setLoading] = useState(true);
     const [platlistData, setPlaylistData] = useState([])
+    const [postData, setPostData] = useState([])
 
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
@@ -75,10 +76,47 @@ function YourVideos () {
             setLoading(false); // Always set loader to false, whether success or failure
         }
     }
+
+
+
+    const postHandler = async () => {
+        if (!userId) {
+            // Prevent the fetch call if there is no valid ID
+            return;
+        }
+    
+        setPostData([])
+        setLoading(true); // Set loader to true before fetching
+    
+        try {
+            let response = await fetch(`/api/v1/tweets/user/${userId}`);
+            let result = await response.json();
+    
+            //console.log(result);
+            
+            if (!response.ok) {
+                throw new Error(result.message || "Failed to fetch tweets");
+            }
+    
+            setPostData(result.data);
+    
+        } catch (error) {
+            console.log(error.message);
+            // Optionally, set an error state here to show an error message to the user
+            // setError(error.message); // example
+        } finally {
+            setLoading(false); // Always set loader to false, whether success or failure
+        }
+    }
+
     useEffect(()=> {
+        postHandler()
         videoHandler()
         playListHandler()
     }, [userId])
+
+
+
 
     //console.log(videoData);
 return (
@@ -134,10 +172,48 @@ return (
                     <span className="font-bold">Tweets</span>
                 </div>
                 <div className='text-gray-300 hover:text-red-400 text-sm cursor-pointer z-10 underline'>
-                    View More
+                    <Link to={`/post/${userId}`}>
+                         View More
+                    </Link>
                 </div>
             </div>
         </div>
+
+         {/* Post Content */}
+         <div>
+            <div className="flex flex-col mt-4">
+                {/* Main content */}
+                <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-x-auto">
+                {/* Loader spinner when loading */}
+                {loading ? (
+                    <div className="flex justify-center items-center mt-60">
+                    <Spinner />
+                    </div>
+                ) : null}
+
+                {/* Horizontal display of cards */}
+                <div className="flex flex-row w-full space-x-4 overflow-x-auto">
+                    {postData.map((post, index) => (
+                    index < 4 && (
+                        <div
+                        key={index}
+                        className="flex-shrink-0 w-1/2 sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4"  // Adjusting widths based on screen size
+                        >
+                        <PostCard
+                            avatar={post?.owner?.avatar}
+                            channelName={post?.owner?.username}
+                            content={post?.content}
+                            uploadTime={timeAgo(post?.createdAt)}
+                            postId={post?._id}
+                        />
+                        </div>
+                    )
+                    ))}
+                </div>
+                </div>
+            </div>
+        </div>
+
 
 
         {/* playlists */}

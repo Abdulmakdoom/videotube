@@ -306,14 +306,16 @@ function PlaylistProfile() {
                 </button>
 
                 {/* Button for Tweets */}
+                <Link to={`/${username}/post`}>
                 <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
-                    ${activeTab === 'Tweets' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => setActiveTab('Tweets')}
+                    ${activeTab === 'tweets' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
+                    onClick={() => setActiveTab('tweets')}
                 >
                      <TbMessageChatbotFilled className="inline-block text-[20px] mr-2 mb-0 " />
                     Tweets
                 </button>
+                </Link>
             </div>
         </div>
 

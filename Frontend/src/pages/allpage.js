@@ -14,6 +14,9 @@ import OwnerAllVideos from "./ownerAllVideos";
 import OwnerAllPlaylist from "./OwnerAllPlaylists";
 import PublishVideo from "./inputPages/PublishVideo";
 import EditVideo from "./inputPages/EditVideo";
+import UpdatePlaylist from "./inputPages/UpdatePlaylist";
+import PostProfile from "./PostProfile";
+import OwnerAllPosts from "./OwnerAllPosts";
 // import AddVideoInPlaylist from "./inputPages/AddVideoInPlaylist.jsx";
 
 export {
@@ -33,5 +36,8 @@ export {
     OwnerAllPlaylist,
     PublishVideo,
     EditVideo,
+    UpdatePlaylist,
+    PostProfile,
+    OwnerAllPosts
     // AddVideoInPlaylist
 }

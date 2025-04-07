@@ -8,6 +8,12 @@ import { faBars, faMagnifyingGlass, faClockRotateLeft, faHouse, faCirclePlay } f
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { BiSolidVideos } from "react-icons/bi";
 import { FcSettings } from "react-icons/fc";
+import { BsPostcard } from "react-icons/bs";
+import { RiPlayList2Fill } from "react-icons/ri";
+import { MdOutlineWatchLater } from "react-icons/md";
+
+
+
 
 const Sidebar = () => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
@@ -17,12 +23,12 @@ const Sidebar = () => {
 
   const navItems = [
     { name: 'Home', icon: <FontAwesomeIcon icon={faHouse} />, path: '/home' },
-    { name: 'Trending', icon: '🔥', path: '' },
+    { name: 'Posts', icon: <BsPostcard className="text-xl"/> , path: `` },
     { name: 'Subscriptions', icon: <FontAwesomeIcon icon={faCirclePlay} />, path: '/subscriptions' },
-    { name: 'Library', icon: '📚', path: '' },
+    { name: 'Playlists', icon: <RiPlayList2Fill className="text-xl"/>, path: '' },
     { name: 'History', icon: <FontAwesomeIcon icon={faClockRotateLeft} />, path: '/home/history' },
     { name: 'Your Videos', icon: <BiSolidVideos className="text-xl" />, path: '/videos' },
-    { name: 'Watch Later', icon: '⏰', path: '' },
+    { name: 'Watch Later', icon: <MdOutlineWatchLater className="text-xl"/>, path: '' },
     userData && { name: 'User', icon: <FontAwesomeIcon icon={faCircleUser} />, path: `/${userData.username}` },
   ].filter(Boolean);
 
@@ -72,7 +78,7 @@ const Sidebar = () => {
           ))}
           {userData && (
             <li>
-              <FcSettings onClick={toggleSetting} className="text-2xl mr-6" />
+              <FcSettings onClick={toggleSetting} className="text-2xl sm:mr-6 mr-0" />
             </li>
           )}
           {isSettingOpen && (
@@ -93,7 +99,7 @@ const Sidebar = () => {
                 </div>
                 <div>
                   {userData ? (
-                    <div className="flex items-center gap-3">
+                    <div onClick={() => setSettingOpen(false)} className="flex items-center gap-3">
                       <LogoutBtn />
                       <p className="text-sm text-gray-600">Logged in as {userData.username}</p>
                     </div>
@@ -108,13 +114,6 @@ const Sidebar = () => {
 
         </ul>
 
-        <div className='md:hidden'>
-          {userData && (
-            <button onClick={toggleSetting} className='text-gray-700 focus:outline-none'>
-              <FcSettings className="text-2xl" />
-            </button>
-          )}
-        </div>
       </header>
 
       <div className="relative">

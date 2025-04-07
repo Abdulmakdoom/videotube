@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import {Spinner, Card, timeAgo} from '../components/allComponents.js'
+import {Spinner, PostCard, timeAgo} from '../components/allComponents.js'
 import { useSelector } from 'react-redux';
 import { FaVideo } from 'react-icons/fa';
 import { RiPlayList2Fill } from "react-icons/ri";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 
 
-
-function ChannelProfile() {
+function PostProfile() {
     const [data, setData] = useState({});
+    const [loading, setLoading] = useState(true);
     const [buttonPressed, setButtonPressed] = useState(false)
     const [subscribeDone , setSubscrbeDone] = useState(false)
-    const [activeTab, setActiveTab] = useState('videos');
-    const [videoData, setVideoData] = useState([])
+    const [activeTab, setActiveTab] = useState('tweets');
+    const [postData, setPostData] = useState([])
      const [loader, setLoader] = useState(true);
-     const [playlistCount, setPlaylistCount] = useState([])
-     const [viewsCount, setViewsCount] = useState("")
+    const [videoCount, setVideoCount] = useState([])
+     const [viewsCount, setViewsCount] = useState()
     
     const { username } = useParams();
     const userData = useSelector((state) => state.auth.userData);
@@ -26,14 +26,14 @@ function ChannelProfile() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            setLoader(true);
+            setLoading(true);
             const response = await fetch(`/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
             });
             const result = await response.json();
             setData(result.data);
-            setLoader(false);
+            setLoading(false);
         };
 
         fetchUser();
@@ -93,26 +93,26 @@ function ChannelProfile() {
         
 
 
-        const videoHandler = async () => {
+        const postHandler = async () => {
             if (!data?._id) {
                 // Prevent the fetch call if there is no valid ID
                 return;
             }
         
-            setVideoData([])
+            setPostData([])
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`);
+                let response = await fetch(`/api/v1/tweets/user/${data?._id}`);
                 let result = await response.json();
         
-                // console.log(result);
+                //console.log(result);
                 
                 if (!response.ok) {
-                    throw new Error(result.message || "Failed to fetch videos");
+                    throw new Error(result.message || "Failed to fetch tweets");
                 }
         
-                setVideoData(result.data);
+                setPostData(result.data);
         
             } catch (error) {
                 console.log(error.message);
@@ -124,18 +124,6 @@ function ChannelProfile() {
         }
         
         
-
-        const playListHandler = async()=>{
-            if (!data?._id) {
-                return; // Prevent the fetch call if there is no valid ID
-            }
-            let response = await fetch(`/api/v1/playlist/user/${data?._id}`)
-            let result = await response.json()
-            //console.log(result);
-            setPlaylistCount(result)
-            
-        }
-
 
         const viewsHandler = async()=> {
             if (!data?._id) {
@@ -149,23 +137,51 @@ function ChannelProfile() {
         
 
         useEffect(()=> {
-            videoHandler();
-            playListHandler()
+            postHandler();
             viewsHandler()
         }, [data])
 
-        //console.log(videoData);
-        //console.log(viewsCount);
-        
-        
 
+        //console.log(data);
+
+        
+        
+        const videoHandler = async () => {
+                    if (!data?._id) {
+                        // Prevent the fetch call if there is no valid ID
+                        return;
+                    }
+                    setVideoCount([])
+                    try {
+                        let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`);
+                        let result = await response.json();
+                
+                        // console.log(result);
+                        
+                        if (!response.ok) {
+                            throw new Error(result.message || "Failed to fetch videos");
+                        }
+                
+                        setVideoCount(result.data);
+                
+                    } catch (error) {
+                        console.log(error.message);
+                        // Optionally, set an error state here to show an error message to the user
+                        // setError(error.message); // example
+                    }
+                }
+                useEffect(()=> {
+                    videoHandler();
+                }, [data])
+        
+    //console.log(videoCount);
     
+    
+
+    if (loading) return <Spinner />;
 
     return (
         <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20">
-            
-        {loader && (<Spinner/>)}
-            
     {/* Banner Section */}
     <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
         <img
@@ -205,47 +221,13 @@ function ChannelProfile() {
                         </button> :  <button onClick={handleSubscribeButtion} className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium">
                         Subscribed
                         </button>) : ""}
-
-            {/* Social Links */}
-            {/* <div className="mt-4 sm:mt-6">
-                {data?.socialLinks?.instagram && (
-                    <a
-                        href={data?.socialLinks.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline mr-4 text-xs sm:text-sm"
-                    >
-                        Instagram
-                    </a>
-                )}
-                {data?.socialLinks?.twitter && (
-                    <a
-                        href={data?.socialLinks.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline mr-4 text-xs sm:text-sm"
-                    >
-                        Twitter
-                    </a>
-                )}
-                {data?.socialLinks?.facebook && (
-                    <a
-                        href={data?.socialLinks.facebook}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline text-xs sm:text-sm"
-                    >
-                        Facebook
-                    </a>
-                )}
-            </div> */}
         </div>
     </div>
 
     {/* Channel Stats Section */}
     <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg mb-6 text-white">
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{videoData?.length || 0}</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold">{videoCount?.length || 0}</h3>
             <p className="text-sm">Videos</p>
         </div>
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
@@ -257,8 +239,8 @@ function ChannelProfile() {
             <p className="text-sm">Total Likes</p>
         </div>
         <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{playlistCount?.data?.length || 0}</h3>
-            <p className="text-sm">Playlists</p>
+            <h3 className="text-xl sm:text-2xl font-semibold">{postData?.length || 0}</h3>
+            <p className="text-sm">Post</p>
         </div>
     </div>
 
@@ -269,21 +251,23 @@ function ChannelProfile() {
     <div className="bg-[#0A0A0A] p-4 sm:p-6 text-white">
             <div className="flex justify-around space-x-4 sm:space-x-6 relative">
                 {/* Button for Videos */}
-                <button
+               <Link to={`/${username}`}>
+               <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
                     ${activeTab === 'videos' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => (setActiveTab('videos'), videoHandler())}
+                    onClick={() => setActiveTab('videos')}
                 >
                     <FaVideo className="inline-block mr-2 mb-1" /> {/* Icon */}
                     Videos
                 </button>
+               </Link>
 
                 {/* Button for Playlists */}
-                <Link to={`/${username}/playlist`}>
+                 <Link to={`/${username}/playlist`}>
                 <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
                     ${activeTab === 'playlists' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => setActiveTab('playlists')}
+                    onClick={() => (setActiveTab('playlists'))}
                 >
                     <RiPlayList2Fill className="inline-block mr-2 text-[16px] mb-1" /> {/* Icon */}
                     Playlists
@@ -291,46 +275,50 @@ function ChannelProfile() {
                 </Link>
 
                 {/* Button for Tweets */}
-                <Link to={`/${username}/post`}>
                 <button
                     className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
                     ${activeTab === 'tweets' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
                     onClick={() => setActiveTab('tweets')}
                 >
-                   <TbMessageChatbotFilled className="inline-block text-[20px] mr-1" /> {/* Icon */}
+                     <TbMessageChatbotFilled className="inline-block text-[20px] mr-2 mb-0 " />
                     Tweets
                 </button>
-                </Link>
             </div>
         </div>
 
         <hr className="border-t-2 border-[#444] mb-6" />
 
-         {/* Videos Content */}
-        <div className="flex flex-col h-screen mt-20">
-        
-            <main className="flex-grow p-4 flex flex-col items-center justify-start">
-                
-                {loader ? <div className="mt-60"><Spinner /> </div>: null}
-        
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
-                {videoData.map((video)=> (
-                    <Link to={`/home/videos/${video._id}`} key={video._id}>
-                        <Card 
-                            title={video.title}
-                            duration={video.duration} 
-                            thumbnail={video.thumbnail} 
-                            ownerAvatar={video.ownerDetails.avatar} 
-                            channelName={video.ownerDetails.username} 
-                            views={video.views} 
-                            uploadDate={timeAgo(video.createdAt)} 
-                        />
-                    </Link>
-                ))}
+         {/* Post Content */}
+         <div>
+            <div className="flex flex-col h-screen mt-20">
+                {/* Main content */}
+                <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto">
+                    {/* Loader spinner when loading */}
+                    {loader ? (
+                        <div className="flex justify-center items-center mt-60">
+                            <Spinner />
+                        </div>
+                    ) : null}
+
+                    <div className="flex flex-col w-full space-y-4"> {/* Use flex-col for vertical stacking */}
+                        {postData.map((post, index) => (
+                            <div key={index} className="flex-shrink-0 w-full"> {/* Each card takes full width */}
+                                <PostCard
+                                    avatar={post?.owner?.avatar}
+                                    channelName={post?.owner?.username}
+                                    content={post?.content}
+                                    uploadTime={timeAgo(post?.createdAt)}
+                                    postId={post?._id}
+                                    postData={postData}
+                                    userId={post?.owner?._id}
+                                    data={data}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+         </div>
 
     {/* Channel Content */}
     <div className="p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg">
@@ -342,4 +330,4 @@ function ChannelProfile() {
     );
 }
 
-export default ChannelProfile;
+export default PostProfile;

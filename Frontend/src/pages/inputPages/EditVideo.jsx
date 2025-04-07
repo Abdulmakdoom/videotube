@@ -23,6 +23,12 @@ function PublishVideo() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [oldData, setOldData] = useState("")
 
+
+    // Word count function
+    const getWordCount = (text) => {
+      return text.trim().split(/\s+/).length;
+    };
+
   const originalData = async(e)=> {
     const response = await fetch(`/api/v1/videos/${videoId}`)
     const result = await response.json()
@@ -195,134 +201,166 @@ function PublishVideo() {
 
   return (
    
-    <div className="flex items-center justify-center h-screen">
-        
-      <div className=" p-6 rounded-lg shadow-lg mx-auto">
-        {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}
-        <h2 className="text-white text-lg font-semibold mb-4">Upload Video</h2>
-        <form onSubmit={dataHandler} className="space-y-6">
-          <div className="flex">
-            <div className="flex-1">
-              <Input
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r">
+  <div className="p-8 rounded-xl shadow-xl bg-[#212121] transform transition-all duration-300 mx-auto w-full max-w-4xl mt-20">
+    {error && (
+      <p className="text-red-600 mt-4 text-center font-medium animate__animated animate__fadeIn">
+        {error}
+      </p>
+    )}
+    <h2 className="text-white text-2xl font-bold mb-6 text-center">Update Video</h2>
+
+    <form onSubmit={dataHandler} className="space-y-6">
+      <div className="flex flex-wrap gap-6 md:gap-8">
+        <div className="flex-1">
+          {/* Title Input */}
+          <Input
+            onChange={inputHandler}
+            value={formData?.title}
+            className="bg-[#2b2b2b] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white w-full p-3 placeholder-gray-400 transition duration-300 ease-in-out"
+            label="Title"
+            name="title"
+            type="text"
+            placeholder="Enter your video title"
+            required
+          />
+
+          {/* Description Textarea */}
+          <div className="text-white mt-4 mb-1">Description</div>
+          <textarea
+            onChange={inputHandler}
+            value={formData?.description}
+            className="bg-[#2b2b2b] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white w-full h-32 p-3 placeholder-gray-400 transition duration-300 ease-in-out"
+            name="description"
+            placeholder="Enter your video description"
+            required
+          ></textarea>
+
+          {/* Word Count Display */}
+          <div className="text-gray-400 text-sm mt-2 ml-1">
+            Word Count: {getWordCount(formData.description)} words
+          </div>
+        </div>
+
+        <div className="flex-1">
+          {/* Thumbnail Upload */}
+          <div className="flex flex-col mb-4">
+            <label className="text-gray-300">Thumbnail</label>
+            <div
+              className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center relative transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+              onDrop={(e) => handleDrop(e, "thumbnail")}
+              onDragOver={handleDragOver}
+            >
+              <input
                 onChange={inputHandler}
-                value={formData?.title}
-                className="bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                label="Title"
-                name="title"
-                type="text"
-                placeholder="Enter your video title"
-                required
+                className="absolute opacity-0 cursor-pointer"
+                name="thumbnail"
+                type="file"
+                accept="image/*"
+                id="thumbnail-upload"
               />
-              <div className="text-white mt-4 mb-1">Description</div>
-              <textarea
-                onChange={inputHandler}
-                value={formData?.description}
-                className="bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white w-full h-50 p-2"
-                name="description"
-                placeholder="Enter your video description"
-                required
-              ></textarea>
-            </div>
-
-            <div className="flex">
-              <div className="flex-1 ml-6">
-                  <div className="flex flex-col mb-4">
-                    <label className="text-gray-300">Thumbnail</label>
-                    <div
-                      className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center"
-                      onDrop={(e) => handleDrop(e, "thumbnail")}
-                      onDragOver={handleDragOver}
-                    >
-                      <input
-                        //value={formData?.thumbnail}
-                        onChange={inputHandler}
-                        className="absolute opacity-0 cursor-pointer"
-                        name="thumbnail"
-                        type="file"
-                        accept="image/*"
-                        id="thumbnail-upload"
-                      />
-                      <label htmlFor="thumbnail-upload" className="cursor-pointer text-gray-400">
-                        Drag & drop your thumbnail here or click to select
-                      </label>
-                      {thumbnailPreview && (
-                        <img src={thumbnailPreview} alt="Thumbnail Preview" className="mt-2 rounded-md w-full max-h-60 max-w-60" />
-                      )}
-                      <p className="text-gray-500 text-xs mt-1">Max size: 2MB</p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col mb-4">
-                    <label className="text-gray-300">Video File</label>
-                    <div
-                      className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center"
-                      onDrop={(e) => handleDrop(e, "videoFile")}
-                      onDragOver={handleDragOver}
-                    >
-                      <input
-                        onChange={inputHandler}
-                        className="absolute opacity-0 cursor-pointer"
-                        name="videoFile"
-                        type="file"
-                        accept="video/*"
-                        id="video-upload"
-                      />
-                      <label htmlFor="video-upload" className="cursor-pointer text-gray-400">
-                        Drag & drop your video here or click to select
-                      </label>
-                      {videoFileName && (
-                        <p className="mt-2 text-gray-300">{videoFileName}</p>
-                      )}
-                      <p className="text-gray-500 text-xs mt-1">Max size: 100MB</p>
-                    </div>
-                  </div>
-                </div>
-                {/* <div>
-                {formData && (
-                        <img src={formData.thumbnail} alt="Thumbnail Preview" className="mt-2 rounded-md w-full max-h-60 max-w-60" />
-                      )}
-                </div> */}
-                <div className="flex justify-center ml-4 mt-5">
-                  {oldData && (
-                    <div className="relative w-full max-w-xs max-h-60">
-                      <img 
-                        src={oldData?.data?.thumbnail} 
-                        alt="Thumbnail Preview" 
-                        className="w-full h-full object-cover rounded-xl shadow-2xl transition-transform transform hover:scale-105 hover:shadow-2xl"
-                      />
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-xl opacity-30"></div>
-                      {/* Border */}
-                      <div className="absolute inset-0 rounded-xl border-4 border-gradient-to-r from-teal-400 via-blue-500 to-purple-600 opacity-80"></div>
-                      {/* Optional text or icon overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-2 text-center text-white font-semibold opacity-80">
-                        <span className="bg-black bg-opacity-50 px-4 py-2 rounded-full text-sm">Old Thumbnail Preview</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
+              <label
+                htmlFor="thumbnail-upload"
+                className="cursor-pointer text-gray-400"
+              >
+                Drag & drop your thumbnail here or click to select
+              </label>
+              {thumbnailPreview && (
+                <img
+                  src={thumbnailPreview}
+                  alt="Thumbnail Preview"
+                  className="mt-2 rounded-md w-full max-h-60 max-w-60"
+                />
+              )}
+              <p className="text-gray-500 text-xs mt-1">Max size: 2MB</p>
             </div>
           </div>
 
-          {loading ? <div className="mt-2"><Spinner /> </div>: null}
-          <Button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
-            Upload
-          </Button>
-
-          {uploadProgress > 0 && (
-            <div className="flex flex-col mt-4">
-              <div className="flex justify-between items-center text-gray-400 text-sm mb-1">
-                <span>Upload Progress: {Math.round(uploadProgress)}%</span>
-              </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${uploadProgress}%` }} />
-              </div>
+          {/* Video File Upload */}
+          <div className="flex flex-col mb-4">
+            <label className="text-gray-300">Video File</label>
+            <div
+              className="border-dashed border-2 border-gray-600 p-4 flex flex-col items-center relative transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+              onDrop={(e) => handleDrop(e, "videoFile")}
+              onDragOver={handleDragOver}
+            >
+              <input
+                onChange={inputHandler}
+                className="absolute opacity-0 cursor-pointer"
+                name="videoFile"
+                type="file"
+                accept="video/*"
+                id="video-upload"
+              />
+              <label
+                htmlFor="video-upload"
+                className="cursor-pointer text-gray-400"
+              >
+                Drag & drop your video here or click to select
+              </label>
+              {videoFileName && (
+                <p className="mt-2 text-gray-300">{videoFileName}</p>
+              )}
+              <p className="text-gray-500 text-xs mt-1">Max size: 100MB</p>
             </div>
-          )}
-        </form>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* Old Thumbnail Preview */}
+      <div className="flex justify-center mt-6">
+        {oldData && (
+          <div className="relative w-full max-w-xs max-h-60">
+            <img
+              src={oldData?.data?.thumbnail}
+              alt="Old Thumbnail Preview"
+              className="w-full h-full object-cover rounded-xl shadow-2xl transition-transform transform hover:scale-105 hover:shadow-2xl"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-xl opacity-30"></div>
+            <div className="absolute inset-0 rounded-xl border-4 border-gradient-to-r from-teal-400 via-blue-500 to-purple-600 opacity-80"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-2 text-center text-white font-semibold opacity-80">
+              <span className="bg-black bg-opacity-50 px-4 py-2 rounded-full text-sm">
+                Old Thumbnail Preview
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="mt-2 flex justify-center">
+          <Spinner />
+        </div>
+      )}
+
+      {/* Upload Progress */}
+      {uploadProgress > 0 && (
+        <div className="flex flex-col mt-4">
+          <div className="flex justify-between items-center text-gray-400 text-sm mb-1">
+            <span>Upload Progress: {Math.round(uploadProgress)}%</span>
+          </div>
+          <div className="w-full bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-blue-600 h-2 rounded-full"
+              style={{ width: `${uploadProgress}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <Button
+        type="submit"
+        className="w-full py-3 bg-red-800 text-white rounded-md hover:bg-red-600 focus:ring-4 focus:ring-blue-300 transition duration-200"
+      >
+        Update
+      </Button>
+    </form>
+  </div>
+</div>
+
+
   );
 }
 
