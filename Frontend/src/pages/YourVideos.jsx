@@ -172,7 +172,7 @@ return (
                     <span className="font-bold">Tweets</span>
                 </div>
                 <div className='text-gray-300 hover:text-red-400 text-sm cursor-pointer z-10 underline'>
-                    <Link to={`/post/${userId}`}>
+                    <Link to={`/posts/${userId}`}>
                          View More
                     </Link>
                 </div>
@@ -205,6 +205,7 @@ return (
                             content={post?.content}
                             uploadTime={timeAgo(post?.createdAt)}
                             postId={post?._id}
+                            userId={post?.owner?._id}
                         />
                         </div>
                     )

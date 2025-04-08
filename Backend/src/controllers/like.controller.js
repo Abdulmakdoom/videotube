@@ -150,6 +150,7 @@ const getAllVideoLikes = asyncHandler(async (req, res)=> {
 
 const getVideoCommentLikes = asyncHandler(async(req, res)=> {
     const {commentId} = req.params;
+    
     //console.log(commentId);
 
     const likeComment = await Like.find({comment: {$in: commentId}})
@@ -157,6 +158,21 @@ const getVideoCommentLikes = asyncHandler(async(req, res)=> {
 
     return res.status(200).json(
         new ApiResponse(200, {likeComment, LikeCommentCount}, "success")
+    );
+})
+
+
+const getPostLikes = asyncHandler(async(req, res)=> {
+    const {postId} = req.params;
+    //console.log(postId);
+    
+    //console.log(commentId);
+
+    const likePost = await Like.find({tweet: {$in: postId}})
+    const LikePostCount = await Like.countDocuments({tweet: postId})
+
+    return res.status(200).json(
+        new ApiResponse(200, {likePost, LikePostCount}, "success")
     );
 })
 
@@ -173,4 +189,5 @@ export {
     getLikedVideos,
     getAllVideoLikes,
     getVideoCommentLikes,
+    getPostLikes
 }

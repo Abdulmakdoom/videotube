@@ -4,6 +4,7 @@ import {User} from "../models/user.models.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
+import { Subscription } from "../models/subscription.model.js"
 
 const createTweet = asyncHandler(async (req, res) => {
     //TODO: create tweet
@@ -11,11 +12,11 @@ const createTweet = asyncHandler(async (req, res) => {
     const {content} = req.body
 
     if (!content) {
-        throw new ApiError(400, "Comment content is required");
+        throw new ApiError(400, "Post content is required");
     }
 
     if(!userId) {
-        throw new ApiError(404, "Current user not found")
+        throw new ApiError(404, "Post user not found")
     }
     const tweet = await Tweet.create({
         owner: userId,
@@ -47,7 +48,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
 const updateTweet = asyncHandler(async (req, res) => {
     const { tweetId } = req.params; 
     const { content } = req.body;
-    const userId = req.user.id; // Extracted from verifyJWT // //const userId = req.user.id;  // extra check only login user can upadte the tweet
+    const userId = req.user._id; // Extracted from verifyJWT // //const userId = req.user.id;  // extra check only login user can upadte the tweet
 
 
     if (!isValidObjectId(tweetId)) {
@@ -78,7 +79,7 @@ const updateTweet = asyncHandler(async (req, res) => {
 
 const deleteTweet = asyncHandler(async (req, res) => {
     const { tweetId } = req.params;
-    const ownerId = req.user.id;
+    const ownerId = req.user._id;
 
     if (!isValidObjectId(tweetId)) {
         throw new ApiError(400, "Invalid tweet ID");
@@ -94,9 +95,31 @@ const deleteTweet = asyncHandler(async (req, res) => {
 });
 
 
+const getSubscribeTweets = asyncHandler(async (req, res) => {
+    const userId = req?.user?._id;
+    //console.log(userId);
+    
+        try {
+        // Step 1: Find all subscriptions of the user
+        const subscriptions = await Subscription.find({ subscriber: userId }).select("channel");        
+
+        // Step 2: Extract channel (owner) IDs
+        const channelIds = subscriptions.map(sub => sub.channel);
+
+        // Step 3: Find videos owned by those channels
+        const Posts = await Tweet.find({ owner: { $in: channelIds } }).populate("owner", "username fullName avatar");
+
+        res.status(201).json(new ApiResponse(201, Posts, "Tweet get succesfully"))
+    } catch (error) {
+        console.error("Error fetching subscribed channel posts:", error);
+        throw error;
+    }
+});
+
 export {
     createTweet,
     getUserTweets,
     updateTweet,
-    deleteTweet
+    deleteTweet,
+    getSubscribeTweets
 }

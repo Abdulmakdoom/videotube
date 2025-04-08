@@ -53,15 +53,14 @@ function OwnerAllPosts (){
          {/* Post Content */}
          <div>
             <div className="flex flex-col h-screen mt-20">
-                {/* Main content */}
-                <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto">
-                    {/* Loader spinner when loading */}
-                    {loader ? (
+                 {/* Loader spinner when loading */}
+                 {loader ? (
                         <div className="flex justify-center items-center mt-60">
                             <Spinner />
                         </div>
                     ) : null}
-
+                {/* Main content */}
+                <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto">
                     <div className="flex flex-col w-full space-y-4"> {/* Use flex-col for vertical stacking */}
                         {postData.map((post, index) => (
                             <div key={index} className="flex-shrink-0 w-full"> {/* Each card takes full width */}
@@ -71,8 +70,8 @@ function OwnerAllPosts (){
                                     content={post?.content}
                                     uploadTime={timeAgo(post?.createdAt)}
                                     postId={post?._id}
-                                    // postData={postData}
-                                    // userId={post?.owner?._id}
+                                    postData={postData}
+                                    userId={post?.owner?._id}
                                     // data={data}
                                 />
                             </div>

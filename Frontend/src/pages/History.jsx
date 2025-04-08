@@ -32,15 +32,20 @@ function History() {
         }
     }, [userId]);
 
-    if (loading) {
-        return <Spinner />;  // Display spinner while loading
-    }
+    // if (loading) {
+    //     return <Spinner />;  // Display spinner while loading
+    // }
 
     return (
         <>
       <div className="mt-25 font-bold border-b border-gray-700">
       <p className="text-white ml-55 text-4xl pb-5"><FontAwesomeIcon icon={faClockRotateLeft} className="mr-3"/>Watch History</p>
       </div>
+      {loading ? (
+                <div className="flex justify-center items-center mt-60">
+                    <Spinner />
+                </div>
+            ) : null}
         
             <div className="mt-10">
                 {videoData.map((data) => (

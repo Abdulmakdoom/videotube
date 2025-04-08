@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { FaVideo } from 'react-icons/fa';
 import { RiPlayList2Fill } from "react-icons/ri";
 import { TbMessageChatbotFilled } from "react-icons/tb";
+import Footer from './Footer.jsx';
 
 
 function PostProfile() {
@@ -174,125 +175,116 @@ function PostProfile() {
                     videoHandler();
                 }, [data])
         
-    //console.log(videoCount);
-    
+    //console.log(postData);
+ 
     
 
     if (loading) return <Spinner />;
 
     return (
+  <>
         <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20">
-    {/* Banner Section */}
-    <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
-        <img
-            src={data?.coverImage || '/default-banner.jpg'}
-            alt="Channel Banner"
-            className="w-full h-full object-cover transition-all duration-500 transform hover:scale-105 hover:opacity-80"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40"></div>
-    </div>
-
-    {/* Profile Details */}
-    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 bg-[#181818] text-white rounded-lg shadow-lg mb-6">
-        {/* Avatar */}
-        <div className="w-25 h-25 sm:w-28 sm:h-25 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-xl">
-            <img
-                src={data?.avatar || '/default-avatar.jpg'}
-                alt="User Avatar"
-                className="w-full h-full object-cover"
-            />
-        </div>
-
-        {/* Channel Info */}
-        <div className="flex flex-col justify-center text-center sm:text-left">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100">{data?.username}</h1>
-            <h3 className="text-sm sm:text-md font-semibold text-gray-400">{data?.fullName}</h3>
-            <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
-                <div className="text-sm text-gray-300">{data?.subscribersCount} subscribers</div>
-                <div className="text-sm text-gray-300">{data?.channelsSubscribedToCount} following</div>
+            {/* Banner Section */}
+            <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
+                <img
+                    src={data?.coverImage || '/default-banner.jpg'}
+                    alt="Channel Banner"
+                    className="w-full h-full object-cover transition-all duration-500 transform hover:scale-105 hover:opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40"></div>
             </div>
-            <p className="text-gray-500 mt-4 text-sm sm:text-md">{data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}</p>
-            {/* {userData._id !== data._id && <button className="px-3 py-1 sm:px-4 sm:py-2 w-25 mt-3 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
-              Subscribe
-            </button>} */}
 
-            {userData._id !== data._id && userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
-                        Subscribe
-                        </button> :  <button onClick={handleSubscribeButtion} className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium">
-                        Subscribed
-                        </button>) : ""}
-        </div>
-    </div>
+            {/* Profile Details */}
+            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 bg-[#181818] text-white rounded-lg shadow-lg mb-6">
+                {/* Avatar */}
+                <div className="w-25 h-25 sm:w-28 sm:h-25 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                    <img
+                        src={data?.avatar || '/default-avatar.jpg'}
+                        alt="User Avatar"
+                        className="w-full h-full object-cover"
+                    />
+                </div>
 
-    {/* Channel Stats Section */}
-    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg mb-6 text-white">
-        <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{videoCount?.length || 0}</h3>
-            <p className="text-sm">Videos</p>
-        </div>
-        <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{viewsCount?.data?.countDocuments || 0}</h3>
-            <p className="text-sm">Total Views</p>
-        </div>
-        <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{ "" || 0}</h3>
-            <p className="text-sm">Total Likes</p>
-        </div>
-        <div className="text-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-            <h3 className="text-xl sm:text-2xl font-semibold">{postData?.length || 0}</h3>
-            <p className="text-sm">Post</p>
-        </div>
-    </div>
+                {/* Channel Info */}
+                <div className="flex flex-col justify-center text-center sm:text-left">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100">{data?.username}</h1>
+                    <h3 className="text-sm sm:text-md font-semibold text-gray-400">{data?.fullName}</h3>
+                    <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
+                        <div className="text-sm text-gray-300">{data?.subscribersCount} subscribers</div>
+                        <div className="text-sm text-gray-300">{data?.channelsSubscribedToCount} following</div>
+                    </div>
+                    <p className="text-gray-500 mt-4 text-sm sm:text-md">{data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}</p>
+                    {/* {userData._id !== data._id && <button className="px-3 py-1 sm:px-4 sm:py-2 w-25 mt-3 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
+                    Subscribe
+                    </button>} */}
 
-  
-    
-
-    {/* Tabs: Videos, Playlists, About */}
-    <div className="bg-[#0A0A0A] p-4 sm:p-6 text-white">
-            <div className="flex justify-around space-x-4 sm:space-x-6 relative">
-                {/* Button for Videos */}
-               <Link to={`/${username}`}>
-               <button
-                    className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
-                    ${activeTab === 'videos' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => setActiveTab('videos')}
-                >
-                    <FaVideo className="inline-block mr-2 mb-1" /> {/* Icon */}
-                    Videos
-                </button>
-               </Link>
-
-                {/* Button for Playlists */}
-                 <Link to={`/${username}/playlist`}>
-                <button
-                    className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
-                    ${activeTab === 'playlists' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => (setActiveTab('playlists'))}
-                >
-                    <RiPlayList2Fill className="inline-block mr-2 text-[16px] mb-1" /> {/* Icon */}
-                    Playlists
-                </button>
-                </Link>
-
-                {/* Button for Tweets */}
-                <button
-                    className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
-                    ${activeTab === 'tweets' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
-                    onClick={() => setActiveTab('tweets')}
-                >
-                     <TbMessageChatbotFilled className="inline-block text-[20px] mr-2 mb-0 " />
-                    Tweets
-                </button>
+                    {userData._id !== data._id && userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
+                                Subscribe
+                                </button> :  <button onClick={handleSubscribeButtion} className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium">
+                                Subscribed
+                                </button>) : ""}
+                </div>
             </div>
-        </div>
 
-        <hr className="border-t-2 border-[#444] mb-6" />
+            {/* Channel Stats Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg mb-6 text-white">
+                <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
+                    <h3 className="text-xl sm:text-2xl font-semibold">{videoCount?.length || 0}</h3>
+                    <p className="text-sm">Videos</p>
+                </div>
+                <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
+                    <h3 className="text-xl sm:text-2xl font-semibold">{viewsCount?.data?.countDocuments || 0}</h3>
+                    <p className="text-sm">Total Views</p>
+                </div>
+                <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
+                    <h3 className="text-xl sm:text-2xl font-semibold">{postData?.length || 0}</h3>
+                    <p className="text-sm">Posts</p>
+                </div>
+            </div>
 
-         {/* Post Content */}
-         <div>
-            <div className="flex flex-col h-screen mt-20">
-                {/* Main content */}
-                <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto">
+            {/* Tabs: Videos, Playlists, About */}
+            <div className="bg-[#0A0A0A] p-4 sm:p-6 text-white">
+                    <div className="flex justify-around space-x-4 sm:space-x-6 relative">
+                        {/* Button for Videos */}
+                    <Link to={`/${username}`}>
+                    <button
+                            className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
+                            ${activeTab === 'videos' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
+                            onClick={() => setActiveTab('videos')}
+                        >
+                            <FaVideo className="inline-block mr-2 mb-1" /> {/* Icon */}
+                            Videos
+                        </button>
+                    </Link>
+
+                        {/* Button for Playlists */}
+                        <Link to={`/${username}/playlist`}>
+                        <button
+                            className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
+                            ${activeTab === 'playlists' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
+                            onClick={() => (setActiveTab('playlists'))}
+                        >
+                            <RiPlayList2Fill className="inline-block mr-2 text-[16px] mb-1" /> {/* Icon */}
+                            Playlists
+                        </button>
+                        </Link>
+
+                        {/* Button for Tweets */}
+                        <button
+                            className={`py-2 px-6 sm:py-3 sm:px-8 rounded-lg text-xs sm:text-sm focus:outline-none transition-all duration-300 
+                            ${activeTab === 'tweets' ? 'text-white bg-gradient-to-r from-[#FF0000] to-[#FF6A00] border-b-4 border-white' : 'bg-[#2c2c2c] hover:bg-[#3a3a3a]'}`}
+                            onClick={() => setActiveTab('tweets')}
+                        >
+                            <TbMessageChatbotFilled className="inline-block text-[20px] mr-2 mb-0 " />
+                            Tweets
+                        </button>
+                    </div>
+                </div>
+
+                <hr className="border-t-2 border-[#444] mb-6" />
+
+                {/* Post Content */}
+                <div className="flex flex-col h-screen mt-20">
                     {/* Loader spinner when loading */}
                     {loader ? (
                         <div className="flex justify-center items-center mt-60">
@@ -300,32 +292,31 @@ function PostProfile() {
                         </div>
                     ) : null}
 
-                    <div className="flex flex-col w-full space-y-4"> {/* Use flex-col for vertical stacking */}
-                        {postData.map((post, index) => (
-                            <div key={index} className="flex-shrink-0 w-full"> {/* Each card takes full width */}
-                                <PostCard
-                                    avatar={post?.owner?.avatar}
-                                    channelName={post?.owner?.username}
-                                    content={post?.content}
-                                    uploadTime={timeAgo(post?.createdAt)}
-                                    postId={post?._id}
-                                    postData={postData}
-                                    userId={post?.owner?._id}
-                                    data={data}
-                                />
-                            </div>
-                        ))}
+                    {/* Main content */}
+                    <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-rounded-lg">
+                        <div className="flex flex-col w-full space-y-4">
+                            {/* Use flex-col for vertical stacking */}
+                            {postData.map((post, index) => (
+                                <div key={index} className="flex-shrink-0 w-full">
+                                    {/* Each card takes full width */}
+                                    <PostCard
+                                        avatar={post?.owner?.avatar}
+                                        channelName={post?.owner?.username}
+                                        content={post?.content}
+                                        uploadTime={timeAgo(post?.createdAt)}
+                                        postId={post?._id}
+                                        postData={postData}
+                                        userId={post?.owner?._id}
+                                        data={data}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
-         </div>
-
-    {/* Channel Content */}
-    <div className="p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg">
-        <p className="text-white text-sm sm:text-md">Content Section Goes Here</p>
-    </div>
-</div>
-
+        </div>
+       <Footer/>
+  </>
 
     );
 }
