@@ -217,7 +217,7 @@ function PublishVideo() {
           </div>
 
           {loading ? <div className="mt-2"><Spinner /> </div>: null}
-          <Button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+          <Button type="submit" className="w-full py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200">
             Upload
           </Button>
 

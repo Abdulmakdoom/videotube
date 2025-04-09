@@ -19,7 +19,8 @@ import PostProfile from "./PostProfile";
 import OwnerAllPosts from "./OwnerAllPosts";
 import PublishPost from "./inputPages/PublishPost";
 import SubscriberPost from "./SubscriberPost";
-// import AddVideoInPlaylist from "./inputPages/AddVideoInPlaylist.jsx";
+import PublishPlaylist from "./inputPages/PublishPlaylist";
+
 
 export {
     VideoPlay,
@@ -42,6 +43,6 @@ export {
     PostProfile,
     OwnerAllPosts,
     PublishPost,
-    SubscriberPost
-    // AddVideoInPlaylist
+    SubscriberPost,
+    PublishPlaylist
 }

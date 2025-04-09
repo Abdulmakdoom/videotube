@@ -157,6 +157,8 @@ function ChannelProfile() {
 
         //console.log(videoData);
         //console.log(viewsCount);
+        //console.log(playlistCount);
+        
         
         
 
@@ -256,7 +258,7 @@ function ChannelProfile() {
                         <p className="text-sm">Total Views</p>
                     </div>
                     <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-                        <h3 className="text-xl sm:text-2xl font-semibold">{playlistCount?.length || 0}</h3>
+                        <h3 className="text-xl sm:text-2xl font-semibold">{playlistCount?.data?.length || 0}</h3>
                         <p className="text-sm">Playlists</p>
                     </div>
                 </div>

@@ -95,7 +95,7 @@ function Login() {
                 <a href="#">Forgot Password</a>
                 <a href="/signup">Signup</a>
                 </div>
-                <Button type="submit" className="inputBox bg-red-800">
+                <Button type="submit" className="inputBox bg-red-800 hover:bg-red-600">
                    Login
                 </Button>
           </form>

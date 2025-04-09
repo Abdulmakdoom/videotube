@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import Button from "../components/Button";
 // import { Link } from "react-router-dom";
 import "../../public/signup.css"
-
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+    const navigate = useNavigate()
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({
         fullName: "",
@@ -16,14 +17,6 @@ function Signup() {
         avatar: null,
         coverImage: null,
     });
-
-    // const inputHandler = (e) => {
-    //     const { name, value, type, files } = e.target;
-    //     setFormData((prevData) => ({
-    //         ...prevData,
-    //         [name]: type === "file" ? files[0] : value,
-    //     }));
-    // };
 
     // Input handler to manage file input changes
     const inputHandler = (e) => {
@@ -64,6 +57,12 @@ function Signup() {
             formDataToSend.append(key, formData[key]);
         }
 
+        // Validate if required fields are filled
+        if (!formData.fullName || !formData.email || !formData.username || !formData.password || !formData.avatar || !formData.coverImage) {
+            setError("All fields are required.");
+            return;
+        }
+
         // console.log(formDataToSend);
         
 
@@ -81,8 +80,11 @@ function Signup() {
             }
 
             alert("Account created successfully!");
+            navigate("/home")
         } catch (error) {
             setError(error.message);
+            console.log(error.message !== String || "Something went wrong!");
+            
         }
     };
 
@@ -93,8 +95,8 @@ function Signup() {
         <span key={index}></span>
         ))}
 
-        <div className="signin1">
-            <div className="content1 ">
+        <div className="signin1 ">
+            <div className="content1 h-[600px] ">
                 <h2 className="text-red-700">Sign In</h2>
                 {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}
                 <form className="form" onSubmit={handleCreate}>
@@ -171,7 +173,7 @@ function Signup() {
                     <a href="#">Forgot Password</a>
                     <a href="/login">Login</a>
                     </div>
-                    <Button type="submit" className="inputBox bg-red-800">
+                    <Button  type="submit" className="inputBox bg-red-800 hover:bg-red-600">
                         Signup
                     </Button>
                 </form>

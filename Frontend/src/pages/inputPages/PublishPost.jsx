@@ -67,7 +67,7 @@ function PublishPost() {
                         type="submit"
                         className="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300"
                     >
-                        Post
+                        Create
                     </Button>
                 </form>
             </div>

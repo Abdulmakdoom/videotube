@@ -9,7 +9,6 @@ import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { BiSolidVideos } from "react-icons/bi";
 import { FcSettings } from "react-icons/fc";
 import { BsPostcard } from "react-icons/bs";
-import { MdOutlineWatchLater } from "react-icons/md";
 import { CgLogIn } from "react-icons/cg";
 
 
@@ -82,87 +81,105 @@ const Sidebar = () => {
               <FcSettings onClick={toggleSetting} className="text-2xl sm:mr-6 mr-0" />
             </li>
           )}
+
+
           {isSettingOpen && (
-        <div className="absolute top-10 mt-4 mr-10 right-0 bg-white p-6 border rounded-2xl shadow-xl transition-transform transform-gpu ease-in-out duration-300 scale-105">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">Settings</h2>
-            <button onClick={() => setSettingOpen(false)} className="text-gray-500 hover:text-gray-700 transition duration-200 ease-in-out transform hover:scale-110">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          
-          <div className="space-y-6">
-            {/* Create Video Button */}
-            <div className="flex flex-col items-start gap-4">
-              <Link to={'/home/videos/publish'}>
-                <div className="relative group">
-                  <div className="absolute inset-0 bg-red-600 opacity-80 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg transform group-hover:scale-105"></div>
-                  <div className="font-medium text-white relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-2xl">
-                    <div className="flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16M5 12l7-7 7 7" />
-                      </svg>
-                      Create Video
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-            
-            {/* Create Post Button */}
-            <div className="flex flex-col items-start gap-4">
-              <Link to={'/home/posts/publish'}>
-                <div className="relative group">
-                  <div className="absolute inset-0 bg-white opacity-90 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg border-2 border-gray-200 transform group-hover:scale-105"></div>
-                  <div className="font-medium text-gray-800 relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-lg">
-                    <div className="flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 12l-7 7-7-7" />
-                      </svg>
-                      Create Post
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-            
-            {/* Logout Button */}
-            {/* <div className="flex items-center gap-3 mt-6">
-              {userData ? (
-                <div onClick={() => setSettingOpen(false)} className="relative group">
-                  <div className="absolute inset-0 bg-gray-100 opacity-80 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg transform group-hover:scale-105"></div>
-                  <button
-                    className="flex items-center gap-2 text-sm text-gray-800 hover:text-red-600 relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-2xl"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-800 group-hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 12l-7 7-7-7" />
-                    </svg>
-                    <span>Logout</span>
-                  </button>
-                </div>
-              ) : (
-                <p className="text-sm text-gray-600">Not logged in</p>
-              )}
-            </div> */}
-              <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                      {userData ? (
-                        <div onClick={() => setSettingOpen(false)} className="flex items-center gap-3">
-                          <LogoutBtn />
-                          <p className="text-sm text-gray-600">Logged in as {userData.username}</p>
-                        </div>
-                      ) : (
-                        <p className="text-sm text-gray-600">Not logged in</p>
-                      )}
-                    </div>
+            <div className="absolute top-10 mt-6 w-[300px] mr-10 right-0 bg-white p-6 border rounded-2xl shadow-xl transition-transform transform-gpu ease-in-out duration-300 scale-105">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold text-gray-800">Settings</h2>
+                <button onClick={() => setSettingOpen(false)} className="text-gray-500 hover:text-gray-700 transition duration-200 ease-in-out transform hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
-            </div>
+              
+              <div className="space-y-6">
+                {/* Create Video Button */}
+                <div className="flex flex-col items-start gap-4">
+                  <Link onClick={()=>setSettingOpen(false)} to={'/home/videos/publish'}>
+                    <div className="relative group">
+                      <div className="absolute inset-0 bg-red-600 opacity-80 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg transform group-hover:scale-105"></div>
+                      <div className="font-medium text-white relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-2xl">
+                        <div className="flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16M5 12l7-7 7 7" />
+                          </svg>
+                          Create Video
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                
+                {/* Create Post Button */}
+                <div className="flex flex-col items-start gap-4">
+                  <Link onClick={()=>setSettingOpen(false)} to={'/home/posts/publish'}>
+                    <div className="relative group">
+                      <div className="absolute inset-0 bg-white opacity-90 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg border-2 border-gray-200 transform group-hover:scale-105"></div>
+                      <div className="font-medium text-gray-800 relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-lg">
+                        <div className="flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 12l-7 7-7-7" />
+                          </svg>
+                          Create Post
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
 
-        
+                {/* Create Playlist Button */}
+                <div className="flex flex-col items-start gap-4">
+                  <Link onClick={()=>setSettingOpen(false)} to={'/home/playlist/publish'}>
+                    <div className="relative group">
+                      <div className="absolute inset-0 bg-white opacity-90 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg border-2 border-gray-200 transform group-hover:scale-105"></div>
+                      <div className="font-medium text-gray-800 relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-lg">
+                        <div className="flex items-center gap-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 12l-7 7-7-7" />
+                          </svg>
+                          Create Playlist
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                
+                {/* Logout Button */}
+                {/* <div className="flex items-center gap-3 mt-6">
+                  {userData ? (
+                    <div onClick={() => setSettingOpen(false)} className="relative group">
+                      <div className="absolute inset-0 bg-gray-100 opacity-80 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg transform group-hover:scale-105"></div>
+                      <button
+                        className="flex items-center gap-2 text-sm text-gray-800 hover:text-red-600 relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-2xl"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-800 group-hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 12l-7 7-7-7" />
+                        </svg>
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-600">Not logged in</p>
+                  )}
+                </div> */}
+                  <div className="flex items-center justify-between border-t">
+                          {userData ? (
+                           <div className="flex-1">
+                            <div onClick={() => setSettingOpen(false)} className="flex items-center gap-3">
+                              <LogoutBtn />
+                              
+                            </div>
+                            <p className="text-sm mt-3 text-gray-600">Logged in as {userData.username}</p>
+                            </div>
+                          ) : (
+                            <p className="text-sm text-gray-600">Not logged in</p>
+                          )}
+                        </div>
+                  </div>
+                </div>
           )}
-
-
         </ul>
 
       </header>

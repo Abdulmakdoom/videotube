@@ -54,7 +54,7 @@ section span:hover {
 .signin1 {
   position: absolute;
   width: 700px;
-  height: 600px;
+  height: 700px;
   background: #222;
   z-index: 10;
   display: flex;
