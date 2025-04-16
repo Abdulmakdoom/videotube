@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Spinner, Card, timeAgo} from '../components/allComponents.js'
+import {Spinner, Card, timeAgo, Button} from '../components/allComponents.js'
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -7,10 +7,23 @@ import { Link } from "react-router-dom";
 function OwnerAllVideos() {
     const [videosData, setVideosData] = useState([])
      const [loading, setLoading] = useState(true);
+     const [page, setPage] = useState(1)
+     const [VideoData2, setVideoData2] = useState([])
 
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
 
+
+    const pageIncreaseHandler = ()=> {
+        page !== VideoData2.pagination.totalPages? setPage(page + 1): page 
+    }
+
+    const pageDecreaseHandler = ()=> {
+       page >= 2? setPage(page - 1) : 1;
+    }
+
+    //console.log(VideoData2);
+    
 
     const videoHandler = async () => {
         if (!userId) {
@@ -22,15 +35,16 @@ function OwnerAllVideos() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${userId}`);
+            let response = await fetch(`/api/v1/videos/u?page=${page}&limit=10&sortBy=views&sortType=desc&userId=${userId}`);
             let result = await response.json();
-    
+
             //console.log(result);
             
             if (!response.ok) {
                 throw new Error(result.message || "Failed to fetch videos");
             }
     
+            setVideoData2(result)
             setVideosData(result.data);
     
         } catch (error) {
@@ -44,38 +58,67 @@ function OwnerAllVideos() {
 
     useEffect(()=> {
         videoHandler()
-    }, [userId])
+    }, [userId, page])
+
+
+    
+
+    
     return (
         <>
-
-        <div className="flex flex-col mt-23">
-        
+        <div className="flex flex-col min-h-screen">
+            {/* Header */}
             <div className="relative z-10 mb-6 pl-5">
                 <h2 className="font-bold text-3xl text-white">Your Videos</h2>
             </div>
-            
-            <div className="flex-grow p-4 flex flex-col items-center justify-start">
-                
-                {loading ? <div className="mt-60"><Spinner /> </div>: null}
 
-                
-                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8"> 
-                    {videosData.map((video, index) => (
-                            <Link to={`/home/videos/${video._id}`} key={video._id}>
-                        <Card 
+            {/* Main Content */}
+            <div className="flex-grow p-4 flex flex-col items-center justify-start">
+                {loading ? <div className="mt-60"><Spinner /></div> : null}
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                    {videosData.map((video) => (
+                        <Link to={`/home/videos/${video._id}`} key={video._id}>
+                            <Card 
                                 title={video.title}
-                                duration={video.duration} 
-                                thumbnail={video.thumbnail} 
-                                ownerAvatar={video.ownerDetails.avatar} 
-                                channelName={video.ownerDetails.username} 
-                                views={video.views} 
+                                duration={video.duration}
+                                thumbnail={video.thumbnail}
+                                ownerAvatar={video.ownerDetails.avatar}
+                                channelName={video.ownerDetails.username}
+                                views={video.views}
                                 uploadDate={timeAgo(video.createdAt)}
                             />
                         </Link>
                     ))}
                 </div>
             </div>
+
+            {/* Sticky Footer Buttons */}
+            <div className="sticky bottom-0 bg-black py-4 w-full flex justify-between lg:justify-evenly md:justify-evenly sm:justify-evenly items-center px-4 border-t border-gray-700">
+                {/* Next Button */}
+                <button
+                    onClick={pageIncreaseHandler}
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                >
+                    Next
+                </button>
+
+                <div className="text-white text-xl font-medium px-6 py-3 rounded-lg backdrop-blur-md bg-white/10 border border-white/20 shadow-lg ring-1 ring-white/10 hover:ring-2 hover:ring-white/30 transition">
+                    {VideoData2?.pagination?.currentPage} / {VideoData2?.pagination?.totalPages}
+                </div>
+
+                {/* Back Button */}
+                <button
+                    onClick={pageDecreaseHandler}
+                    className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-3 rounded-lg shadow-md hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ml-4"
+                >
+                    Back
+                </button>
+            </div>
         </div>
+
+
+
         </>
     )
 }

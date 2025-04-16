@@ -32,15 +32,34 @@ function History() {
         }
     }, [userId]);
 
-    // if (loading) {
-    //     return <Spinner />;  // Display spinner while loading
-    // }
+    const deleteHistoryHandler = async()=>{
+        try {
+            let response = await fetch(`/api/v1/users/delete-history`, {
+                method: "DELETE",
+                credentials: "include"
+            })
+
+            if(response.ok){
+                window.location.reload()
+            }  
+        } catch (error) {
+            console.log(error.message);
+            
+        }
+    }
 
     return (
         <>
-      <div className="mt-25 font-bold border-b border-gray-700">
-      <p className="text-white ml-55 text-4xl pb-5"><FontAwesomeIcon icon={faClockRotateLeft} className="mr-3"/>Watch History</p>
-      </div>
+        <div className="mt-25 font-bold border-b border-gray-700 flex flex-wrap items-center justify-between px-4 sm:px-10">
+            <p className="text-white text-2xl sm:text-3xl md:text-4xl pb-3 flex items-center">
+                <FontAwesomeIcon icon={faClockRotateLeft} className="mr-2 sm:mr-3" />
+                Watch History
+            </p>
+            <p onClick={deleteHistoryHandler} className="text-white mt-2 sm:mt-0 text-sm sm:text-base cursor-pointer">
+                Clear All
+            </p>
+        </div>
+
       {loading ? (
                 <div className="flex justify-center items-center mt-60">
                     <Spinner />
@@ -56,11 +75,12 @@ function History() {
                         title={data.title}
                         avatar={data.owner.avatar}
                         description={data.description}
-                        channelName={data.owner.username}
+                        channelName={data.owner.username}  
                         duration={data.duration}
                         views={data.views}
                         uploadTime={data.createdAt}
                         index={data._id}
+                        className="mb-3"
                     />
                 </Link>
                 ))}

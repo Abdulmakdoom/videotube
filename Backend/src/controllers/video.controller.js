@@ -12,7 +12,7 @@ import { Like } from "../models/like.model.js"
 
 
 const getVideos = asyncHandler(async(req, res)=> {
-    const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc"} = req.query;
+    const {sortBy = "createdAt", sortType = "desc"} = req.query;
     const {userId} = req.params;
 
     // try {
@@ -32,7 +32,6 @@ const getVideos = asyncHandler(async(req, res)=> {
     // }
 
     const sortOrder = sortType === "asc" ? 1 : -1;
-    const skip = (page - 1) * limit; 
 
     let matchStage = {};
     if (userId) {
@@ -43,8 +42,6 @@ const getVideos = asyncHandler(async(req, res)=> {
         const videos = await Subscription.aggregate([
             { $match: matchStage }, 
             { $sort: { [sortBy]: sortOrder } }, 
-            { $skip: skip }, // Skip for pagination 
-            { $limit: parseInt(limit) }, // Limit for pagination
 
             {
                 $lookup: {
@@ -99,8 +96,6 @@ const getVideos = asyncHandler(async(req, res)=> {
             message: "Videos fetched successfully",
             data: videos,
             pagination: {
-                currentPage: parseInt(page),
-                totalPages: Math.ceil(totalVideos / limit),
                 totalVideos,
             },
         });
@@ -419,6 +414,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
 
 })
 
+
 const viwesUpdate = asyncHandler(async (req, res)=> {
     let {videoId} = req.params;
     let user = req.user?._id
@@ -497,5 +493,5 @@ export {
     viwesUpdate,
     getVideos,
     getAllUserVideos,
-    totalViews
+    totalViews,
 }

@@ -210,39 +210,6 @@ function ChannelProfile() {
                                     Subscribed
                                     </button>) : ""}
             
-                        {/* Social Links */}
-                        {/* <div className="mt-4 sm:mt-6">
-                            {data?.socialLinks?.instagram && (
-                                <a
-                                    href={data?.socialLinks.instagram}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-500 hover:underline mr-4 text-xs sm:text-sm"
-                                >
-                                    Instagram
-                                </a>
-                            )}
-                            {data?.socialLinks?.twitter && (
-                                <a
-                                    href={data?.socialLinks.twitter}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-500 hover:underline mr-4 text-xs sm:text-sm"
-                                >
-                                    Twitter
-                                </a>
-                            )}
-                            {data?.socialLinks?.facebook && (
-                                <a
-                                    href={data?.socialLinks.facebook}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-500 hover:underline text-xs sm:text-sm"
-                                >
-                                    Facebook
-                                </a>
-                            )}
-                        </div> */}
                     </div>
                 </div>
             
@@ -263,9 +230,6 @@ function ChannelProfile() {
                     </div>
                 </div>
 
-            
-            
-                
             
                 {/* Tabs: Videos, Playlists, About */}
                 <div className="bg-[#0A0A0A] p-4 sm:p-6 text-white">
@@ -327,6 +291,16 @@ function ChannelProfile() {
                                 />
                                 </Link>
                             ))}
+                            
+                            <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer w-fit flex items-center gap-2 sm:px-8 sm:py-4">
+                                <Link to={`/videos/${userId}`}>
+                                    <span>View More</span>
+                                </Link>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+
                             </div>
                         </main>
                    </div>

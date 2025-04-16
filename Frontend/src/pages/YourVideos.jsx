@@ -4,7 +4,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 
-
 function YourVideos () {
     const [videoData, setVideoData] = useState([])
     const [loading, setLoading] = useState(true);
@@ -15,6 +14,8 @@ function YourVideos () {
     const userId = userData?._id;
 
     //console.log(userId);
+
+    
     
 
     const videoHandler = async () => {
@@ -146,7 +147,7 @@ return (
                 {loading ? <div className="mt-60"><Spinner /> </div>: null}
                 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8"> 
-                    {videoData.map((video, index) => (
+                    {videoData.map((video, index) => (   // {videoData.slice(0, 6).map((video) => (
                          index < 6 && (
                             <Link to={`/home/videos/${video._id}`} key={video._id}>
                            <Card 

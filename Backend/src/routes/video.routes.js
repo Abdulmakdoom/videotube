@@ -9,7 +9,7 @@ import {
     viwesUpdate,
     getVideos,
     getAllUserVideos,
-    totalViews
+    totalViews,
 } from "../controllers/video.controller.js"
 import {verifyJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
@@ -63,7 +63,9 @@ router
     .route("/views/:videoId")
     .post(verifyJWT, viwesUpdate)
 
-
+// router
+//     .route("/history/:videoId")
+//     .post(verifyJWT, historyUpdate)
 
 router
     .route("/:videoId")

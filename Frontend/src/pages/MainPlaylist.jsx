@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 
 
 
+
 const PlaylistPage = () => {
   const { playlistId } = useParams();
   const userData = useSelector((state) => state.auth.userData);
@@ -26,6 +27,26 @@ const PlaylistPage = () => {
   const [error2, setError2] = useState(null);
   const [popupPage, setPopupPage] = useState(false)
   const naviagte = useNavigate()
+
+
+
+
+function formatDuration(seconds) {
+  // Ensure we are working with an integer value by truncating the float
+  const totalSeconds = Math.floor(seconds);
+
+  const hrs = Math.floor(totalSeconds / 3600);
+  const mins = Math.floor((totalSeconds % 3600) / 60);
+  const secs = totalSeconds % 60;
+
+  // Format as "HH:MM:SS" if there's an hour part
+  const parts = [];
+  if (hrs > 0) parts.push(hrs.toString().padStart(2, '0'));
+  parts.push(mins.toString().padStart(2, '0'));
+  parts.push(secs.toString().padStart(2, '0'));
+
+  return parts.join(':');
+}
 
   useEffect(() => {
     const fetchPlaylist = async () => {
@@ -67,7 +88,6 @@ const PlaylistPage = () => {
 
 
   //console.log(playlistData);
-
 
   const popupToggle = ()=> {
     setPopupPage(!popupPage)
@@ -191,7 +211,7 @@ const PlaylistPage = () => {
                           loading="lazy"
                         />
                         <div className="absolute bottom-2 left-2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full text-[10px] transition-opacity duration-300 group-hover:opacity-100">
-                          {video.duration}
+                          {formatDuration(video.duration)}
                         </div>
                       </div>
 
@@ -292,7 +312,7 @@ const PlaylistPage = () => {
                       </div>
 
                       <div className="absolute bottom-2 right-2 text-xs text-white bg-black bg-opacity-60 p-1 rounded-md">
-                        {video?.duration}
+                        {formatDuration(video?.duration)}
                       </div>
                     </div>
                   </Link>

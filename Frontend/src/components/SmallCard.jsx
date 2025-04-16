@@ -14,6 +14,24 @@ function SmallCard({
   className = "", 
   ...props
 }) {
+
+
+    function formatDuration(seconds) {
+        // Ensure we are working with an integer value by truncating the float
+        const totalSeconds = Math.floor(seconds);
+    
+        const hrs = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = totalSeconds % 60;
+    
+        // Format as "HH:MM:SS" if there's an hour part
+        const parts = [];
+        if (hrs > 0) parts.push(hrs.toString().padStart(2, '0'));
+        parts.push(mins.toString().padStart(2, '0'));
+        parts.push(secs.toString().padStart(2, '0'));
+    
+        return parts.join(':');
+    }
     
   // Format upload time
   const formattedTime = timeAgo(uploadTime);
@@ -42,7 +60,7 @@ function SmallCard({
 
                 {/* Video Duration - Positioned at bottom-right corner */}
                 <div className="absolute bottom-2 right-2 text-xs text-white bg-black bg-opacity-60 p-1 rounded-md">
-                    {duration}
+                    {formatDuration(duration)}
                 </div>
             </div>
 
@@ -55,7 +73,7 @@ function SmallCard({
                     <h3 className="text-lg font-semibold text-white">{title}</h3>
 
                     {/* Channel Info */}
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 mt-2">
                     {/* Channel Avatar */}
                     {avatar && (
                         <img
@@ -68,10 +86,10 @@ function SmallCard({
                     </div>
 
                     {/* Description (truncated) */}
-                    <p className="text-xs text-gray-400 mt-2 sm:text-xs">{truncatedDescription}</p>
+                    <p className={`text-xs text-gray-400 mt-2 sm:text-xs ${className}`}>{truncatedDescription}</p>
 
                     {/* Stats */}
-                    <div className="flex items-center space-x-4 text-xs text-gray-400 mt-2">
+                    <div className={`flex items-center space-x-4 text-xs text-gray-400 ${className = "mb-20"}`}>
                     <p>{views} views</p>
                     <p>{formattedTime}</p>
                     </div>

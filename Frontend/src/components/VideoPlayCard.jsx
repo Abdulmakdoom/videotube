@@ -143,8 +143,8 @@ function VideoPlayCard({
     const currentTime = videoElement.currentTime;
     const duration = videoElement.duration;
 
-    // Check if 30% of the video has been watched
-    if (currentTime >= duration * 0.3 && !hasSeen30) {
+    // Check if 10% of the video has been watched
+    if (currentTime >= duration * 0.01 && !hasSeen30) {
       setHasSeen30(true); // Set the flag to true so it doesn't trigger again
 
       // Call the API to increase the view count

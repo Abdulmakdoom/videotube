@@ -16,6 +16,8 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
 
     const userData2 = useSelector((state) => state.auth.userData);
     const userId2 = userData2?._id;
+
+
   
     const deleteHandler = async () => {
         try {

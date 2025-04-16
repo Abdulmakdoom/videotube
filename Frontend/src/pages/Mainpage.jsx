@@ -61,7 +61,7 @@ function Mainpage() {
             try {
                 const response = await fetchWithAuth(
                     userId
-                        ? `/api/v1/videos/u/${userId}?page=1&limit=10&sortBy=views&sortType=desc`
+                        ? `/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`
                         : `/api/v1/videos/u/videos`,
                         {
                             method: "GET", // The correct place to define the HTTP method
