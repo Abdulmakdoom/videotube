@@ -52,7 +52,7 @@ function OwnerAllPosts (){
         <>
          {/* Post Content */}
          <div>
-            <div className="flex flex-col h-screen mt-20">
+            <div className="flex flex-col h-screen mt-20 pl-20">
                  {/* Loader spinner when loading */}
                  {loader ? (
                         <div className="flex justify-center items-center mt-60">

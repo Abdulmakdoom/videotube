@@ -136,7 +136,7 @@ function PublishVideo() {
 
   return (
    
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen pl-20">
         
       <div className=" p-6 rounded-lg shadow-lg mx-auto">
         {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}

@@ -166,7 +166,7 @@ function ChannelProfile() {
 
     return (
  <>
-        <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20">
+        <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20 pl-20">
             
             {loader && (<Spinner/>)}
                 

@@ -183,7 +183,7 @@ function PostProfile() {
 
     return (
   <>
-        <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20">
+        <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20 pl-20">
             {/* Banner Section */}
             <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
                 <img

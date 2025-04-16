@@ -201,7 +201,7 @@ function PublishVideo() {
 
   return (
    
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r pl-20">
   <div className="p-8 rounded-xl shadow-xl bg-[#212121] transform transition-all duration-300 mx-auto w-full max-w-4xl mt-20">
     {error && (
       <p className="text-red-600 mt-4 text-center font-medium animate__animated animate__fadeIn">

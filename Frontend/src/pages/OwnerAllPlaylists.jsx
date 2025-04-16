@@ -48,7 +48,7 @@ function OwnerAllPlaylist() {
     return (
         <>
 
-         <div className="flex flex-col h-screen mt-20">
+         <div className="flex flex-col h-screen mt-20 pl-20">
             {/* Main content */}
             <div className="flex-grow p-4 flex flex-col justify-start">
                 {/* Loader spinner when loading */}

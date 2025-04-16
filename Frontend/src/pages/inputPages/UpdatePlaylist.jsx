@@ -234,7 +234,7 @@ function UpdatePlaylist() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r ">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r pl-20">
         <div className="p-8 rounded-xl shadow-xl bg-[#212121] transform transition-all duration-300  mx-auto w-full max-w-md">
             <h2 className="text-white text-2xl font-bold mb-6 text-center">Update Playlist</h2>
 

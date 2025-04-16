@@ -182,7 +182,7 @@ function PlaylistProfile() {
 
     return (
   <>
-        <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20">
+        <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20 pl-20">
             {/* Banner Section */}
             <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
                 <img
@@ -222,40 +222,6 @@ function PlaylistProfile() {
                                 </button> :  <button onClick={handleSubscribeButtion} className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium">
                                 Subscribed
                                 </button>) : ""}
-
-                    {/* Social Links */}
-                    {/* <div className="mt-4 sm:mt-6">
-                        {data?.socialLinks?.instagram && (
-                            <a
-                                href={data?.socialLinks.instagram}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 hover:underline mr-4 text-xs sm:text-sm"
-                            >
-                                Instagram
-                            </a>
-                        )}
-                        {data?.socialLinks?.twitter && (
-                            <a
-                                href={data?.socialLinks.twitter}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 hover:underline mr-4 text-xs sm:text-sm"
-                            >
-                                Twitter
-                            </a>
-                        )}
-                        {data?.socialLinks?.facebook && (
-                            <a
-                                href={data?.socialLinks.facebook}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-500 hover:underline text-xs sm:text-sm"
-                            >
-                                Facebook
-                            </a>
-                        )}
-                    </div> */}
                 </div>
             </div>
 

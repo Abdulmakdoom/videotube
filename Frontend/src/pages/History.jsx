@@ -51,7 +51,7 @@ function History() {
     return (
         <>
         <div className="mt-25 font-bold border-b border-gray-700 flex flex-wrap items-center justify-between px-4 sm:px-10">
-            <p className="text-white text-2xl sm:text-3xl md:text-4xl pb-3 flex items-center">
+            <p className="text-white text-2xl sm:text-3xl md:text-4xl pb-3 flex items-center pl-25">
                 <FontAwesomeIcon icon={faClockRotateLeft} className="mr-2 sm:mr-3" />
                 Watch History
             </p>
@@ -66,7 +66,7 @@ function History() {
                 </div>
             ) : null}
         
-            <div className="mt-10">
+            <div className="mt-10 pl-25 pr-5">
                 {videoData.map((data) => (
                 <Link to={`/home/videos/${data._id}`} key={data._id}>
                     <SmallCard

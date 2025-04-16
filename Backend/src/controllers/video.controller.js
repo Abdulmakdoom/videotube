@@ -123,10 +123,17 @@ const getAllUserVideos = asyncHandler(async (req,res)=> {
 })
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, sortBy = "createdAt", sortType = "desc", userId } = req.query;
+    const {
+        page = 1,
+        limit = 10,
+        sortBy = "createdAt",
+        sortType = "desc",
+        userId,
+    } = req.query;
 
+    const sortField = sortBy || "createdAt";
     const sortOrder = sortType === "asc" ? 1 : -1;
-    const skip = (page - 1) * limit; 
+    const skip = (parseInt(page) - 1) * parseInt(limit); 
 
     let matchStage = {};
     if (userId) {
@@ -136,13 +143,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
     try {
         const videos = await Video.aggregate([
             { $match: matchStage }, 
-            { $sort: { [sortBy]: sortOrder } }, 
-            { $skip: skip }, // Skip for pagination 
-            { $limit: parseInt(limit) }, // Limit for pagination
-            
+            { $sort: { [sortField]: sortOrder } }, 
+            { $skip: skip }, 
+            { $limit: parseInt(limit) },
             {
                 $lookup: {
-                    from: "users", // Referencing 'User' collection
+                    from: "users",
                     localField: "owner",
                     foreignField: "_id",
                     as: "ownerDetails"
@@ -151,35 +157,30 @@ const getAllVideos = asyncHandler(async (req, res) => {
             { $unwind: "$ownerDetails" },
             { 
                 $project: { 
-                  "_id": 1, 
-                  "videoFile": 1,
-                  "duration": 1,
-                  "thumbnail":1,
-                  "title":1,
-                  "description":1,
-                  "views":1,
-                  "isPublished":1,
-                  "owner":1,
-                  "views":1,
-                  "viewers": 1,
-                  "createdAt":1,
-                  "updatedAt":1,
-                  "ownerDetails": {
+                    "_id": 1, 
+                    "videoFile": 1,
+                    "duration": 1,
+                    "thumbnail":1,
+                    "title":1,
+                    "description":1,
+                    "views":1,
+                    "isPublished":1,
+                    "owner":1,
+                    "viewers": 1,
+                    "createdAt":1,
+                    "updatedAt":1,
+                    "ownerDetails": {
                         "_id":1,
                         "username": 1,
                         "email": 1,
                         "avatar": 1
-                  }
-
+                    }
                 }
             }    
         ]);
 
-        // Get total video count for pagination
         const totalVideos = await Video.countDocuments(matchStage);
 
-        //console.log(videos);
-        
         res.status(200).json({
             success: true,
             message: "Videos fetched successfully",
@@ -193,8 +194,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-    
-})
+});
+
 
 const publishAVideo = asyncHandler(async (req, res) => {
     const { title, description,} = req.body

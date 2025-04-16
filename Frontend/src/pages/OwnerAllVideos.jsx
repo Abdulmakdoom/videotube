@@ -35,7 +35,7 @@ function OwnerAllVideos() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/videos/u?page=${page}&limit=10&sortBy=views&sortType=desc&userId=${userId}`);
+            let response = await fetch(`/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`);
             let result = await response.json();
 
             //console.log(result);
@@ -66,9 +66,9 @@ function OwnerAllVideos() {
     
     return (
         <>
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen pl-20 mt-23">
             {/* Header */}
-            <div className="relative z-10 mb-6 pl-5">
+            <div className="relative z-10 mb-3 pl-5">
                 <h2 className="font-bold text-3xl text-white">Your Videos</h2>
             </div>
 

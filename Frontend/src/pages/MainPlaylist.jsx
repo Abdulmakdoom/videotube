@@ -176,7 +176,7 @@ function formatDuration(seconds) {
 
         {popupPage && (
           <div
-            className="absolute bg-[#0A0A0A] w-full flex items-center justify-center transition-opacity duration-300 ease-out mt-23 z-50"
+            className="absolute bg-[#0A0A0A] w-full flex items-center justify-center transition-opacity duration-300 ease-out mt-23 z-50 pl-20"
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
           >
             <div className="bg-[#0A0A0A] ml-4 sm:ml-8 md:ml-40 lg:ml-85 lg:mr-0 p-8 rounded-lg w-11/12 sm:w-4/5 max-w-5xl transform transition-transform shadow-lg relative overflow-hidden z-50">
@@ -216,7 +216,7 @@ function formatDuration(seconds) {
                       </div>
 
                       {/* Video Details */}
-                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors duration-300">
+                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-2  transition-colors duration-300">
                         {video.title}
                       </h3>
                       <p className="text-gray-400 text-xs sm:text-sm mb-3">{video.ownerDetails.username}</p>
@@ -225,11 +225,12 @@ function formatDuration(seconds) {
                       {/* Add to Playlist Button */}
                       <button
                         onClick={() => addVideoInPlaylistHandler(video?._id)}
-                        className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 ease-in-out transform hover:scale-105 w-full relative"
+                        className="mt-4 bg-red-600 text-white px-4 py-1.5 sm:px-6 sm:py-2 text-xs sm:text-sm rounded-md hover:bg-red-700 transition-colors duration-300 ease-in-out transform hover:scale-105 w-full relative"
                         aria-label="Add to Playlist"
                       >
                         Add to Playlist
-                      </button>
+                    </button>
+
                     </div>
                   ))}
                 </div>
@@ -239,7 +240,7 @@ function formatDuration(seconds) {
         )}
 
 
-        <div className="flex flex-col md:flex-row bg-[#0A0A0A] text-white h-auto md:h-screen p-4 mt-20">
+        <div className="flex flex-col md:flex-row bg-[#0A0A0A] text-white h-auto md:h-screen p-4 mt-20 pl-20">
           {/* Left Side - Playlist Info */}
           <div className="w-full md:w-1/4 bg-gradient-to-b from-red-800 to-red-900 p-4 rounded-lg flex flex-col">
             {/* Adjusting image to be responsive */}

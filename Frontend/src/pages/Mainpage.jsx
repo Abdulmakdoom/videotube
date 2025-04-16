@@ -59,10 +59,17 @@ function Mainpage() {
         const listData = async () => {
             setLoader(true); // Set loader to true before fetching
             try {
-                const response = await fetchWithAuth(
-                    userId
-                        ? `/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`
-                        : `/api/v1/videos/u/videos`,
+                // const response = await fetchWithAuth(
+                //     userId
+                //         ? `/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`
+                //         : `/api/v1/videos/u/videos`,
+                //         {
+                //             method: "GET", // The correct place to define the HTTP method
+                //             credentials: 'include', // To ensure cookies are sent with the request
+                //         }
+                // );
+
+                const response = await fetchWithAuth(`/api/v1/videos/u/videos`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request
@@ -96,7 +103,7 @@ function Mainpage() {
     
 
     return (
-        <div className="flex flex-col h-screen mt-20">
+        <div className="flex flex-col h-screen mt-20 pl-20">
 
             <main className="flex-grow p-4 flex flex-col items-center justify-start">
                

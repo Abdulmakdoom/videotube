@@ -28,7 +28,7 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${userId}`);
+            let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`);
             let result = await response.json();
     
             //console.log(result);
@@ -122,8 +122,9 @@ function YourVideos () {
     //console.log(videoData);
 return (
         <>
-        {/* videos */}
-        <div className="relative text-white mt-23 text-xl font-semibold bg-gray-800 p-4 rounded-lg shadow-lg">
+    <div className='pl-20'>
+            {/* videos */}
+            <div className="relative text-white mt-23 text-xl font-semibold bg-gray-800 p-4 rounded-lg shadow-lg">
             <div className="absolute inset-0 bg-black opacity-70 rounded-lg"></div>
             <div className='flex justify-between items-center'>
                 <div className="relative z-10 text-lg">
@@ -181,40 +182,40 @@ return (
         </div>
 
          {/* Post Content */}
-         <div>
-            <div className="flex flex-col mt-4">
-                {/* Main content */}
-                <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-x-auto">
-                {/* Loader spinner when loading */}
-                {loading ? (
-                    <div className="flex justify-center items-center mt-60">
-                    <Spinner />
-                    </div>
-                ) : null}
+         <div className="w-full">
+                <div className="flex flex-col mt-4">
+                    {/* Main content */}
+                    <div className="flex-grow p-4 flex flex-col items-start justify-start">
+                    
+                    {/* Loader spinner when loading */}
+                    {loading ? (
+                        <div className="flex justify-center items-center w-full mt-60">
+                        <Spinner />
+                        </div>
+                    ) : null}
 
-                {/* Horizontal display of cards */}
-                <div className="flex flex-row w-full space-x-4 overflow-x-auto">
-                    {postData.map((post, index) => (
-                    index < 4 && (
+                    {/* Horizontal scrollable cards container */}
+                    <div className="flex flex-row w-full space-x-4 overflow-x-auto scrollbar-hide">
+                        {postData.slice(0, 4).map((post, index) => (
                         <div
-                        key={index}
-                        className="flex-shrink-0 w-1/2 sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4"  // Adjusting widths based on screen size
+                            key={index}
+                            className="flex-shrink-0 w-[80%] sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
                         >
-                        <PostCard
+                            <PostCard
                             avatar={post?.owner?.avatar}
                             channelName={post?.owner?.username}
                             content={post?.content}
                             uploadTime={timeAgo(post?.createdAt)}
                             postId={post?._id}
                             userId={post?.owner?._id}
-                        />
+                            />
                         </div>
-                    )
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
 
 
 
@@ -260,6 +261,7 @@ return (
                 </div>
             </div> 
         </div>
+    </div>
 
         </>
     )

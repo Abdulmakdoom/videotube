@@ -10,6 +10,7 @@ import { BiSolidVideos } from "react-icons/bi";
 import { FcSettings } from "react-icons/fc";
 import { BsPostcard } from "react-icons/bs";
 import { CgLogIn } from "react-icons/cg";
+import { AiOutlineHome, AiOutlineMail, AiOutlinePlus, AiOutlineDown } from 'react-icons/ai';
 
 
 
@@ -20,6 +21,8 @@ const Sidebar = () => {
   const [isSettingOpen, setSettingOpen] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const navItems = [
     { name: 'Home', icon: <FontAwesomeIcon icon={faHouse} />, path: '/home' },
@@ -46,8 +49,11 @@ const Sidebar = () => {
 
   return (
     <>
-      <header className='flex items-center justify-between p-4 shadow-md w-full fixed top-0 left-0 z-20 bg-[#0A0A0A]'>
-        <div className='text-2xl ml-12 font-bold text-red-600'>VideoTube</div>
+      <header className='flex items-center justify-between p-4 shadow-md w-full fixed top-0 left-0 z-20 bg-[#0A0A0A] pl-15'>
+       <div className="flex">
+        <div className="text-2xl ml-10 font-bold text-white">Video</div>
+        <div className='text-2xl font-bold text-red-600'>Tube</div>
+       </div>
 
         <div className="flex justify-center mx-4">
           <div className="flex h-10 w-full sm:max-w-xs md:max-w-md lg:max-w-lg">
@@ -185,34 +191,75 @@ const Sidebar = () => {
       </header>
 
       <div className="relative">
-        <div className="fixed top-4 left-4 z-50">
-          <button onClick={toggleSidebar}>
-            <FontAwesomeIcon icon={faBars} className="text-3xl text-gray-200 mt-1" />
-          </button>
-        </div>
+        <aside
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+      className={`fixed top-0 left-0 bottom-0 flex gap-2 transition-all duration-400 bg-white/30 backdrop-blur-md ... rounded-[18px] overflow-hidden z-20 ${
+        isExpanded ? 'w-[300px]' : 'w-[80px]'
+      }`}
+    >
+      {/* Left Section */}
+      <div className="z-10 w-[80px] flex flex-col items-center bg-[#0A0A0A]">
+        <img src="https://media-hosting.imagekit.io/5c7833d9652a4f28/ChatGPT Image Apr 16, 2025, 06_57_22 PM.png?Expires=1839422393&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=GP2y6yRlDMmGpGtiCr-~pA9Z0KgpQz8hXFHRMECLamwZbqHtM6kLoL5zkeabZnmwLzuCz8jkrfTWNdynV2bzGnIWi~~uIpRDVf8yYa~OYwUcSMgIuzEmQ8uKAJbSCNi4e-wa1WFzsFIegF7c6n4WVu7x92gpKxtEeMu1n95kMYc~UO7HfRASAiEzJWs3LBMfMTd08wWtJlsoV1TS9toq6yZ8cli-BWT0WfeGTOfgXPVB~-27IDXQW2Ha3iQyyLTxVIN9znQ4CtXKizDPzFPI3nqRtPo7RTww7-xg5ueEi9jFqhOPJ0JbtDR4u~EX5huXKuxpnK2c05B-ef~QywRSTg__" alt="Logo" className="w-15 h-15 my-1.5" />
+        <button onClick={()=> navigate('/home')} className="mt-7 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+          <AiOutlineHome />
+        </button>
+        <button onClick={()=> navigate('/posts')} className="mt-6 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+        <BsPostcard />
+        </button>
+        <button onClick={()=> navigate('/subscriptions')} className="mt-6 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+        <FontAwesomeIcon icon={faCirclePlay} />
+        </button>
+        <button onClick={()=> navigate('/home/history')} className="mt-6 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+        <FontAwesomeIcon icon={faClockRotateLeft} />
+        </button>
+        <button onClick={()=> navigate('/videos')} className="mt-6 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+        <BiSolidVideos />
+        </button>
+        {userData &&<button onClick={()=> navigate(`/${userData.username}`)} className="mt-6 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+        <FontAwesomeIcon icon={faCircleUser} />
+        </button>}
+        {!userData && <button onClick={()=> navigate('/login')} className="mt-6 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
+        <CgLogIn />
+        </button>}
+        {/* Add more icons/buttons here */}
+      </div>
 
-        <div
-          className={`fixed top-0 left-0 h-full bg-[#0A0A0A] shadow-lg w-64 transform transition-transform ${
-            leftSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } z-40`}
-        >
-          <div className="flex flex-col items-start p-4">
-            <div className="text-2xl ml-12 mt-1 font-bold text-red-600 mb-8">VideoTube</div>
-            <ul className="space-y-6">
-              {navItems.map(item => (
+      {/* Right Section */}
+      <div
+        className={`relative h-full transition-all duration-400 ${
+          isExpanded ? 'w-[225px]' : 'w-0'
+        }`}
+      >
+        <div className="absolute inset-2 bg-[#0A0A0A] rounded-xl overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-5">
+            <div>
+              <h2 className="text-xl font-semibold text-white">VideoTube</h2>
+              {/* <h3 className="text-xs font-medium text-[#9fa4af]">store.untitledui.com</h3> */}
+            </div>
+          </div>
+
+          {/* Nav */}
+          <nav className="px-3">
+            {navItems.map(item => (
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.path)}
-                    className="flex items-center space-x-3 text-white hover:bg-gray-400 hover:text-black px-4 py-2 rounded-md w-full"
+                    //className="flex items-center space-x-3 text-white hover:bg-gray-400 hover:text-black px-4 py-2 rounded-md w-full"
+                    //className="ml-auto text-xs opacity-0 group-hover:opacity-100 transition text-white"
+                    className="w-full h-11 px-3 flex items-center gap-2 text-sm rounded-md text-white hover:bg-[#e8ecf4] hover:text-[#384251] transition"
                   >
                     <span>{item.icon}</span>
                     <span>{item.name}</span>
                   </button>
                 </li>
               ))}
-            </ul>
-          </div>
+
+          </nav>
         </div>
+      </div>
+    </aside>
 
         {leftSidebarOpen && (
           <div

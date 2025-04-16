@@ -62,7 +62,7 @@ function PublishPlaylist (){
         </form> */}
 
 
-        <div className="flex justify-center items-center min-h-screen bg-[#0A0A0A] py-6 px-4">
+        <div className="flex justify-center items-center min-h-screen bg-[#0A0A0A] py-6 px-4 pl-20">
             <div className="w-full max-w-lg bg-[#212121] rounded-lg p-8 shadow-lg">
                 <h2 className="text-3xl font-bold text-white text-center mb-6">Create Playlist</h2>
                 {error && <p className="text-red-600 mt-4 text-center font-medium mb-3">{error}</p>}

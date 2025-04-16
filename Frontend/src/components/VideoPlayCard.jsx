@@ -8,6 +8,7 @@ import {CommentBox, timeAgo} from "./allComponents.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
@@ -37,11 +38,13 @@ function VideoPlayCard({
 }) {
     const [likes, setLikes] = useState(0);
     const [subscribersCount, setSubscribersCount] = useState(0)
+    const [likeUsers, setLikeUsers] = useState([])
     let { videoId } = useParams();
     const [hasSeen30, setHasSeen30] = useState(false); 
     const [buttonPressed, setButtonPressed] = useState(false)
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [subscribeDone , setSubscrbeDone] = useState(false)
+     const [shareMessage, setShareMessage] = useState("");
     let navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
@@ -62,6 +65,9 @@ function VideoPlayCard({
         const result = await response1.json();
         const result2 = await response2.json();
         //console.log(result2.data.subscribers);
+
+        setLikeUsers(result.data.video)
+        
 
         let data = result2.data.subscribers
         const match = data.find(item => item.subscriber._id === userId);
@@ -179,6 +185,8 @@ function VideoPlayCard({
         credentials: 'include',
       });
       const data = await response.json();
+      //console.log(data);
+      
       if (data.success) {
         setLikes(data.likes); // Update the like count based on the response
       } else {
@@ -189,6 +197,20 @@ function VideoPlayCard({
     }
   };
 
+   // Share handler: Copy the post URL to clipboard
+   const handleShare = async () => {
+    const videoUrl = `${window.location.origin}/home/videos/${videoId}`; // Assuming post URL structure
+    try {
+        await navigator.clipboard.writeText(videoUrl); // Copy to clipboard
+        setShareMessage("Video link copied to clipboard!"); // Provide feedback to the user
+        setTimeout(() => setShareMessage(""), 3000); // Clear message after 3 seconds
+    } catch (error) {
+        console.error("Failed to copy the link:", error);
+        setShareMessage("Failed to copy the link.");
+        setTimeout(() => setShareMessage(""), 3000); // Clear message after 3 seconds
+    }
+}
+
   // Toggle description visibility
   const toggleDescription = () => {
     setShowFullDescription((prevState) => !prevState);
@@ -197,9 +219,13 @@ function VideoPlayCard({
   // Truncate description if not showing full text
   const truncatedDescription = description.length > 200 ? description.slice(0, 200) + "..." : description;
 
+  let findUser = likeUsers.some((user)=> user.likedBy === userId? true : false)
+
+  
+
   return (
     <Container>
-      <div className="w-full max-w-full mx-auto bg-[#0A0A0A] rounded-lg shadow-lg overflow-hidden mt-2">
+      <div className="w-full max-w-full mx-auto bg-[#0A0A0A] rounded-lg shadow-lg overflow-hidden mt-2 pl-20">
         {/* Video Section */}
         <div className="flex justify-center bg-black">
           <video
@@ -260,9 +286,9 @@ function VideoPlayCard({
                     onClick={handleLike}
                     className="flex items-center sm:text-sm space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
-                    <span className={"text-gray-700"}> <FontAwesomeIcon icon={faThumbsUp} /></span>
+                    <span className={"text-gray-700"}> {!findUser?<AiOutlineLike className="text-xl"/> : < AiFillLike  className="text-red-700 text-xl"/>}</span>
                     <div className="text-sm text-gray-700 font-medium">
-                      <span className="mr-1 text-red-700">{formatNumber(likes)}</span>
+                      <span className="mr-1 ">{formatNumber(likes)}</span>
                     </div>
                   </button>
                 ) : (
@@ -270,37 +296,54 @@ function VideoPlayCard({
                     onClick={() => navigate('/login')}
                     className="flex items-center sm:text-sm space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
-                    <span className="text-gray-700"> <FontAwesomeIcon icon={faThumbsUp} /></span>
+                    <span className="text-gray-700"> <AiOutlineLike /></span>
                     <div className="text-sm text-gray-700 font-medium">
                       <span className="mr-1">{formatNumber(likes)}</span>
                     </div>
                   </button>
                 )}
 
+                <div>
+                   {/* Feedback message after sharing */}
+                   {shareMessage && (
+                        <div className="absolute top-180 right-35 mt-2 text-green-500 text-sm">
+                            {shareMessage}
+                        </div>
+                    )}
 
                   {/* Share Button with Share Icon */}
-                  <button
+                  <button onClick={handleShare}
                     className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
                     <FontAwesomeIcon icon={faShare} />
                     <span>Share</span>
                   </button>
+                </div>
 
                   {/* Download Button with Download Icon */}
-                  <button
+                  {/* <button href="/video.mp4" download
                     className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
                     <FontAwesomeIcon icon={faDownload} />
                     <span>Download</span>
-                  </button>
+                  </button> */}
+                  <a href={`/${title}.mp4`} download>
+                    <button
+                      className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
+                    >
+                      <FontAwesomeIcon icon={faDownload} />
+                      <span>Download</span>
+                    </button>
+                  </a>
+
 
                   {/* Save Button with Save Icon */}
-                  <button
+                  {/* <button
                     className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
                   <FontAwesomeIcon icon={faBookmark} />
                     <span>Save</span>
-                  </button>
+                  </button> */}
 
                    {/* Delete Button with Delete Icon */}
                    {userId === userChannelId  && ( <button onClick={deleteHandler}
