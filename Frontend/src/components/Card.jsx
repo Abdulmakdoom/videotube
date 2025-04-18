@@ -32,7 +32,7 @@ function Card({title, duration, thumbnail, ownerAvatar, channelName, views, uplo
             </div>
             <div className="p-4 flex">
                 
-                    <img src={ownerAvatar} className="w-10 h-10 rounded-full mr-3" alt="Owner Avatar" />
+                    <img src={ownerAvatar} className="w-10 h-10 rounded-full mr-3 object-cover" alt="Owner Avatar" />
                 
                 <div className="flex-1"> {/* Allow this div to grow */}
                

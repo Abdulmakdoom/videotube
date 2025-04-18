@@ -541,7 +541,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                                 <img
                                     src={data?.ownerDetails?.avatar} // Replace with actual avatar image URL
                                     alt="User Avatar"
-                                    className="w-10 h-10 rounded-full"
+                                    className="w-10 h-10 rounded-full object-cover"
                                 />
                             </Link>
                         </div>

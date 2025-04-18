@@ -94,7 +94,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
                 <img
                     src={avatar}
                     alt="Avatar"
-                    className="w-14 h-14 rounded-full mr-4 shadow-md"
+                    className="w-12 h-12 border-2 rounded-full mr-4 shadow-md object-cover"
                 />
                 <div className="flex-1">
                     <div className="flex justify-between items-center">
