@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import fetchWithAuth from "../utils/api";
-import {CommentBox, timeAgo} from "./allComponents.js"
+import {CommentBox, timeAgo, Button} from "./allComponents.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
@@ -12,6 +12,7 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+
 
 
 
@@ -45,6 +46,7 @@ function VideoPlayCard({
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [subscribeDone , setSubscrbeDone] = useState(false)
      const [shareMessage, setShareMessage] = useState("");
+       const [open, setOpen]= useState(false)
     let navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
@@ -221,6 +223,9 @@ function VideoPlayCard({
 
   let findUser = likeUsers.some((user)=> user.likedBy === userId? true : false)
 
+  const openHandler = ()=> {
+    setOpen(!open)
+  }
   
 
   return (
@@ -321,12 +326,6 @@ function VideoPlayCard({
                 </div>
 
                   {/* Download Button with Download Icon */}
-                  {/* <button href="/video.mp4" download
-                    className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
-                  >
-                    <FontAwesomeIcon icon={faDownload} />
-                    <span>Download</span>
-                  </button> */}
                   <a href={`/${title}.mp4`} download>
                     <button
                       className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
@@ -345,8 +344,29 @@ function VideoPlayCard({
                     <span>Save</span>
                   </button> */}
 
+                  {open && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                        <h2 className="text-lg font-semibold mb-4">This video will be deleted permanently, and you will lose all comments and likes. Are you sure you want to proceed?</h2>
+                        <div className="flex justify-center space-x-4">
+                          <Button
+                            onClick={deleteHandler}
+                            className="bg-red-600 text-white rounded-full px-4 py-2 text-sm md:text-base"
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                        <button
+                          onClick={() => setOpen(false)}
+                          className="mt-4 text-sm text-gray-500 hover:underline"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
                    {/* Delete Button with Delete Icon */}
-                   {userId === userChannelId  && ( <button onClick={deleteHandler}
+                   {userId === userChannelId  && ( <button onClick={openHandler}
                     className="flex items-center space-x-2 sm:px-4 sm:py-2 px-3 py-1 text-gray-700 rounded-full sm:text-sm text-xs  font-medium bg-gray-300 hover:bg-gray-400 transition duration-200 ease-in-out"
                   >
                   <MdDeleteForever className="text-xl"/>

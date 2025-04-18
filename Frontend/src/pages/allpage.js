@@ -20,7 +20,11 @@ import OwnerAllPosts from "./OwnerAllPosts";
 import PublishPost from "./inputPages/PublishPost";
 import SubscriberPost from "./SubscriberPost";
 import PublishPlaylist from "./inputPages/PublishPlaylist";
-
+import AvatarEdit from "./inputPages/AvatarEdit";
+import CoverImageEdit from "./inputPages/CoverImageEdit";
+import AccountEdit from "./inputPages/AccountEdit";
+import PasswordEdit from "./inputPages/PasswordEdit";
+import PageNotFound from "./PageNotFound";
 
 export {
     VideoPlay,
@@ -44,5 +48,10 @@ export {
     OwnerAllPosts,
     PublishPost,
     SubscriberPost,
-    PublishPlaylist
+    PublishPlaylist,
+    AvatarEdit,
+    CoverImageEdit,
+    AccountEdit,
+    PasswordEdit,
+    PageNotFound
 }

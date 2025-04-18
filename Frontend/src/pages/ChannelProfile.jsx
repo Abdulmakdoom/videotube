@@ -6,6 +6,11 @@ import { FaVideo } from 'react-icons/fa';
 import { RiPlayList2Fill } from "react-icons/ri";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 import Footer from './Footer.jsx';
+import AvatarEdit from './inputPages/AvatarEdit.jsx';
+import CoverImageEdit from './inputPages/CoverImageEdit.jsx';
+import { FaEdit } from "react-icons/fa";
+import { FaLock } from 'react-icons/fa';
+
 
 
 
@@ -79,7 +84,7 @@ function ChannelProfile() {
                 setSubscrbeDone(switchColor);
         
                 if (result2?.success) {
-                    console.log("success");
+                    //console.log("success");
                 } else {
                     console.error("Error fetching likes:", result2?.message);
                 }
@@ -138,6 +143,7 @@ function ChannelProfile() {
         }
 
 
+        
         const viewsHandler = async()=> {
             if (!data?._id) {
                 return; // Prevent the fetch call if there is no valid ID
@@ -158,11 +164,8 @@ function ChannelProfile() {
         //console.log(videoData);
         //console.log(viewsCount);
         //console.log(playlistCount);
-        
-        
-        
 
-    
+      
 
     return (
  <>
@@ -171,46 +174,95 @@ function ChannelProfile() {
             {loader && (<Spinner/>)}
                 
                 {/* Banner Section */}
-                <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6">
-                    <img
-                        src={data?.coverImage || '/default-banner.jpg'}
-                        alt="Channel Banner"
-                        className="w-full h-full object-cover transition-all duration-500 transform hover:scale-105 hover:opacity-80"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40"></div>
+                <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6 group">
+                {/* Cover Image */}
+                <img
+                    src={data?.coverImage || '/default-banner.jpg'}
+                    alt="Channel Banner"
+                    className="w-full h-full object-cover transition-all duration-500 transform group-hover:scale-105 group-hover:opacity-80"
+                />
+
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                    <CoverImageEdit userId={userId} data={data}/>
                 </div>
+
             
                 {/* Profile Details */}
                 <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 p-4 sm:p-6 bg-[#181818] text-white rounded-lg shadow-lg mb-6">
                     {/* Avatar */}
-                    <div className="w-25 h-25 sm:w-28 sm:h-25 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                   <div className="relative group w-25 h-25 sm:w-28 sm:h-25 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-white shadow-xl cursor-pointer">
                         <img
                             src={data?.avatar || '/default-avatar.jpg'}
                             alt="User Avatar"
                             className="w-full h-full object-cover"
                         />
+                       <AvatarEdit userId={userId} data={data}/>
                     </div>
-            
+
+              
                     {/* Channel Info */}
                     <div className="flex flex-col justify-center text-center sm:text-left">
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100">{data?.username}</h1>
-                        <h3 className="text-sm sm:text-md font-semibold text-gray-400">{data?.fullName}</h3>
-                        <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
-                            <div className="text-sm text-gray-300">{data?.subscribersCount} subscribers</div>
-                            <div className="text-sm text-gray-300">{data?.channelsSubscribedToCount} following</div>
+                        <div className="flex justify-between items-center">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100">
+                            {data?.username}
+                            </h1>
+                            {userId === data._id && <div className="ml-2 sm:ml-4">
+                                <Link
+                                    to={`/${username}/password/edit`}
+                                    className="inline-flex items-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white border border-gray-600 rounded-full hover:bg-[#272727] transition-colors duration-200"
+                                >
+                                    <FaLock className="text-white text-xs sm:text-sm" />
+                                    Change Password
+                                </Link>
+                            </div>}
+
+                            {userId === data._id && <div className="ml-4">
+                             <Link to={`/${username}/edit`}>
+                                <FaEdit className="cursor-pointer" />
+                             </Link>
+                            </div>}
                         </div>
-                        <p className="text-gray-500 mt-4 text-sm sm:text-md">{data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}</p>
-                        {/* {userData._id !== data._id && <button className="px-3 py-1 sm:px-4 sm:py-2 w-25 mt-3 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
-                        Subscribe
-                        </button>} */}
-            
-                        {userData._id !== data._id && userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
-                                    Subscribe
-                                    </button> :  <button onClick={handleSubscribeButtion} className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium">
-                                    Subscribed
-                                    </button>) : ""}
-            
-                    </div>
+
+                        <h3 className="text-sm sm:text-md font-semibold text-gray-400 mt-1">
+                            {data?.fullName}
+                        </h3>
+
+                        <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
+                            <div className="text-sm text-gray-300">
+                            {data?.subscribersCount} subscribers
+                            </div>
+                            <div className="text-sm text-gray-300">
+                            {data?.channelsSubscribedToCount} following
+                            </div>
+                        </div>
+
+                        <p className="text-gray-500 mt-4 text-sm sm:text-md">
+                            {data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}
+                        </p>
+
+                        {userData._id !== data._id && userId ? (
+                            !subscribeDone ? (
+                            <button
+                                onClick={handleSubscribeButtion}
+                                className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium"
+                            >
+                                Subscribe
+                            </button>
+                            ) : (
+                            <button
+                                onClick={handleSubscribeButtion}
+                                className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium"
+                            >
+                                Subscribed
+                            </button>
+                            )
+                        ) : (
+                            ""
+                        )}
+                        </div>
+
+                    
                 </div>
             
                 {/* Channel Stats Section */}
@@ -293,7 +345,7 @@ function ChannelProfile() {
                             ))}
                             
                             <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer w-fit flex items-center gap-2 sm:px-8 sm:py-4">
-                                <Link to={`/videos/${userId}`}>
+                                <Link to={`/videos/${data?._id}`}>
                                     <span>View More</span>
                                 </Link>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

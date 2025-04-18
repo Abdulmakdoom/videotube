@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Spinner, Card, timeAgo, Button} from '../components/allComponents.js'
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 function OwnerAllVideos() {
@@ -11,9 +11,10 @@ function OwnerAllVideos() {
      const [VideoData2, setVideoData2] = useState([])
 
     const userData = useSelector((state) => state.auth.userData);
-    const userId = userData?._id;
+    const userId1 = userData?._id;
 
-
+    const {userId} = useParams()
+    
     const pageIncreaseHandler = ()=> {
         page !== VideoData2.pagination.totalPages? setPage(page + 1): page 
     }
@@ -26,7 +27,7 @@ function OwnerAllVideos() {
     
 
     const videoHandler = async () => {
-        if (!userId) {
+        if (!userId1) {
             // Prevent the fetch call if there is no valid ID
             return;
         }
@@ -58,7 +59,7 @@ function OwnerAllVideos() {
 
     useEffect(()=> {
         videoHandler()
-    }, [userId, page])
+    }, [userId1, page])
 
 
     

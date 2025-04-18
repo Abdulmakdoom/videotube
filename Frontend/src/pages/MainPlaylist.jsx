@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 // import Card from "../components/Card";
+import { HiDotsVertical } from "react-icons/hi";
 
 
 
@@ -27,7 +28,7 @@ const PlaylistPage = () => {
   const [error2, setError2] = useState(null);
   const [popupPage, setPopupPage] = useState(false)
   const naviagte = useNavigate()
-
+  const [open, setOpen]= useState(false)
 
 
 
@@ -158,6 +159,9 @@ function formatDuration(seconds) {
    }
   }
 
+  const openHandler = ()=> {
+    setOpen(!open)
+  }
 
 
   //console.log(userVideoData);
@@ -251,16 +255,60 @@ function formatDuration(seconds) {
             />
             <div className="flex justify-between items-start mt-4">
               <h2 className="text-xl sm:text-2xl font-bold mt-3 pl-3">{playlistData?.name}</h2>
-              <div className="">
-              {userId === playlistData?.owner?._id && <Button onClick={detetePlayListHandler} className="bg-gray-600 mt-2 text-white rounded-full px-3 py-1 text-sm md:text-base">Delete</Button>}
-              {userId === playlistData?.owner?._id && 
-              <Link to={`/playlist/edit/${playlistId}`}>
-                <Button className="bg-gray-600 mt-2 ml-2 text-white rounded-full px-3 py-1 text-sm md:text-base">
-                  Edit
-                </Button>
-              </Link>
-              }
-              </div>
+              
+    
+
+              <div className="relative inline-block">
+                  <HiDotsVertical
+                    onClick={openHandler}
+                    className="mt-5 ml-2 rounded-full text-sm md:text-base cursor-pointer"
+                  />
+
+                  {open && (
+                    <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-30 p-3">
+                      <Button
+                        onClick={detetePlayListHandler}
+                        className="w-full bg-red-600 hover:bg-red-700 text-white font-medium rounded-md px-4 py-2 text-sm transition-colors"
+                      >
+                        Delete
+                      </Button>
+                      <Link to={`/playlist/edit/${playlistId}`}>
+                        <Button className="w-full mt-2 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-md px-4 py-2 text-sm transition-colors">
+                          Edit
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+
+              {/* {open && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                      <h2 className="text-lg font-semibold mb-4">Playlist Options</h2>
+                      <div className="flex justify-center space-x-4">
+                        <Button
+                          onClick={detetePlayListHandler}
+                          className="bg-red-600 text-white rounded-full px-4 py-2 text-sm md:text-base"
+                        >
+                          Delete
+                        </Button>
+                        <Link to={`/playlist/edit/${playlistId}`}>
+                          <Button className="bg-blue-600 text-white rounded-full px-4 py-2 text-sm md:text-base">
+                            Edit
+                          </Button>
+                        </Link>
+                      </div>
+                      <button
+                        onClick={() => setOpen(false)}
+                        className="mt-4 text-sm text-gray-500 hover:underline"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )} */}
+
             </div>
             <div className="flex items-center mt-2">
               {playlistData?.owner?.avatar && (
@@ -331,7 +379,7 @@ function formatDuration(seconds) {
                           e.stopPropagation(); // Prevent navigation
                           removeVideoInPlaylistHandler(video?._id); // Call the remove handler
                         }}
-                        className="relative inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 hover:rotate-2 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                        className="relative inline-flex items-center justify-center px-3 sm:px-3 py-1 sm:py-2 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 hover:rotate-2 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                       >
                         <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-red-600 to-red-700 rounded-lg opacity-20"></span>
                         <span className="relative">Remove</span>

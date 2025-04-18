@@ -6,6 +6,7 @@ import { FaVideo } from 'react-icons/fa';
 import { RiPlayList2Fill } from "react-icons/ri";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 import Footer from './Footer.jsx';
+import { FaEdit } from "react-icons/fa";
 
 
 function PlaylistProfile() {
@@ -79,7 +80,7 @@ function PlaylistProfile() {
                 setSubscrbeDone(switchColor);
         
                 if (result2?.success) {
-                    console.log("success");
+                    //console.log("success");
                 } else {
                     console.error("Error fetching likes:", result2?.message);
                 }
@@ -205,24 +206,55 @@ function PlaylistProfile() {
                 </div>
 
                 {/* Channel Info */}
-                <div className="flex flex-col justify-center text-center sm:text-left">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100">{data?.username}</h1>
-                    <h3 className="text-sm sm:text-md font-semibold text-gray-400">{data?.fullName}</h3>
-                    <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
-                        <div className="text-sm text-gray-300">{data?.subscribersCount} subscribers</div>
-                        <div className="text-sm text-gray-300">{data?.channelsSubscribedToCount} following</div>
-                    </div>
-                    <p className="text-gray-500 mt-4 text-sm sm:text-md">{data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}</p>
-                    {/* {userData._id !== data._id && <button className="px-3 py-1 sm:px-4 sm:py-2 w-25 mt-3 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
-                    Subscribe
-                    </button>} */}
+                    <div className="flex flex-col justify-center text-center sm:text-left">
+                        <div className="flex justify-between items-center">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100">
+                            {data?.username}
+                            </h1>
+                            <div className="ml-4">
+                                <Link to={`/${username}/edit`}>
+                                <FaEdit className="cursor-pointer" />
+                                </Link>
+                            </div>
+                        </div>
 
-                    {userData._id !== data._id && userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium">
+                        <h3 className="text-sm sm:text-md font-semibold text-gray-400">
+                            {data?.fullName}
+                        </h3>
+
+                        <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
+                            <div className="text-sm text-gray-300">
+                            {data?.subscribersCount} subscribers
+                            </div>
+                            <div className="text-sm text-gray-300">
+                            {data?.channelsSubscribedToCount} following
+                            </div>
+                        </div>
+
+                        <p className="text-gray-500 mt-4 text-sm sm:text-md">
+                            {data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}
+                        </p>
+
+                        {userData._id !== data._id && userId ? (
+                            !subscribeDone ? (
+                            <button
+                                onClick={handleSubscribeButtion}
+                                className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium"
+                            >
                                 Subscribe
-                                </button> :  <button onClick={handleSubscribeButtion} className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium">
+                            </button>
+                            ) : (
+                            <button
+                                onClick={handleSubscribeButtion}
+                                className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium"
+                            >
                                 Subscribed
-                                </button>) : ""}
-                </div>
+                            </button>
+                            )
+                        ) : (
+                            ""
+                        )}
+                        </div>
             </div>
 
             {/* Channel Stats Section */}

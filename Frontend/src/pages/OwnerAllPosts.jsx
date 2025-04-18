@@ -5,6 +5,7 @@ import PostCard from "../components/PostCard";
 import timeAgo from "../components/time";
 
 
+
 function OwnerAllPosts (){
       const [postData, setPostData] = useState([])
          const [loader, setLoader] = useState(true);
@@ -59,6 +60,10 @@ function OwnerAllPosts (){
                             <Spinner />
                         </div>
                     ) : null}
+                 <div className="relative z-10 mb-2 pl-20">
+                    <h2 className="font-bold text-3xl text-white">Your Tweets</h2>
+                </div>
+                <hr className="text-[#353535] mb-10"/>
                 {/* Main content */}
                 <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto">
                     <div className="flex flex-col w-full space-y-4"> {/* Use flex-col for vertical stacking */}

@@ -16,6 +16,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.6.0",
     "@tailwindcss/vite": "^4.0.9",
+    "framer-motion": "^12.7.4",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.488.0",
     "react": "^19.0.0",

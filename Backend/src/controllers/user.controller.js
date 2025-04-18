@@ -274,13 +274,21 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async(req, res) => {
     const {oldPassword, newPassword} = req.body
-
     const user = await User.findById(req.user?._id) 
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
 
     if (!isPasswordCorrect) {
         throw new ApiError(400, "Invalid old password")
     }
+
+     // password regex validation (min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char)
+     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+     if (!passwordRegex.test(newPassword)) {
+         throw new ApiError(
+             400,
+             "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character"
+         );
+     }
 
     user.password = newPassword
     await user.save({validateBeforeSave: false})
@@ -311,6 +319,11 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
         throw new ApiError(400, "All fields are required")
     }
 
+    // email regex validation
+    const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+    if (!emailRegex.test(email)) {
+        throw new ApiError(400, "Invalid email format");
+    }
     const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
@@ -337,14 +350,11 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Avatar file is missing")
     }
 
-    
-
-    //TODO: delete old image - assignment
     const avaterUser = await User.findById(req.user?._id);
 
     const getPublicId = (url) => url.split('/').pop().split('.')[0];
             
-    // Delete the video file from Cloudinary
+    // Delete the avatar file from Cloudinary
     if (avaterUser.avatar) {
         await cloudinary.uploader.destroy(getPublicId(avaterUser.avatar), { resource_type: "image" });
     }
@@ -383,12 +393,11 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Cover image file is missing")
     }
 
-    //TODO: delete old image - assignment
     const CoverImageUser = await User.findById(req.user?._id);
 
     const getPublicId = (url) => url.split('/').pop().split('.')[0];
             
-    // Delete the video file from Cloudinary
+    // Delete the coverImage file from Cloudinary
     if (CoverImageUser.coverImage) {
         await cloudinary.uploader.destroy(getPublicId(CoverImageUser.coverImage), { resource_type: "image" });
     }
