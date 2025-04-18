@@ -1,16 +1,18 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LogoutBtn from "../components/LogoutBtn";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faMagnifyingGlass, faClockRotateLeft, faHouse, faCirclePlay } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faClockRotateLeft, faHouse, faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 import { BiSolidVideos } from "react-icons/bi";
 import { FcSettings } from "react-icons/fc";
 import { BsPostcard } from "react-icons/bs";
 import { CgLogIn } from "react-icons/cg";
-import { AiOutlineHome, AiOutlineMail, AiOutlinePlus, AiOutlineDown } from 'react-icons/ai';
+import { AiOutlineHome } from 'react-icons/ai';
+import { IoMdArrowRoundBack } from "react-icons/io";
+
 
 
 
@@ -21,6 +23,8 @@ const Sidebar = () => {
   const [isSettingOpen, setSettingOpen] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  const [showSearch, setShowSearch] = useState(true)
+  const [searchInput, setSearchInput] = useState("")
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -47,45 +51,141 @@ const Sidebar = () => {
     setSettingOpen(!isSettingOpen);
   };
 
+  const toggleShowSearch = ()=> {
+    setShowSearch(!showSearch)
+  }
+
+  // Handle screen size change from small to medium
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 768px)'); // Target medium screens (>=768px)
+
+    const handleResize = () => {
+      if (mediaQuery.matches) {
+        setShowSearch(true) // Toggle showSearch when screen size increases to medium
+      }
+    };
+    // Add event listener to listen for screen resize
+    mediaQuery.addListener(handleResize);
+
+    // Initial check
+    handleResize();
+
+    // Cleanup listener
+    return () => mediaQuery.removeListener(handleResize);
+  }, []);
+
+  const inputHandler = (e)=>{
+    const {value} = e.target;
+    setSearchInput(value)
+  }
+
+  // const dataHandler = async ()=>{
+  //   //console.log(searchInput);
+    
+  //  if(searchInput != ""){
+  //     const response = await fetch(`/api/v1/videos/u/videos`)
+  //     const result = await response.json()
+  //     //console.log(result.data);
+  //     const videosArray = result.data
+
+  //     const searchVideos = videosArray.filter(video => video.description.includes(searchInput)) 
+  //     console.log(searchVideos);
+         
+  //  }
+    
+  // }
+
+
   return (
     <>
-      <header className='flex items-center justify-between p-4 shadow-md w-full fixed top-0 left-0 z-20 bg-[#0A0A0A] pl-15'>
-       <div className="flex">
-        <div className="text-2xl ml-10 font-bold text-white">Video</div>
-        <div className='text-2xl font-bold text-red-600'>Tube</div>
-       </div>
+      <header className="flex flex-wrap items-center justify-between px-4 py-3 shadow-md w-full fixed top-0 left-0 z-20 bg-[#0A0A0A] pl-25">
+        {/* Logo Section */}
+       {showSearch === true && <div className="flex items-center">
+          <div className="text-2xl font-bold text-white">Video</div>
+          <div className="text-2xl font-bold text-red-600 ml-1">Tube</div>
+        </div>}
 
-        <div className="flex justify-center mx-4">
-          <div className="flex h-10 w-full sm:max-w-xs md:max-w-md lg:max-w-lg">
+        {/* Search Bar */}
+        {showSearch === false && (
+          <div className="flex-1 max-w-full flex sm:hidden">
+            <IoMdArrowRoundBack onClick={toggleShowSearch} className="text-white text-4xl mr-3 hover:bg-[#232323] hover:rounded-full cursor-pointer mt-1" />
+
             <input
+              onChange={inputHandler}
               type="text"
               placeholder="Search"
-              className="w-full sm:w-140 px-2 py-1 border bg-[#1C1C1C] text-white border-gray-700 placeholder-gray-500 rounded-l-full focus:outline-none"
+              className="w-full px-3 py-2 bg-[#1C1C1C] text-white border border-gray-700 rounded-l-full placeholder-gray-400 focus:outline-none"
             />
-            <button className="w-16 px-2 py-1 bg-[#1C1C1C] text-white rounded-r-full">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
+             <Link to={`/search/videos/${searchInput}`}>
+              <button className="px-4 py-2 bg-[#1C1C1C] text-white rounded-r-full hover:bg-gray-800">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </button>
+            </Link>
           </div>
+        )}
+
+
+        {/* Search Bar 2 */}
+        <div className="flex-1 mx-4 max-w-full sm:max-w-xs md:max-w-md lg:max-w-lg hidden sm:flex">
+          <input
+            onChange={inputHandler}
+            type="text"
+            placeholder="Search"
+            className="w-full px-3 py-2 bg-[#1C1C1C] text-white border border-gray-700 rounded-l-full placeholder-gray-400 focus:outline-none"
+          />
+          <Link to={`/search/videos/${searchInput}`}>
+              <button className="px-4 py-2 bg-[#1C1C1C] text-white rounded-r-full hover:bg-gray-800">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </button>
+          </Link>
         </div>
 
-        <ul className='md:flex items-center space-x-4'>
-        {navItems2.map(item => (
-          !userData && (
-            <li key={item.name} className="mb-3">
-              <button
-                onClick={() => navigate(item.page)}
-                className="px-4 py-1 text-xs sm:text-sm md:text-base font-medium text-white bg-red-600 rounded-full shadow-md transform transition-all duration-300 hover:bg-red-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
-              >
-                {item.name}
-              </button>
-            </li>
-          )
-        ))}
+        {/* Right Controls */}
+        <ul className="flex items-center space-x-3">
+          {/* Show search icon on small devices only */}
+          {showSearch === true  &&<li className="sm:hidden">
+            <button onClick={toggleShowSearch} className="text-white text-lg cursor-pointer">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+          </li>}
 
+          {/* Sign Up (if not logged in) */}
+          {!userData &&
+            navItems2.map(item => (
+              <li key={item.name}>
+                <button
+                  onClick={() => navigate(item.page)}
+                  className="px-4 py-1 text-sm font-medium text-white bg-red-600 rounded-full hover:bg-red-500 focus:outline-none"
+                >
+                  {item.name}
+                </button>
+              </li>
+            ))}
+
+          {/* Avatar */}
           {userData && (
-            <li>
-              <FcSettings onClick={toggleSetting} className="text-2xl sm:mr-6 mr-0" />
-            </li>
+            <>
+            {showSearch === true &&
+              <Link to={`/${userData?.username}`}>
+                <div className="relative group w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-xl cursor-pointer mr-2 sm:mr-8">
+                  <img
+                    src={userData?.avatar || '/default-avatar.jpg'}
+                    alt="User Avatar"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </Link>
+            }
+            </>
+          )}
+
+          {/* Settings */}
+          {userData && (
+            <>
+              {showSearch === true &&<li>
+                  <FcSettings onClick={toggleSetting} className="text-2xl mr-3" />
+              </li>}
+            </>
           )}
 
 

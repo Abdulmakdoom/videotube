@@ -11,7 +11,7 @@ import {VideoPlay,
   PlaylistProfile, PlaylistPage, Subscribers, YourVideos, 
   OwnerAllVideos, OwnerAllPlaylist, PublishVideo, EditVideo, 
   UpdatePlaylist, PostProfile, OwnerAllPosts, PublishPost, SubscriberPost, 
-  PublishPlaylist, AccountEdit, PasswordEdit, PageNotFound
+  PublishPlaylist, AccountEdit, PasswordEdit, PageNotFound, SearchPage
   // AddVideoInPlaylist
 } from "./pages/allpage.js"
 // import { useSelector } from 'react-redux'
@@ -25,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "*",
         element: <PageNotFound/>
+      },
+      {
+        path: "/search/videos/:topic",
+        element: <SearchPage/>
       },
       {
         path: "/signup",

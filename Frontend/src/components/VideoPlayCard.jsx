@@ -391,7 +391,7 @@ function VideoPlayCard({
            <div className="ml-4 pb-3 pt-0.5 mt-2">
            <div className="flex flex-wrap items-center justify-between text-xs sm:text-sm text-white mt-4">
             <div className="flex items-center space-x-2">
-              <span>{views} views</span>
+              <span>{formatNumber(views)} views</span>
               <span>&bull;</span>
               <span>{timeAgo(uploadTime)}</span>
             </div>

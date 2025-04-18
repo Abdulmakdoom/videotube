@@ -4,6 +4,17 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 
+
+// Utility function to format the like count
+const formatNumber = (number) => {
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+    } else if (number >= 1_000) {
+      return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+    }
+    return number; // Return the number as is if less than 1000
+  };
+
 function OwnerAllVideos() {
     const [videosData, setVideosData] = useState([])
      const [loading, setLoading] = useState(true);
@@ -86,7 +97,7 @@ function OwnerAllVideos() {
                                 thumbnail={video.thumbnail}
                                 ownerAvatar={video.ownerDetails.avatar}
                                 channelName={video.ownerDetails.username}
-                                views={video.views}
+                                views={formatNumber(video.views)}
                                 uploadDate={timeAgo(video.createdAt)}
                             />
                         </Link>

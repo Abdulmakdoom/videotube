@@ -6,6 +6,16 @@ import { useSelector } from "react-redux";
 // import { useParams } from "react-router-dom";
 // import timeAgo from "./time";
 
+// Utility function to format the like count
+const formatNumber = (number) => {
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+    } else if (number >= 1_000) {
+      return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+    }
+    return number; // Return the number as is if less than 1000
+  };
+
 function PostCard({ avatar, channelName, uploadTime, content, postId, likes, className, postData, userId, data }) {
   
     // const [liked, setLiked] = useState(false);
@@ -144,7 +154,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
                         ) : (
                             <BiLike className="text-gray-600" />
                         )}
-                        <span className="text-sm">{liked?.data?.LikePostCount}</span>
+                        <span className="text-sm">{formatNumber(liked?.data?.LikePostCount)}</span>
                     </button>
                     <button
                         //   onClick={handleComment}

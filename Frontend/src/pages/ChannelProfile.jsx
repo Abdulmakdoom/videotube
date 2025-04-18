@@ -12,6 +12,16 @@ import { FaEdit } from "react-icons/fa";
 import { FaLock } from 'react-icons/fa';
 
 
+// Utility function to format the like count
+const formatNumber = (number) => {
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+    } else if (number >= 1_000) {
+      return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+    }
+    return number; // Return the number as is if less than 1000
+  };
+
 
 
 function ChannelProfile() {
@@ -32,14 +42,12 @@ function ChannelProfile() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            setLoader(true);
             const response = await fetch(`/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
             });
             const result = await response.json();
             setData(result.data);
-            setLoader(false);
         };
 
         fetchUser();
@@ -165,13 +173,18 @@ function ChannelProfile() {
         //console.log(viewsCount);
         //console.log(playlistCount);
 
-      
+       if (loader) return <Spinner />;
 
     return (
  <>
         <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20 pl-20">
             
-            {loader && (<Spinner/>)}
+             {/* Loader spinner when loading */}
+                {/* {loader ? (
+                    <div className="flex justify-center items-center w-full mt-60">
+                    <Spinner />
+                    </div>
+                ) : null} */}
                 
                 {/* Banner Section */}
                 <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6 group">
@@ -230,10 +243,10 @@ function ChannelProfile() {
 
                         <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
                             <div className="text-sm text-gray-300">
-                            {data?.subscribersCount} subscribers
+                            {formatNumber(data?.subscribersCount)} subscribers
                             </div>
                             <div className="text-sm text-gray-300">
-                            {data?.channelsSubscribedToCount} following
+                            {formatNumber(data?.channelsSubscribedToCount)} following
                             </div>
                         </div>
 
@@ -269,15 +282,15 @@ function ChannelProfile() {
      
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 bg-[#181818] rounded-lg shadow-lg mb-6 text-white">
                     <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-                        <h3 className="text-xl sm:text-2xl font-semibold">{videoData?.length || 0}</h3>
+                        <h3 className="text-xl sm:text-2xl font-semibold">{formatNumber(videoData?.length) || 0}</h3>
                         <p className="text-sm">Videos</p>
                     </div>
                     <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-                        <h3 className="text-xl sm:text-2xl font-semibold">{viewsCount?.data?.countDocuments || 0}</h3>
+                        <h3 className="text-xl sm:text-2xl font-semibold">{formatNumber(viewsCount?.data?.countDocuments) || 0}</h3>
                         <p className="text-sm">Total Views</p>
                     </div>
                     <div className="flex flex-col items-center justify-center bg-[#2c2c2c] p-4 rounded-lg shadow-md hover:bg-[#3a3a3a] transition-all duration-300">
-                        <h3 className="text-xl sm:text-2xl font-semibold">{playlistCount?.data?.length || 0}</h3>
+                        <h3 className="text-xl sm:text-2xl font-semibold">{formatNumber(playlistCount?.data?.length) || 0}</h3>
                         <p className="text-sm">Playlists</p>
                     </div>
                 </div>
@@ -338,7 +351,7 @@ function ChannelProfile() {
                                     thumbnail={video.thumbnail} 
                                     ownerAvatar={video.ownerDetails.avatar} 
                                     channelName={video.ownerDetails.username} 
-                                    views={video.views} 
+                                    views={formatNumber(video.views)} 
                                     uploadDate={timeAgo(video.createdAt)} 
                                 />
                                 </Link>

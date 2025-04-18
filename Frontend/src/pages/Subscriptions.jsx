@@ -7,6 +7,16 @@ import fetchWithAuth from "../utils/api";
 // import Cookies from "js-cookie"; 
 import {Card, Spinner, timeAgo} from "../components/allComponents.js"
 
+// Utility function to format the like count
+const formatNumber = (number) => {
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+    } else if (number >= 1_000) {
+      return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+    }
+    return number; // Return the number as is if less than 1000
+  };
+
 function Subscribers() {
     const [error, setError] = useState("");
     const [data, setData] = useState([]);
@@ -112,7 +122,7 @@ function Subscribers() {
                                 thumbnail={video.thumbnail} 
                                 ownerAvatar={video.owner.avatar} 
                                 channelName={video.owner.username} 
-                                views={video.views} 
+                                views={formatNumber(video.views)} 
                                 uploadDate={timeAgo(video.createdAt)} 
                             />
                         </Link>

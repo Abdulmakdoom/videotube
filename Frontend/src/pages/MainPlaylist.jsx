@@ -13,6 +13,15 @@ import { HiDotsVertical } from "react-icons/hi";
 
 
 
+// Utility function to format the like count
+const formatNumber = (number) => {
+  if (number >= 1_000_000) {
+    return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+  } else if (number >= 1_000) {
+    return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+  }
+  return number; // Return the number as is if less than 1000
+};
 
 const PlaylistPage = () => {
   const { playlistId } = useParams();
@@ -224,7 +233,7 @@ function formatDuration(seconds) {
                         {video.title}
                       </h3>
                       <p className="text-gray-400 text-xs sm:text-sm mb-3">{video.ownerDetails.username}</p>
-                      <p className="text-gray-500 text-xs sm:text-sm">{video.views} views · {timeAgo(video.createdAt)}</p>
+                      <p className="text-gray-500 text-xs sm:text-sm">{formatNumber(video.views)} views · {timeAgo(video.createdAt)}</p>
 
                       {/* Add to Playlist Button */}
                       <button
@@ -322,7 +331,7 @@ function formatDuration(seconds) {
             </div>
 
             <p className="text-sm text-gray-300 pl-3 mt-1">
-              Playlist • {playlistData?.videosCount} videos • {playlistData?.totalViews} views
+              Playlist • {formatNumber(playlistData?.videosCount)} videos • {formatNumber(playlistData?.totalViews)} views
             </p>
             <Link to={`/home/videos/${playlistData?.videos?.[0]?._id}`}>
             <button className="mt-4 bg-white text-black px-4 py-2 rounded-lg w-full font-semibold text-sm sm:text-base">
@@ -369,7 +378,7 @@ function formatDuration(seconds) {
                   <div className="mb-6 px-4 sm:px-8 flex-1">
                     <Link to={`/home/videos/${video?._id}`}>
                       <h3 className="text-lg sm:text-xl font-semibold">{video?.title}</h3>
-                      <p className="text-sm text-gray-400 mt-2">{video?.owner?.username} • {video?.views} views • {timeAgo(video?.createdAt)}</p>
+                      <p className="text-sm text-gray-400 mt-2">{video?.owner?.username} • {formatNumber(video?.views)} views • {timeAgo(video?.createdAt)}</p>
                       <p className="text-sm text-gray-400 mt-2">{video?.description}</p>
                     </Link>
                     <div className="mt-4 flex justify-between items-center">

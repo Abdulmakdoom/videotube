@@ -25,6 +25,7 @@ import CoverImageEdit from "./inputPages/CoverImageEdit";
 import AccountEdit from "./inputPages/AccountEdit";
 import PasswordEdit from "./inputPages/PasswordEdit";
 import PageNotFound from "./PageNotFound";
+import SearchPage from "./SearchPage";
 
 export {
     VideoPlay,
@@ -53,5 +54,6 @@ export {
     CoverImageEdit,
     AccountEdit,
     PasswordEdit,
-    PageNotFound
+    PageNotFound,
+    SearchPage
 }

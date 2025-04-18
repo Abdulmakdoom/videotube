@@ -36,6 +36,16 @@ function SmallCard({
   // Format upload time
   const formattedTime = timeAgo(uploadTime);
 
+  // Utility function to format the like count
+const formatNumber = (number) => {
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+    } else if (number >= 1_000) {
+      return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+    }
+    return number; // Return the number as is if less than 1000
+  };
+
   // Truncate the description (only show first 100 characters)
   const truncatedDescription =
     description?.length > 100 ? description.substring(0, 200) + "..." : description;
@@ -90,7 +100,7 @@ function SmallCard({
 
                     {/* Stats */}
                     <div className={`flex items-center space-x-4 text-xs text-gray-400 ${className = "mb-20"}`}>
-                    <p>{views} views</p>
+                    <p>{formatNumber(views)} views</p>
                     <p>{formattedTime}</p>
                     </div>
                 </div>
