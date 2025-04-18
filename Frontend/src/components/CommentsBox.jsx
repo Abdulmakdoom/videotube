@@ -420,7 +420,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     const [getComments, setGetComments] = useState([]);
     const [commentCount, setCommentCount] = useState("");
     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
-    const [commentUserData, setCommentUserData] = useState("")
+    const [commentVideoUserData, setCommentVideoUserData] = useState("")
 
     const inputHandler = (e) => {
         let { value } = e.target;
@@ -444,7 +444,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             });
 
             const result = await response.json();
-            console.log(result);            
+            //console.log(result);            
 
             if (!response.ok) {
                 throw new Error(result.message || "Something went wrong");
@@ -459,9 +459,12 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             if (!responseComments.ok) {
                 throw new Error(resultComments?.message || "Something went wrong");
             }
-
+            //console.log(resultComments?.data?.comments?.[0]?.video);
+            
+           
             setGetComments(resultComments?.data?.comments);
             setCommentCount(resultComments?.data?.totalComments);
+
 
         } catch (error) {
             console.log(error.message);
@@ -478,6 +481,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                     throw new Error(result?.message || "Something went wrong");
                 }
 
+                setCommentVideoUserData(result?.data?.comments?.[0]?.video)
                 setGetComments(result?.data?.comments);
                 setCommentCount(result?.data?.totalComments);
                 //setGetCommentsLike(getComments.filter((comment) => comment._id !== commentId));
@@ -585,7 +589,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                             {/* Actions (like, reply, etc.) */}
                             <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
                                 <CommentLike commentId={data._id} userId={userId} showModalId={showModalId}/>
-                                <button className="hover:text-red-600 text-gray-400">Reply</button>
+                                {/* <button className="hover:text-red-600 text-gray-400">Reply</button> */}
                             </div>
                         </div>
                     </div>

@@ -265,17 +265,17 @@ function VideoPlayCard({
             <Link to={`/${channelName}`}>
               <div className="text-md sm:text-lg font-medium text-white">{channelName}</div>
             </Link>
-              <div className="text-xs sm:text-xs text-gray-400">{formatNumber(subscribersCount)} subscribers</div>
+              <div className="text-xs sm:text-xs text-gray-400">{formatNumber(subscribersCount)} followers</div>
             </div>
             {/* <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium hover:bg-red-700">
               Subscribe
             </button> */}
             {userId ? (!subscribeDone ? <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded-full text-xs sm:text-sm font-medium">
-              Subscribe
+              Follow
             </button> :  <button onClick={handleSubscribeButtion} className="px-3 py-1 sm:px-4 sm:py-2 bg-[#2d2d2d] text-white rounded-full text-xs sm:text-sm font-medium">
-              Subscribed
+              Following
             </button>) :   <button disabled className="px-3 py-1 sm:px-4 sm:py-2 bg-[#2d2d2d] text-white rounded-full text-xs sm:text-sm font-medium">
-              Please log in to subscribe
+              Please log in to follow
             </button>}
             
             {/* {userId? :} */}

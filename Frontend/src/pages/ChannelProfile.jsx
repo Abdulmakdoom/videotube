@@ -61,11 +61,12 @@ function ChannelProfile() {
             credentials: 'include',
             })
             let result = await response.json()
-            console.log(result);
+            //console.log(result);
             setButtonPressed(result)
-            if (!result.success) {
-            throw new Error("Failed to fetch video");
-        }
+                if (!result.success) {
+                throw new Error("Failed to fetch video");
+                }
+            window.location.reload()
             } catch (error) {
             console.error("Error during fetch:", error);
             }
@@ -243,7 +244,7 @@ function ChannelProfile() {
 
                         <div className="flex items-center mt-2 space-x-4 sm:space-x-6">
                             <div className="text-sm text-gray-300">
-                            {formatNumber(data?.subscribersCount)} subscribers
+                            {formatNumber(data?.subscribersCount)} followers
                             </div>
                             <div className="text-sm text-gray-300">
                             {formatNumber(data?.channelsSubscribedToCount)} following
@@ -260,14 +261,14 @@ function ChannelProfile() {
                                 onClick={handleSubscribeButtion}
                                 className="w-25 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-white text-black rounded-full text-xs sm:text-sm font-medium"
                             >
-                                Subscribe
+                                Follow
                             </button>
                             ) : (
                             <button
                                 onClick={handleSubscribeButtion}
                                 className="w-30 mt-3 px-3 py-1 sm:px-4 sm:py-2 bg-[#505050] text-white rounded-full text-xs sm:text-sm font-medium"
                             >
-                                Subscribed
+                                Following
                             </button>
                             )
                         ) : (

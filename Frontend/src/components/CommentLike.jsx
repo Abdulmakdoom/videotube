@@ -4,6 +4,16 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as darkHeart} from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 
+// Utility function to format the like count
+const formatNumber = (number) => {
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + 'M'; // Format as millions
+    } else if (number >= 1_000) {
+      return (number / 1_000).toFixed(1) + 'K'; // Format as thousands
+    }
+    return number; // Return the number as is if less than 1000
+  };
+
 function CommentLike({commentId, userId}) {
     const [likeUsers, setLikeUsers] = useState([])
     const [commentLikeCount, setCommentLikeCount] = useState(0);
@@ -69,13 +79,13 @@ function CommentLike({commentId, userId}) {
         {userId ? (
             <button className="text-gray-400" onClick={() => commentLikeHandler()}>
             <FontAwesomeIcon icon={findUser ? darkHeart : faHeart} className={findUser ? 'text-red-600' : ''} />
-            <span className="ml-1 text-gray-400">{commentLikeCount}</span>
+            <span className="ml-1 text-gray-400">{formatNumber(commentLikeCount)}</span>
             </button>
         ) : (
             <>
             <button className="text-gray-400" onClick={()=> (toggleCommentHandler(commentId))}>
                 <FontAwesomeIcon icon={findUser ? darkHeart : faHeart} className={findUser ? 'text-red-600' : ''} />
-                <span className="ml-1">{commentLikeCount}</span>
+                <span className="ml-1">{formatNumber(commentLikeCount)}</span>
             </button>
             {showModalId === commentId && (<div className="popup-message absolute flex justify-center items-center mt-25 bg-opacity-50 z-50">
                     <div className="bg-white p-3 rounded-lg shadow-xl w-50">

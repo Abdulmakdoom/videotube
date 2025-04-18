@@ -31,7 +31,7 @@ const Sidebar = () => {
   const navItems = [
     { name: 'Home', icon: <FontAwesomeIcon icon={faHouse} />, path: '/home' },
     { name: 'Posts', icon: <BsPostcard className="text-xl"/> , path: `/posts` },
-    { name: 'Subscriptions', icon: <FontAwesomeIcon icon={faCirclePlay} />, path: '/subscriptions' },
+    { name: 'Following', icon: <FontAwesomeIcon icon={faCirclePlay} />, path: '/subscriptions' },
     { name: 'History', icon: <FontAwesomeIcon icon={faClockRotateLeft} />, path: '/home/history' },
     userData && { name: 'Your Videos', icon: <BiSolidVideos className="text-xl" />, path: '/videos' },
     // { name: 'Watch Later', icon: <MdOutlineWatchLater className="text-xl"/>, path: '' },
