@@ -9,13 +9,14 @@ import { Provider } from 'react-redux'
 import {VideoPlay, 
   Login, Signup, Mainpage, History, ChannelProfile, 
   PlaylistProfile, PlaylistPage, Subscribers, YourVideos, 
-  OwnerAllVideos, OwnerAllPlaylist, PublishVideo, EditVideo, 
+  OwnerAllPlaylist, PublishVideo, EditVideo, 
   UpdatePlaylist, PostProfile, OwnerAllPosts, PublishPost, SubscriberPost, 
   PublishPlaylist, AccountEdit, PasswordEdit, PageNotFound, SearchPage
   // AddVideoInPlaylist
 } from "./pages/allpage.js"
-// import { useSelector } from 'react-redux'
 
+// import { useSelector } from 'react-redux'
+import OwnerAllVideos from "../src/pages/OwnerAllVideos.jsx"
 
 const router = createBrowserRouter([
   {
