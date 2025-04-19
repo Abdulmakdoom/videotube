@@ -1,6 +1,6 @@
 import Button from "./Button";
 import Card from "./Card";
-import CommentLike from "./commentLike";
+import CommentLike from "./CommentLike";
 import CommentBox from "./CommentsBox";
 import Input from "./Input";
 import SmallCard from "./SmallCard";

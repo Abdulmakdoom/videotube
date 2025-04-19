@@ -25,7 +25,6 @@ import AccountEdit from "./inputPages/AccountEdit";
 import PasswordEdit from "./inputPages/PasswordEdit";
 import PageNotFound from "./PageNotFound";
 import SearchPage from "./SearchPage";
-// import OwnerAllVideos from "./ownerAllVideos.jsx";
 
 export {
     VideoPlay,
@@ -40,7 +39,6 @@ export {
     PlaylistPage,
     Subscribers,
     YourVideos,
-    // OwnerAllVideos,
     OwnerAllPlaylist,
     PublishVideo,
     EditVideo,
