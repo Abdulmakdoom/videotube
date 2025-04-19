@@ -193,7 +193,7 @@ function ChannelProfile() {
                 <img
                     src={data?.coverImage || '/default-banner.jpg'}
                     alt="Channel Banner"
-                    className="w-full h-full object-cover transition-all duration-500 transform group-hover:scale-105 group-hover:opacity-80"
+                    className="w-full h-full object-cover transition-all duration-500 transform group-hover:scale-105 group-hover:opacity-80 "
                 />
 
                 {/* Gradient Overlay */}

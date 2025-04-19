@@ -64,16 +64,16 @@ function PublishVideo() {
   const validateFiles = () => {
     const { thumbnail, videoFile } = formData;
     if (!thumbnail) {
-      return "Please select a thumbnail.";
+      return setError("Please select a thumbnail.");
     }
-    if (thumbnail.size > 2 * 1024 * 1024) {
-      return "Thumbnail file size should not exceed 2MB.";
+    if (thumbnail.size > 4 * 1024 * 1024) {
+      return setError("Thumbnail file size should not exceed 5MB.");
     }
     if (!videoFile) {
-      return "Please select a video file.";
+      return setError("Please select a video file.");
     }
     if (videoFile.size > 100 * 1024 * 1024) {
-      return "Video file size should not exceed 100MB.";
+      return setError("Video file size should not exceed 100MB.");
     }
     return null;
   };
@@ -185,7 +185,7 @@ function PublishVideo() {
                   {thumbnailPreview && (
                     <img src={thumbnailPreview} alt="Thumbnail Preview" className="mt-2 rounded-md w-full h-auto" />
                   )}
-                  <p className="text-gray-500 text-xs mt-1">Max size: 2MB</p>
+                  <p className="text-gray-500 text-xs mt-1">Max size: 5MB</p>
                 </div>
               </div>
 

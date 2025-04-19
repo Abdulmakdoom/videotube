@@ -60,16 +60,16 @@ const formatNumber = (number) => {
             {/* Thumbnail Section */}
             <div className="relative rounded-lg w-full sm:w-60 h-40 shadow-lg mb-4 sm:mb-0 sm:mt-0 bg-[#0A0A0A]">
                 {/* Thumbnail */}
-                <div className="relative w-full h-full">
+                <div className="relative aspect-video">
                     <img
                         src={thumbnail}
                         alt={title}
-                        className="absolute top-0 left-0 w-full h-full object-cover rounded-md border-none" // Use object-cover to fill the div
+                        className="w-full h-full object-cover rounded-xl shadow-2xl transition-transform transform hover:scale-105 hover:shadow-2xl" // Use object-cover to fill the div
                     />
                 </div>
 
                 {/* Video Duration - Positioned at bottom-right corner */}
-                <div className="absolute bottom-2 right-2 text-xs text-white bg-black bg-opacity-60 p-1 rounded-md">
+                <div className="absolute bottom-8 right-2 text-xs text-white bg-black bg-opacity-60 p-1 rounded-md">
                     {formatDuration(duration)}
                 </div>
             </div>
