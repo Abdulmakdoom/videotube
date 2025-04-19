@@ -6,8 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   server: {
     proxy: {
-      '/api': 'http://localhost:8000' // /api ki piche append ho ajyega
-    },
+    //   '/api': 'http://localhost:8000' // /api ki piche append ho ajyega
+    // },
+    '/api': 'https://videotube-mggc.onrender.com' // /api ki piche append ho ajyega
+  },
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:8000',
