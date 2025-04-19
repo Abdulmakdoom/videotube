@@ -156,13 +156,13 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
                         )}
                         <span className="text-sm">{formatNumber(liked?.data?.LikePostCount)}</span>
                     </button>
-                    <button
+                    {/* <button
                         //   onClick={handleComment}
                         className="flex items-center space-x-1 hover:text-blue-600 transition duration-200"
                         aria-label="Comment on this post"
                     >
                         <BiComment />
-                    </button>
+                    </button> */}
                 </div>
                 <button
                     onClick={handleShare}

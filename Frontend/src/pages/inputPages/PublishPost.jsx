@@ -30,14 +30,12 @@ function PublishPost() {
                 body: JSON.stringify(formData),
             });
         
+            const result = await response.json();
             // Check if the response is successful (status in the range 200-299)
             if (!response.ok) {
-                const result = await response.json();  // Get the error message
                 throw new Error(result?.message || 'Something went wrong');  // Throw an error if the response is not ok
             }
-        
-            const result = await response.json();  // If the response is ok, process the result
-            navigate(`/post/${userId}`)
+            navigate(`/posts/${userId}`)
         
             // Handle the success case (if needed)
         } catch (error) {

@@ -102,7 +102,7 @@ const Sidebar = () => {
         {/* Logo Section */}
        {showSearch === true && <div className="flex items-center">
           <div className="text-2xl font-bold text-white">Video</div>
-          <div className="text-2xl font-bold text-red-600 ml-1">Tube</div>
+          <div className="text-2xl font-bold text-red-600">Tube</div>
         </div>}
 
         {/* Search Bar */}

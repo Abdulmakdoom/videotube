@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import fetchWithAuth from "../utils/api";
-import {CommentBox, timeAgo, Button} from "./allComponents.js"
+import {CommentBox, timeAgo, Button, Spinner} from "./allComponents.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faBookmark } from '@fortawesome/free-regular-svg-icons';
@@ -38,6 +38,7 @@ function VideoPlayCard({
   userChannelId,
 }) {
     const [likes, setLikes] = useState(0);
+    const [loader, setLoader] = useState(false);
     const [subscribersCount, setSubscribersCount] = useState(0)
     const [likeUsers, setLikeUsers] = useState([])
     let { videoId } = useParams();
@@ -120,6 +121,7 @@ function VideoPlayCard({
   }
 
   const deleteHandler = async()=> {
+    setLoader(true)
     try {
       const response = await fetch(`/api/v1/videos/${videoId}`, {
         method: "DELETE",
@@ -130,13 +132,16 @@ function VideoPlayCard({
       
 
       if (result.success) {
+        setLoader(false)
         console.log("Delete successfully.");
         navigate(`/videos/${userId}`)
       } else {
+        setLoader(false)
         console.error("Error Delete:", result.message);
       }
       
     } catch (error) {
+      setLoader(false)
       console.error("Error during deletion:", error);
     }
   }
@@ -258,7 +263,7 @@ function VideoPlayCard({
               <img
                 src={avatar}
                 alt={channelName}
-                className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-200"
+                className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-200 object-cover"
               />
             </Link>
             <div>
@@ -345,9 +350,11 @@ function VideoPlayCard({
                   </button> */}
 
                   {open && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+
+                    <div className="fixed inset-0 flex items-center justify-center z-50">
                       <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
                         <h2 className="text-lg font-semibold mb-4">This video will be deleted permanently, and you will lose all comments and likes. Are you sure you want to proceed?</h2>
+                       {!loader && <>
                         <div className="flex justify-center space-x-4">
                           <Button
                             onClick={deleteHandler}
@@ -362,6 +369,8 @@ function VideoPlayCard({
                         >
                           Cancel
                         </button>
+                        </>}
+                        {loader ? <div className="mt-2"><Spinner /> </div>: null}
                       </div>
                     </div>
                   )}
