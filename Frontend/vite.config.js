@@ -8,7 +8,14 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:8000' // /api ki piche append ho ajyega
     },
-  //   '/api': 'https://videotube-mggc.onrender.com' // /api ki piche append ho ajyega
+  
+  },
+  plugins: [react(), tailwindcss(),],
+})
+
+
+
+  // '/api': 'https://videotube-mggc.onrender.com' // /api ki piche append ho ajyega
   // },
     // proxy: {
     //   '/api': {
@@ -17,6 +24,3 @@ export default defineConfig({
     //     secure: false,
     //   },
     // },
-  },
-  plugins: [react(), tailwindcss(),],
-})
