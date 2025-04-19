@@ -22,8 +22,8 @@ export default defineConfig({
 
 
 
-  '/api': 'https://videotube-mggc.onrender.com' // /api ki piche append ho ajyega
-  },
+  // '/api': 'https://videotube-mggc.onrender.com' // /api ki piche append ho ajyega
+  // },
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:8000',
