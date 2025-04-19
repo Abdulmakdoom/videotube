@@ -80,7 +80,7 @@ function Mainpage() {
                 //         }
                 // );
 
-                const response = await fetchWithAuth(`${import.meta.env.VITE_BACKEND_URL}/api/v1/videos/u/videos`,
+                const response = await fetchWithAuth(`/api/v1/videos/u/videos`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request
