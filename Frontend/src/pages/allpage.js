@@ -10,7 +10,6 @@ import PlaylistProfile from "./PlaylistProfile";
 import PlaylistPage from "./MainPlaylist";
 import Subscribers from "./Subscriptions";
 import YourVideos from "./YourVideos";
-import OwnerAllVideos from "./ownerAllVideos";
 import OwnerAllPlaylist from "./OwnerAllPlaylists";
 import PublishVideo from "./inputPages/PublishVideo";
 import EditVideo from "./inputPages/EditVideo";
@@ -26,6 +25,7 @@ import AccountEdit from "./inputPages/AccountEdit";
 import PasswordEdit from "./inputPages/PasswordEdit";
 import PageNotFound from "./PageNotFound";
 import SearchPage from "./SearchPage";
+import OwnerAllVideos from "./ownerAllVideos";
 
 export {
     VideoPlay,
