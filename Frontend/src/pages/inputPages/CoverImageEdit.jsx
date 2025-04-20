@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function CoverImageEdit ({userId, data}){
     const [coverImage, setCoverImage] = useState({coverImage : null})
     const navigate = useNavigate()
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
     const handleCoverChange = async (e)=> {
         const file = e.target.files[0]
@@ -19,7 +20,7 @@ function CoverImageEdit ({userId, data}){
             const formData = new FormData();
             formData.append("coverImage", file)
 
-            const response = await fetch("/api/v1/users/cover-image", {
+            const response = await fetch(url+"/api/v1/users/cover-image", {
             method: "PATCH",
             body: formData,
             });

@@ -10,6 +10,7 @@ function OwnerAllPlaylist() {
 
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
     const playListHandler = async () => {
@@ -22,7 +23,7 @@ function OwnerAllPlaylist() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/playlist/user/${userId}`);
+            let response = await fetch(`${url}/api/v1/playlist/user/${userId}`);
             let result = await response.json();
     
             // console.log(result);

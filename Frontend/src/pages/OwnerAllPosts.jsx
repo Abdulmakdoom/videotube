@@ -14,6 +14,7 @@ function OwnerAllPosts (){
          const userData = useSelector((state) => state.auth.userData);
          const userId = userData?._id;
 
+         const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
         const postHandler = async () => {
@@ -26,7 +27,7 @@ function OwnerAllPosts (){
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`/api/v1/tweets/user/${userId}`);
+                let response = await fetch(`${url}/api/v1/tweets/user/${userId}`);
                 let result = await response.json();
         
                 //console.log(result);

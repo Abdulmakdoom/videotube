@@ -6,6 +6,7 @@ function AvatarEdit ({userId, data}) {
     const [avatar, setAvatar] = useState({avatar: null})
     const navigate = useNavigate();
 
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
         const handleAvatarChange = async (e) => {
         const file = e.target.files[0];
@@ -21,7 +22,7 @@ function AvatarEdit ({userId, data}) {
                 const formData = new FormData();
                 formData.append("avatar", file);
 
-                const response = await fetch("/api/v1/users/avatar", {
+                const response = await fetch(url+"/api/v1/users/avatar", {
                 method: "PATCH",
                 body: formData,
                 });

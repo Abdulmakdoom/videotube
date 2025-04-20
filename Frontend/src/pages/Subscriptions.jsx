@@ -62,6 +62,7 @@ function Subscribers() {
     // console.log(userData);
     
     const userId = userData?._id;
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
     
 
     useEffect(() => {
@@ -70,8 +71,8 @@ function Subscribers() {
             try {
                 const response = await fetchWithAuth(
                     userId
-                        ? `/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`
-                        : `/api/v1/videos/u/videos`,
+                        ? `${url}/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`
+                        : `${url}/api/v1/videos/u/videos`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request

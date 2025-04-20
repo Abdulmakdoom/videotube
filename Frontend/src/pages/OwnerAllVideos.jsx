@@ -24,6 +24,8 @@ function OwnerAllVideos() {
     const userData = useSelector((state) => state.auth.userData);
     const userId1 = userData?._id;
 
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
+
     const {userId} = useParams()
     
     const pageIncreaseHandler = ()=> {
@@ -47,7 +49,7 @@ function OwnerAllVideos() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`);
+            let response = await fetch(`${url}/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`);
             let result = await response.json();
 
             //console.log(result);

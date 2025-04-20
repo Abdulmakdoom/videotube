@@ -22,6 +22,7 @@ function PublishVideo() {
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [videoFileName, setVideoFileName] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
   const inputHandler = (e) => {
     const { name, type, files } = e.target;
@@ -97,7 +98,7 @@ function PublishVideo() {
 
     try {
     
-      const response = await fetch("/api/v1/videos/", {
+      const response = await fetch(url+"/api/v1/videos/", {
         method: "POST",
         body: formDataToSend,
         credentials: "include",

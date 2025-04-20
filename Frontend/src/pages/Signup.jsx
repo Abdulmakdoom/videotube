@@ -17,6 +17,7 @@ function Signup() {
         avatar: null,
         coverImage: null,
     });
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
     // Input handler to manage file input changes
     const inputHandler = (e) => {
@@ -67,7 +68,7 @@ function Signup() {
         
 
         try {
-            const response = await fetch("/api/v1/users/register", {
+            const response = await fetch(url+"/api/v1/users/register", {
                 method: "POST",
                 credentials: 'include',
                 body: formDataToSend,

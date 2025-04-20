@@ -1,4 +1,5 @@
 const fetchWithAuth = async (url, options = {}) => {
+  const url2 = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
     // Ensure credentials (cookies) are included in the request
     let response = await fetch(url, {
       ...options,
@@ -9,7 +10,7 @@ const fetchWithAuth = async (url, options = {}) => {
     if (response.status === 401) {
       try {
         // Attempt to refresh the access token
-        const refreshResponse = await fetch('/api/v1/users/refresh-token', {
+        const refreshResponse = await fetch(url2+'/api/v1/users/refresh-token', {
           method: 'POST',
           credentials: 'include', // Send cookies with the request
         });

@@ -16,6 +16,8 @@ function PasswordEdit () {
         newPassword : ""
     })
 
+    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
+
 
      useEffect(() => {
             const fetchUser = async () => {
@@ -44,7 +46,7 @@ function PasswordEdit () {
             setError("")
 
             try {
-                const response = await fetch(`/api/v1/users/change-password`, {
+                const response = await fetch(`${url}/api/v1/users/change-password`, {
                     method: "PATCH",
                     credentials: "include",
                     headers: {
