@@ -10,10 +10,10 @@ const app = express()
 //     credentials: true,  // Allow credentials (cookies)
 //     }))
 
-const allowedOrigin = 'https://videotube-bice.vercel.app';
+// const allowedOrigin = 'https://videotube-bice.vercel.app';
 
 app.use(cors({
-  origin: allowedOrigin,
+  origin: process.env.CORS_ORIGIN,
   credentials: true, // allow cookies/auth headers
 }));
 
