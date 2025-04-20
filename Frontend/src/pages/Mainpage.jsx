@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import fetchWithAuth from "../utils/api";
 // import Cookies from "js-cookie"; 
 import {Card, Spinner, timeAgo} from "../components/allComponents.js"
+ const url = "https://videotube-mggc.onrender.com"
 
 
 // Utility function to format the like count
@@ -80,7 +81,7 @@ function Mainpage() {
                 //         }
                 // );
 
-                const response = await fetchWithAuth(`/api/v1/videos/u/videos`,
+                const response = await fetchWithAuth(`${url}/api/v1/videos/u/videos`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request
