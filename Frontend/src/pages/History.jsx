@@ -11,11 +11,12 @@ function History() {
     const [loading, setLoading] = useState(true);  // Define loading state
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
+     const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
     useEffect(() => {
         const historyData = async () => {
             try {
-                let response = await fetch("/api/v1/users/history");
+                let response = await fetch("${}/api/v1/users/history");
                 if (!response.ok) {
                     throw new Error("Failed to fetch video history");
                 }
