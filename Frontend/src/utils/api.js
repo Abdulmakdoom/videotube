@@ -44,12 +44,19 @@ const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:8000"
 
 const fetchWithAuth = async (url, options = {}) => {
   try {
+    const token = localStorage.getItem('auth_token');  // Or get token from cookies
+    const headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${token}`,
+    };
+
     let response = await fetch(url, {
       ...options,
-      credentials: 'include',
+      headers,
+      credentials: 'include',  // Ensure cookies are included
     });
 
-    // If unauthorized (status 401), try refreshing the token
+    // If unauthorized, try refreshing the token
     if (response.status === 401) {
       const refreshResponse = await fetch(`${baseURL}/api/v1/users/refresh-token`, {
         method: 'POST',
@@ -57,31 +64,23 @@ const fetchWithAuth = async (url, options = {}) => {
       });
 
       if (!refreshResponse.ok) {
-        // Redirect to login page if refresh fails
-        window.location.href = "/login"; // Adjust to your routing
         throw new Error("Session expired. Please log in again.");
       }
 
       // Retry the original request after successful token refresh
       response = await fetch(url, {
         ...options,
+        headers,
         credentials: 'include',
       });
     }
 
-    // Ensure the response is OK
-    if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
-    }
-
     return response;
-
   } catch (err) {
     console.error("fetchWithAuth error:", err.message);
-    throw err; // Let the caller handle it
+    throw err;
   }
 };
 
-export default fetchWithAuth;
 
   
