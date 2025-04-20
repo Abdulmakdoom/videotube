@@ -40,8 +40,7 @@
 //   export default fetchWithAuth;
 
 
-
-const baseURL = "https://videotube-mggc.onrender.com" || "http://localhost:8000";
+const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:8000" : "https://videotube-mggc.onrender.com";
 
 const fetchWithAuth = async (url, options = {}) => {
   try {
@@ -50,7 +49,7 @@ const fetchWithAuth = async (url, options = {}) => {
       credentials: 'include',
     });
 
-    // If unauthorized, try refreshing the token
+    // If unauthorized (status 401), try refreshing the token
     if (response.status === 401) {
       const refreshResponse = await fetch(`${baseURL}/api/v1/users/refresh-token`, {
         method: 'POST',
@@ -58,14 +57,21 @@ const fetchWithAuth = async (url, options = {}) => {
       });
 
       if (!refreshResponse.ok) {
+        // Redirect to login page if refresh fails
+        window.location.href = "/login"; // Adjust to your routing
         throw new Error("Session expired. Please log in again.");
       }
 
-      // Retry the original request after refresh
+      // Retry the original request after successful token refresh
       response = await fetch(url, {
         ...options,
         credentials: 'include',
       });
+    }
+
+    // Ensure the response is OK
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
     }
 
     return response;
