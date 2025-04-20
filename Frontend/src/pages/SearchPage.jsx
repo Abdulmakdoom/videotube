@@ -36,7 +36,6 @@ function SearchPage (){
     const {topic} = useParams()   
     const [searchData, setSearchData] = useState([])
     const [loading, setLoading] = useState(false); 
-    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
     useEffect(()=>{
       const searchVideosData = async()=> {
@@ -45,7 +44,7 @@ function SearchPage (){
         if(topic != ""){
             setLoading(true)
             try {
-                const response = await fetch(`${url}/api/v1/videos/u/videos`)
+                const response = await fetch(`/api/v1/videos/u/videos`)
             const result = await response.json()
             //console.log(result.data);
             const videosArray = result.data

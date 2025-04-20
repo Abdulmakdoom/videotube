@@ -11,7 +11,6 @@ function PublishPlaylist (){
 
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
-    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
     const inputHandler = (e)=>{
         const {name, value} = e.target;
@@ -26,7 +25,7 @@ function PublishPlaylist (){
         e.preventDefault();
 
        try {
-        const response = await fetch(`${url}/api/v1/playlist/`, {
+        const response = await fetch(`/api/v1/playlist/`, {
             method: "POST",
             credentials: "include",
             headers: {

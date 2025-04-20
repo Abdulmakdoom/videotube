@@ -5,30 +5,30 @@ import cookieParser from "cookie-parser";
 
 const app = express()
 
-// app.use(cors({
-//     origin: process.env.CORS_ORIGIN,
-//     credentials: true,  // Allow credentials (cookies)
-//     }))
-
-const allowedOrigin = 'https://videotube-bice.vercel.app';
-
 app.use(cors({
-  origin: allowedOrigin,
-  credentials: true, // allow cookies/auth headers
-}));
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,  // Allow credentials (cookies)
+    }))
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://videotube-bice.vercel.app");
-    // res.header("Access-Control-Allow-Credentials", "true");
-    // res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+// const allowedOrigin = 'https://videotube-bice.vercel.app';
+
+// app.use(cors({
+//   origin: allowedOrigin,
+//   credentials: true, // allow cookies/auth headers
+// }));
+
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "https://videotube-.vercel.app");
+//     // res.header("Access-Control-Allow-Credentials", "true");
+//     // res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+//     //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(204);
-    }
+//     if (req.method === "OPTIONS") {
+//       return res.sendStatus(204);
+//     }
   
-    next();
-  });
+//     next();
+//   });
   
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))

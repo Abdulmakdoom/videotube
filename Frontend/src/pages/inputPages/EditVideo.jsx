@@ -22,7 +22,6 @@ function PublishVideo() {
   const [videoFileName, setVideoFileName] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [oldData, setOldData] = useState("")
-  const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
     // Word count function
@@ -31,7 +30,7 @@ function PublishVideo() {
     };
 
   const originalData = async(e)=> {
-    const response = await fetch(`${url}/api/v1/videos/${videoId}`)
+    const response = await fetch(`/api/v1/videos/${videoId}`)
     const result = await response.json()
 
     //console.log(result);
@@ -158,7 +157,7 @@ function PublishVideo() {
 
     try {
     
-      const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
+      const response = await fetch(`/api/v1/videos/${videoId}`, {
         method: "PATCH",
         body: formDataToSend,
         credentials: "include",

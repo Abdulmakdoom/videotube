@@ -38,7 +38,6 @@ const PlaylistPage = () => {
   const [popupPage, setPopupPage] = useState(false)
   const naviagte = useNavigate()
   const [open, setOpen]= useState(false)
-  const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
 
@@ -65,7 +64,7 @@ function formatDuration(seconds) {
       
       setUserVideoData([])
       try {
-        let response = await fetch(`${url}/api/v1/playlist/${playlistId}`);
+        let response = await fetch(`/api/v1/playlist/${playlistId}`);
        
         if (!response?.ok) {
           throw new Error('Failed to fetch playlist');
@@ -77,7 +76,7 @@ function formatDuration(seconds) {
         // setData(result?.data.owner._id)
 
         
-        const response2 = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${result?.data.owner._id}`)
+        const response2 = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${result?.data.owner._id}`)
         let result2 = await response2.json();
        //console.log(result2.data);
         setUserVideoData(result2.data)
@@ -108,7 +107,7 @@ function formatDuration(seconds) {
   const addVideoInPlaylistHandler = async (videoId)=> {
     //console.log(videoId);
     try {
-      const response = await fetch(`${url}/api/v1/playlist/add/${videoId}/${playlistId}`, {
+      const response = await fetch(`/api/v1/playlist/add/${videoId}/${playlistId}`, {
         method: "PATCH",
         credentials: "include"
       })
@@ -134,7 +133,7 @@ function formatDuration(seconds) {
 
     setRemoveData({})
     try {
-      const response = await fetch(`${url}/api/v1/playlist/remove/${videoId}/${playlistId}`, {
+      const response = await fetch(`/api/v1/playlist/remove/${videoId}/${playlistId}`, {
         method: "PATCH",
         credentials: "include"
       })
@@ -156,7 +155,7 @@ function formatDuration(seconds) {
 
   const detetePlayListHandler = async ()=> {
    try {
-    const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
+    const response = await fetch(`/api/v1/playlist/${playlistId}`, {
       method: "DELETE",
       credentials: "include"
     })

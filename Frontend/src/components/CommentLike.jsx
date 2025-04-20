@@ -19,7 +19,6 @@ function CommentLike({commentId, userId}) {
     const [commentLikeCount, setCommentLikeCount] = useState(0);
     // const [showModal, setShowModal] = useState(false); 
     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
-    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
     
     
     
@@ -29,7 +28,7 @@ function CommentLike({commentId, userId}) {
     
     
     const commentLikeHandler = async()=> {
-        const response = await fetch(`${url}/api/v1/likes/toggle/v/comment/${commentId}`, {
+        const response = await fetch(`/api/v1/likes/toggle/v/comment/${commentId}`, {
             method: "POST",
             credentials: "include",
         })
@@ -42,7 +41,7 @@ function CommentLike({commentId, userId}) {
 
     const fetchInitialLikeCount = async () => {   
     //console.log(commentId.commentId);         
-        const response = await fetch(`${url}/api/v1/likes/videos/c/${commentId}`, {
+        const response = await fetch(`/api/v1/likes/videos/c/${commentId}`, {
         credentials: 'include',
         });
         const result = await response.json();

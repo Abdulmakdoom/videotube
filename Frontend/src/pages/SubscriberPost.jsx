@@ -7,14 +7,13 @@ import Spinner from "../components/Loader";
 function SubscriberPost (){
       const [loader, setLoader] = useState(false);
        const [postData, setPostData] = useState([])
-       const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
        const allSubscribePosts = async ()=> {
         setPostData([])
         setLoader(true)
         try {
-            const response = await fetch(`${url}/api/v1/tweets/user/p/post`)
+            const response = await fetch(`/api/v1/tweets/user/p/post`)
             const result = await response.json()
 
             if(!response.ok){

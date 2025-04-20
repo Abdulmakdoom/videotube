@@ -13,7 +13,6 @@ function AccountEdit () {
      const [loading, setLoading] = useState(false);
      const navigate = useNavigate()
      const [error, setError] = useState('')
-     const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
      const [formData, setFormData] = useState({
         fullName : "",
@@ -22,7 +21,7 @@ function AccountEdit () {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const response = await fetch(`${url}/api/v1/users/c/${username}`, {
+            const response = await fetch(`/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -51,7 +50,7 @@ function AccountEdit () {
         setLoading(true)
         try {
 
-            const response = await fetch(url+'/api/v1/users/update-account', {
+            const response = await fetch('/api/v1/users/update-account', {
                 method: "PATCH",
                 credentials: "include",
                 headers: {

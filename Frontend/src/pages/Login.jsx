@@ -10,7 +10,6 @@ import { login as authLogin } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
         const dispatch = useDispatch()
         const navigate = useNavigate()
@@ -36,7 +35,7 @@ function Login() {
             setError("")
             
         try {
-            const response = await fetch(url+"/api/v1/users/login", {
+            const response = await fetch("/api/v1/users/login", {
                 method: "POST",
                 credentials: "include", // Ensures cookies are sent
                 headers: {

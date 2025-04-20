@@ -26,13 +26,12 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
 
     const userData2 = useSelector((state) => state.auth.userData);
     const userId2 = userData2?._id;
-    const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
   
     const deleteHandler = async () => {
         try {
-            const response = await fetch(`${url}/api/v1/tweets/${postId}`, {
+            const response = await fetch(`/api/v1/tweets/${postId}`, {
                 method: "DELETE",
                 credentials: "include"
             })
@@ -52,7 +51,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
 
     // Toggle the like state
     const handleLike = async () => {
-        const response = await fetch(`${url}/api/v1/likes/toggle/v/tweet/${postId}`, {
+        const response = await fetch(`/api/v1/likes/toggle/v/tweet/${postId}`, {
             method: "POST",
             credentials: "include"
         })
@@ -61,7 +60,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
     };
 
     const getLikes = async () => {
-        const response = await fetch(`${url}/api/v1/likes/post/c/${postId}`)
+        const response = await fetch(`/api/v1/likes/post/c/${postId}`)
         const result = await response.json()
         setLiked(result)
     };

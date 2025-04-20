@@ -9,7 +9,6 @@ import fetchWithAuth from "../utils/api";
 import {Card, Spinner, timeAgo} from "../components/allComponents.js"
 
 
-
 // Utility function to format the like count
 const formatNumber = (number) => {
     if (number >= 1_000_000) {
@@ -24,7 +23,6 @@ function Mainpage() {
     const [error, setError] = useState("");
     const [data, setData] = useState([]);
     const [loader, setLoader] = useState(true);
-
     // const dispatch = useDispatch()
 
     const userData = useSelector((state) => state.auth.userData);
@@ -66,7 +64,6 @@ function Mainpage() {
     // console.log(userData);
     
     const userId = userData?._id;
-     const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
     
 
     useEffect(() => {
@@ -83,7 +80,7 @@ function Mainpage() {
                 //         }
                 // );
 
-                const response = await fetchWithAuth(`${url}/api/v1/videos/u/videos`,
+                const response = await fetchWithAuth(`/api/v1/videos/u/videos`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request

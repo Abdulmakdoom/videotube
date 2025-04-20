@@ -8,14 +8,13 @@ function VideoPlay() {
     const [videoLink, setVideoLink] = useState(null); // Start with null
     const [error, setError] = useState(null); // Handle errors
      const [loader, setLoader] = useState(true);
-     const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
     useEffect(() => {
         setVideoLink(null);
         const videoDetails = async () => {
             setLoader(true); 
             try {
-                let response = await fetch(`${url}/api/v1/videos/${videoId}`, {
+                let response = await fetch(`/api/v1/videos/${videoId}`, {
                     credentials: 'include',
                 });
 
