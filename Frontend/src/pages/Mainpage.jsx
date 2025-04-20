@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import fetchWithAuth from "../utils/api";
 // import Cookies from "js-cookie"; 
 import {Card, Spinner, timeAgo} from "../components/allComponents.js"
- const url = "https://videotube-mggc.onrender.com"
+ const url = "https://videotube-mggc.onrender.com" || "http://localhost:8000"
 
 
 // Utility function to format the like count
