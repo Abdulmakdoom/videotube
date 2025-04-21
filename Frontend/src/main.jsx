@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import './styles.css';
 import {RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
 import App from './App.jsx'
 import { PersistGate } from "redux-persist/integration/react";
