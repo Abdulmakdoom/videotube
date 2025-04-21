@@ -36,8 +36,9 @@ function SearchPage (){
     const {topic} = useParams()   
     const [searchData, setSearchData] = useState([])
     const [loading, setLoading] = useState(false); 
-    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
+    let url = import.meta.env.VITE_API_URL
+    
     useEffect(()=>{
       const searchVideosData = async()=> {
         setSearchData([])

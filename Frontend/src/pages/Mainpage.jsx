@@ -64,7 +64,9 @@ function Mainpage() {
     // console.log(userData);
     
     const userId = userData?._id;
-    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
+    
+    let url = import.meta.env.VITE_API_URL
+     
     
 
     useEffect(() => {

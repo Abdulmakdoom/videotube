@@ -22,7 +22,7 @@ function PublishVideo() {
   const [videoFileName, setVideoFileName] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [oldData, setOldData] = useState("")
-   let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
+  let url = import.meta.env.VITE_API_URL
 
 
     // Word count function

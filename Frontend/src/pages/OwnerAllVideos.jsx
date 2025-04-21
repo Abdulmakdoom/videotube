@@ -33,7 +33,7 @@ function OwnerAllVideos() {
     const pageDecreaseHandler = ()=> {
        page >= 2? setPage(page - 1) : 1;
     }
-    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
+    let url = import.meta.env.VITE_API_URL
 
     //console.log(VideoData2);
     

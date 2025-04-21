@@ -421,8 +421,8 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     const [commentCount, setCommentCount] = useState("");
     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
     const [commentVideoUserData, setCommentVideoUserData] = useState("")
-    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
-
+    let url = import.meta.env.VITE_API_URL
+    
     const inputHandler = (e) => {
         let { value } = e.target;
         setInput((prevData) => ({

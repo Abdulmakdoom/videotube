@@ -9,7 +9,7 @@ function PasswordEdit () {
     //const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
     const [error, setError] = useState('')
-    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
+    let url = import.meta.env.VITE_API_URL
 
 
     const [formData, setFormData] = useState({

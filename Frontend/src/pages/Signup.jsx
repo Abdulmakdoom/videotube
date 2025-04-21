@@ -18,7 +18,7 @@ function Signup() {
         coverImage: null,
     });
 
-    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
+    let url = import.meta.env.VITE_API_URL
     // Input handler to manage file input changes
     const inputHandler = (e) => {
         const { name, value, type, files } = e.target;

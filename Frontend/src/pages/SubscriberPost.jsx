@@ -7,8 +7,7 @@ import Spinner from "../components/Loader";
 function SubscriberPost (){
       const [loader, setLoader] = useState(false);
        const [postData, setPostData] = useState([])
-       let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
-
+       let url = import.meta.env.VITE_API_URL
 
        const allSubscribePosts = async ()=> {
         setPostData([])

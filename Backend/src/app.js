@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors"; 
 import cookieParser from "cookie-parser"; 
-import path from "path";
-
 
 
 const app = express()
@@ -14,7 +12,7 @@ const app = express()
 //     }))
 
 
-const allowedOrigin = 'https://videotube-frontend-uvlu.onrender.com';
+const allowedOrigin = 'http://localhost:5173';
 
 app.use(cors({
   origin: allowedOrigin,
@@ -22,10 +20,10 @@ app.use(cors({
 }));
 
 // app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "https://videotube-frontend-uvlu.onrender.com");
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+//     res.header("Access-Control-Allow-Origin", "https://videotube-bice.vercel.app");
+//     // res.header("Access-Control-Allow-Credentials", "true");
+//     // res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+//     //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   
 //     if (req.method === "OPTIONS") {
 //       return res.sendStatus(204);
@@ -38,7 +36,6 @@ app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
-
 
 // app.use('/', (req, res)=>{
 //     res.send("Done")

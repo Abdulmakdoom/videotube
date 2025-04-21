@@ -38,8 +38,7 @@ const PlaylistPage = () => {
   const [popupPage, setPopupPage] = useState(false)
   const naviagte = useNavigate()
   const [open, setOpen]= useState(false)
-  let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
-
+  let url = import.meta.env.VITE_API_URL
 
 function formatDuration(seconds) {
   // Ensure we are working with an integer value by truncating the float

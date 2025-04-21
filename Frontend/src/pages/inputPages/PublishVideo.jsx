@@ -22,7 +22,7 @@ function PublishVideo() {
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [videoFileName, setVideoFileName] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
-   let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
+  let url = import.meta.env.VITE_API_URL
 
   const inputHandler = (e) => {
     const { name, type, files } = e.target;
