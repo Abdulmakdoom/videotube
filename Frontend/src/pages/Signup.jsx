@@ -18,6 +18,7 @@ function Signup() {
         coverImage: null,
     });
 
+    let url = "http://localhost:8000"
     // Input handler to manage file input changes
     const inputHandler = (e) => {
         const { name, value, type, files } = e.target;
@@ -67,7 +68,7 @@ function Signup() {
         
 
         try {
-            const response = await fetch("/api/v1/users/register", {
+            const response = await fetch(url+"/api/v1/users/register", {
                 method: "POST",
                 credentials: 'include',
                 body: formDataToSend,

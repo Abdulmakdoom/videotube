@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 function LogoutBtn() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    let url = "http://localhost:8000"
 
     const logoutHandler = async()=> {
-        await fetch("/api/v1/users/logout", {
+        await fetch(url+"/api/v1/users/logout", {
             method: "POST",
             credentials: "include",
         })

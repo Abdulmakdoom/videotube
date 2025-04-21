@@ -12,6 +12,7 @@ function YourVideos () {
 
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
+    let url = "http://localhost:8000"
 
     //console.log(userId);
 
@@ -28,7 +29,9 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`);
+            let response = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
+                credentials: "include"
+            });
             let result = await response.json();
     
             //console.log(result);
@@ -58,7 +61,9 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/playlist/user/${userId}`);
+            let response = await fetch(`${url}/api/v1/playlist/user/${userId}`, {
+                credentials: "include"
+            });
             let result = await response.json();
     
             // console.log(result);
@@ -90,7 +95,9 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/tweets/user/${userId}`);
+            let response = await fetch(`${url}/api/v1/tweets/user/${userId}`, {
+                credentials: "include"
+            });
             let result = await response.json();
     
             //console.log(result);

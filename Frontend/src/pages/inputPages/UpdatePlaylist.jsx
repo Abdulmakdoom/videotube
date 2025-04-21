@@ -149,6 +149,7 @@ function UpdatePlaylist() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+   let url = "http://localhost:8000"
 
     // Word count function
     const getWordCount = (text) => {
@@ -176,7 +177,9 @@ function UpdatePlaylist() {
   // Fetch existing playlist data
   const playlistData = async () => {
     try {
-      const response = await fetch(`/api/v1/playlist/${playlistId}`);
+      const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
+        credentials:"include"
+      });
       const result = await response.json();
 
       if (response.ok) {
@@ -214,7 +217,7 @@ function UpdatePlaylist() {
     }
 
     try {
-      const response = await fetch(`/api/v1/playlist/${playlistId}`, {
+      const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
         method: "PATCH",
         credentials: "include",
         body: formDataToSend,

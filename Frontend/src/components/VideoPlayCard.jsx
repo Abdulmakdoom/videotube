@@ -51,16 +51,17 @@ function VideoPlayCard({
     let navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
+    let url = "http://localhost:8000"
     //console.log(userId);        
 
   // Fetch the likes count when the component mounts
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response1 = await fetch(`/api/v1/likes/videos/${videoId}`, {
+        const response1 = await fetch(`${url}/api/v1/likes/videos/${videoId}`, {
           credentials: 'include',
         });
-        const response2 = await fetch(`/api/v1/subscriptions/c/${userChannelId}`, {
+        const response2 = await fetch(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
           method: "GET",
           credentials: 'include',
         })
@@ -105,7 +106,7 @@ function VideoPlayCard({
 
   const handleSubscribeButtion = async()=> {
    try {
-    const response = await fetch(`/api/v1/subscriptions/c/${userChannelId}`, {
+    const response = await fetch(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
       method: "POST",
       credentials: 'include',
     })
@@ -123,7 +124,7 @@ function VideoPlayCard({
   const deleteHandler = async()=> {
     setLoader(true)
     try {
-      const response = await fetch(`/api/v1/videos/${videoId}`, {
+      const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
         method: "DELETE",
        credentials: "include"
       })
@@ -163,7 +164,7 @@ function VideoPlayCard({
       // Call the API to increase the view count
       const updateViews = async () => {
         try {
-          const response = await fetch(`/api/v1/videos/views/${videoId}`, {
+          const response = await fetch(`${url}/api/v1/videos/views/${videoId}`, {
             method: "POST", // Assuming the API uses POST to update views
             credentials: 'include',
           });
@@ -187,7 +188,7 @@ function VideoPlayCard({
   // Handle like button click
   const handleLike = async () => {
     try {
-      const response = await fetch(`/api/v1/likes/toggle/v/video/${videoId}`, {
+      const response = await fetch(`${url}/api/v1/likes/toggle/v/video/${videoId}`, {
         method: "POST", // Assuming the API uses POST to toggle likes
         credentials: 'include',
       });

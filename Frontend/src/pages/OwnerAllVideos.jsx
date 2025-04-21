@@ -33,6 +33,7 @@ function OwnerAllVideos() {
     const pageDecreaseHandler = ()=> {
        page >= 2? setPage(page - 1) : 1;
     }
+     let url = "http://localhost:8000"
 
     //console.log(VideoData2);
     
@@ -47,7 +48,9 @@ function OwnerAllVideos() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`);
+            let response = await fetch(`${url}/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
+                credentials: "include"
+            });
             let result = await response.json();
 
             //console.log(result);

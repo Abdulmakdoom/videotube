@@ -421,6 +421,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     const [commentCount, setCommentCount] = useState("");
     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
     const [commentVideoUserData, setCommentVideoUserData] = useState("")
+    let url = "http://localhost:8000"
 
     const inputHandler = (e) => {
         let { value } = e.target;
@@ -434,7 +435,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`/api/v1/comments/${videoId}`, {
+            const response = await fetch(`${url}/api/v1/comments/${videoId}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -453,7 +454,9 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             setInput({ content: "" });
 
             // Fetch updated comments
-            const responseComments = await fetch(`/api/v1/comments/${videoId}`);
+            const responseComments = await fetch(`${url}/api/v1/comments/${videoId}`, {
+                credentials: "include"
+            });
             const resultComments = await responseComments.json();
 
             if (!responseComments.ok) {
@@ -474,7 +477,9 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await fetch(`/api/v1/comments/${videoId}`);
+                const response = await fetch(`${url}/api/v1/comments/${videoId}`, {
+                    credentials: "include"
+                });
                 const result = await response.json();
 
                 if (!response.ok) {
@@ -496,7 +501,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
     const deleteCommentHandler = async (commentId) => {
         try {
-            const response = await fetch(`/api/v1/comments/c/${commentId}`, {
+            const response = await fetch(`${url}/api/v1/comments/c/${commentId}`, {
                 method: 'DELETE',
                 credentials: "include",
             });

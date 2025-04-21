@@ -13,6 +13,7 @@ function OwnerAllPosts (){
 
          const userData = useSelector((state) => state.auth.userData);
          const userId = userData?._id;
+          let url = "http://localhost:8000"
 
 
 
@@ -26,7 +27,9 @@ function OwnerAllPosts (){
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`/api/v1/tweets/user/${userId}`);
+                let response = await fetch(`${url}/api/v1/tweets/user/${userId}`, {
+                    credentials: "include"
+                });
                 let result = await response.json();
         
                 //console.log(result);

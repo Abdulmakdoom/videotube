@@ -5,17 +5,17 @@ import cookieParser from "cookie-parser";
 
 const app = express()
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,  // Allow credentials (cookies)
-    }))
-
-// const allowedOrigin = 'https://videotube-bice.vercel.app';
-
 // app.use(cors({
-//   origin: allowedOrigin,
-//   credentials: true, // allow cookies/auth headers
-// }));
+//     origin: process.env.CORS_ORIGIN,
+//     credentials: true,  // Allow credentials (cookies)
+//     }))
+
+const allowedOrigin = 'http://localhost:5173';
+
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true, // allow cookies/auth headers
+}));
 
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", "https://videotube-bice.vercel.app");

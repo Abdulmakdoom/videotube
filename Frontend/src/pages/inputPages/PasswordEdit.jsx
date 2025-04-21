@@ -9,6 +9,7 @@ function PasswordEdit () {
     //const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
     const [error, setError] = useState('')
+     let url = "http://localhost:8000"
 
 
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ function PasswordEdit () {
 
      useEffect(() => {
             const fetchUser = async () => {
-                const response = await fetch(`/api/v1/users/c/${username}`, {
+                const response = await fetch(`${url}/api/v1/users/c/${username}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -44,7 +45,7 @@ function PasswordEdit () {
             setError("")
 
             try {
-                const response = await fetch(`/api/v1/users/change-password`, {
+                const response = await fetch(`${url}/api/v1/users/change-password`, {
                     method: "PATCH",
                     credentials: "include",
                     headers: {

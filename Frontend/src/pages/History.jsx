@@ -11,11 +11,14 @@ function History() {
     const [loading, setLoading] = useState(true);  // Define loading state
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
+     let url = "http://localhost:8000"
 
     useEffect(() => {
         const historyData = async () => {
             try {
-                let response = await fetch("/api/v1/users/history");
+                let response = await fetch(url+"/api/v1/users/history", {
+                    credentials: "include"
+                });
                 if (!response.ok) {
                     throw new Error("Failed to fetch video history");
                 }
@@ -35,7 +38,7 @@ function History() {
 
     const deleteHistoryHandler = async()=>{
         try {
-            let response = await fetch(`/api/v1/users/delete-history`, {
+            let response = await fetch(`${url}/api/v1/users/delete-history`, {
                 method: "DELETE",
                 credentials: "include"
             })

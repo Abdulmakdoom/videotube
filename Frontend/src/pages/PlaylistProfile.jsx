@@ -34,12 +34,12 @@ function PlaylistProfile() {
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
     //console.log(userData);
-    
+     let url = "http://localhost:8000"
 
     useEffect(() => {
         const fetchUser = async () => {
             setLoading(true);
-            const response = await fetch(`/api/v1/users/c/${username}`, {
+            const response = await fetch(`${url}/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
             });
@@ -54,7 +54,7 @@ function PlaylistProfile() {
 
         const handleSubscribeButtion = async()=> {
             try {
-            const response = await fetch(`/api/v1/subscriptions/c/${data?._id}`, {
+            const response = await fetch(`${url}/api/v1/subscriptions/c/${data?._id}`, {
             method: "POST",
             credentials: 'include',
             })
@@ -78,7 +78,7 @@ function PlaylistProfile() {
             }
         
             try {
-                const response2 = await fetch(`/api/v1/subscriptions/c/${data._id}`, {
+                const response2 = await fetch(`${url}/api/v1/subscriptions/c/${data._id}`, {
                     method: "GET",
                     credentials: 'include',
                 });
@@ -117,7 +117,9 @@ function PlaylistProfile() {
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`/api/v1/playlist/user/${data?._id}`);
+                let response = await fetch(`${url}/api/v1/playlist/user/${data?._id}`, {
+                    credentials: "include"
+                });
                 let result = await response.json();
         
                 // console.log(result);
@@ -143,7 +145,9 @@ function PlaylistProfile() {
             if (!data?._id) {
                 return; // Prevent the fetch call if there is no valid ID
             }
-            let response = await fetch(`/api/v1/videos/views/${data?._id}`)
+            let response = await fetch(`${url}/api/v1/videos/views/${data?._id}`, {
+                credentials: "include"
+            })
             let result = await response.json()
             //console.log(result);
             setViewsCount(result)
@@ -166,7 +170,9 @@ function PlaylistProfile() {
                     }
                     setVideoCount([])
                     try {
-                        let response = await fetch(`/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`);
+                        let response = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`, {
+                            credentials: "include"
+                        });
                         let result = await response.json();
                 
                         // console.log(result);
