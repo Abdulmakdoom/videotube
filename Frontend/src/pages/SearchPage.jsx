@@ -36,7 +36,7 @@ function SearchPage (){
     const {topic} = useParams()   
     const [searchData, setSearchData] = useState([])
     const [loading, setLoading] = useState(false); 
-    let url = "http://localhost:8000"
+    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
     useEffect(()=>{
       const searchVideosData = async()=> {

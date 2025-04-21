@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function LogoutBtn() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    let url = "http://localhost:8000"
+    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
     const logoutHandler = async()=> {
         await fetch(url+"/api/v1/users/logout", {

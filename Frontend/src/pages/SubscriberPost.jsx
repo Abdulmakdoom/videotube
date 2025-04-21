@@ -7,7 +7,7 @@ import Spinner from "../components/Loader";
 function SubscriberPost (){
       const [loader, setLoader] = useState(false);
        const [postData, setPostData] = useState([])
-       let url = "http://localhost:8000"
+       let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
 
        const allSubscribePosts = async ()=> {

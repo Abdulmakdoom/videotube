@@ -19,7 +19,7 @@ function CommentLike({commentId, userId}) {
     const [commentLikeCount, setCommentLikeCount] = useState(0);
     // const [showModal, setShowModal] = useState(false); 
     const [showModalId, setShowModalId] = useState(null); // Track which comment's modal is visible
-    let url = "http://localhost:8000"
+    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
     
     
     

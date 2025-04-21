@@ -149,7 +149,7 @@ function UpdatePlaylist() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-   let url = "http://localhost:8000"
+   let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
     // Word count function
     const getWordCount = (text) => {

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function AvatarEdit ({userId, data}) {
     const [avatar, setAvatar] = useState({avatar: null})
     const navigate = useNavigate();
-     let url = "http://localhost:8000"
+     let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
         const handleAvatarChange = async (e) => {
         const file = e.target.files[0];

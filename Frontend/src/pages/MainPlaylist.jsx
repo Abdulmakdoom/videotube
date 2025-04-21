@@ -38,8 +38,7 @@ const PlaylistPage = () => {
   const [popupPage, setPopupPage] = useState(false)
   const naviagte = useNavigate()
   const [open, setOpen]= useState(false)
-   let url = "http://localhost:8000"
-
+  let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
 
 function formatDuration(seconds) {

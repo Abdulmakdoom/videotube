@@ -9,7 +9,7 @@ function PasswordEdit () {
     //const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
     const [error, setError] = useState('')
-     let url = "http://localhost:8000"
+    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
 
     const [formData, setFormData] = useState({

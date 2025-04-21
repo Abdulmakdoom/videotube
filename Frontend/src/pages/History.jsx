@@ -11,7 +11,7 @@ function History() {
     const [loading, setLoading] = useState(true);  // Define loading state
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
-     let url = "http://localhost:8000"
+    let url = "http://localhost:8000" || "https://videotube-e1hm.onrender.com"
 
     useEffect(() => {
         const historyData = async () => {
