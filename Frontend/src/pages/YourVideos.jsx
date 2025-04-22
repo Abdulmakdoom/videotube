@@ -16,8 +16,6 @@ function YourVideos () {
 
     //console.log(userId);
 
-    
-    
 
     const videoHandler = async () => {
         if (!userId) {
