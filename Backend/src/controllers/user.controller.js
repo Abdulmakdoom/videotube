@@ -161,10 +161,9 @@ const loginUser = asyncHandler(async (req, res)=> {
 
     const options = {  
         httpOnly: true,
-        secure: true,
+        secure:  process.env.NODE_ENV === "production",
         sameSite: "None",
-        path: "/",
-        maxAge: 24 * 60 * 60 * 1000,
+
     }
 
     return res.status(200)
@@ -205,10 +204,9 @@ const logoutUser = asyncHandler(async(req, res) => {
 
     const options = { 
         httpOnly: true,
-        secure: true,
+        secure:  process.env.NODE_ENV === "production",
         sameSite: "None",
-        path: "/",
-        maxAge: 24 * 60 * 60 * 1000,
+
     }
 
     return res
@@ -252,10 +250,9 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         // now send in cookie
         const options = {
             httpOnly: true,
-            secure: true,
+            secure:  process.env.NODE_ENV === "production",
             sameSite: "None",
-            path: "/",
-            maxAge: 24 * 60 * 60 * 1000,
+
         }
     
         const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id);
