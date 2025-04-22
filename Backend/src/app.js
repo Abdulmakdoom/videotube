@@ -6,10 +6,10 @@ import cookieParser from "cookie-parser";
 const app = express()
 
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,  // Allow credentials (cookies)
-    }))
+// app.use(cors({
+//     origin: process.env.CORS_ORIGIN,
+//     credentials: true,  // Allow credentials (cookies)
+//     }))
 
 
 // const allowedOrigin = 'http://localhost:5173';
@@ -31,6 +31,21 @@ app.use(cors({
   
 //     next();
 //   });
+
+
+const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
+
   
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))

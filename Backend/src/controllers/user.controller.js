@@ -166,17 +166,13 @@ const loginUser = asyncHandler(async (req, res)=> {
     //    // maxAge: 7 * 24 * 60 * 60 * 1000,
     // }
 
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = process.env.NODE_ENV === "production";
 
     const options = {
-      resave: false,
-      saveUninitialized: false, // more secure: only save sessions when something is stored
-      cookie: {
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        httpOnly: true,
-        secure: isProduction,           // only send cookie over HTTPS in production
-        sameSite: isProduction ? 'None' : 'Lax',
-      },
+    httpOnly: true,
+    secure: isProduction, // true in production (HTTPS)
+    sameSite: isProduction ? "None" : "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     };
 
     return res.status(200)
@@ -215,11 +211,14 @@ const logoutUser = asyncHandler(async(req, res) => {
         }
     )
 
-    const options = { 
-        httpOnly: true,
-        secure: true,
-        //sameSite: "strict",
-    }
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const options = {
+    httpOnly: true,
+    secure: isProduction, // true in production (HTTPS)
+    sameSite: isProduction ? "None" : "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    };
 
     return res
     .status(200)
@@ -260,12 +259,21 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
        
         // cookie
         // now send in cookie
+        // const options = {
+        //     httpOnly: true,
+        //     secure: true,
+        //     // sameSite: "strict",
+        //    // sameSite: "None",
+        // }
+
+        const isProduction = process.env.NODE_ENV === "production";
+
         const options = {
-            httpOnly: true,
-            secure: true,
-            // sameSite: "strict",
-           // sameSite: "None",
-        }
+        httpOnly: true,
+        secure: isProduction, // true in production (HTTPS)
+        sameSite: isProduction ? "None" : "Lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        };
         
     
         const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id);
