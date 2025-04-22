@@ -118,61 +118,68 @@ const registerUser = asyncHandler( async (req, res) => {
 
 // //--------------------------------------------Login User
 
-const loginUser = asyncHandler(async (req, res) => {
-    const { email, username, password } = req.body;
-  
+const loginUser = asyncHandler(async (req, res)=> {
+    
+    // steps
+
+    // req body -> data
+    // username or email
+    //find the user
+    //password check
+    //access and referesh token generate
+    //send these token via cookie
+
+ 
+    const {email, username, password} = req.body
+
     if (!username && !email) {
-      throw new ApiError(400, "username or email is required");
+        throw new ApiError(400, "username or email is required")
     }
-  
-    // Find user by username or email
+
+    
+    //find the user
     const user = await User.findOne({
-      $or: [{ username }, { email }],
-    });
-  
+        $or: [{username}, {email}]
+    })
+
     if (!user) {
-      throw new ApiError(404, "User does not exist");
+        throw new ApiError(404, "User does not exist")
     }
-  
-    // Check password
-    const isPasswordValid = await user.isPasswordCorrect(password);
-  
-    if (!isPasswordValid) {
-      throw new ApiError(401, "Invalid user credentials");
+ 
+    //password check
+   const isPasswordValid = await user.isPasswordCorrect(password) // o/p - true or false
+
+   if (!isPasswordValid) {
+    throw new ApiError(401, "Invalid user credentials")
     }
-  
-    // Generate tokens
-    const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
-  
-    // Remove sensitive data
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
-  
-    const isProduction = process.env.NODE_ENV === "production";
-  
-    const options = {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "None" : "Lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // example: 7 days
-    };
-  
-    return res
-      .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", refreshToken, options)
-      .json(
+ 
+    //access and referesh token
+   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+
+   // send token via cookies
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+    const options = {  
+        httpOnly: true,
+        secure: true,
+        //sameSite: "strict",
+       // maxAge: 7 * 24 * 60 * 60 * 1000,
+    }
+
+    return res.status(200)
+    .cookie("accessToken", accessToken, options) // (key, value, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
         new ApiResponse(
-          200,
-          {
-            user: loggedInUser,
-            accessToken,
-            refreshToken,
-          },
-          "User logged in successfully"
+            200, 
+            {
+                user: loggedInUser, accessToken, refreshToken
+            },
+            "User logged In Successfully"
         )
-      );
-  });
-  
+    )
+      
+})
 
 
 
@@ -195,15 +202,11 @@ const logoutUser = asyncHandler(async(req, res) => {
         }
     )
 
-    const isProduction = process.env.NODE_ENV === 'production';
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "None" : "Lax",
-      maxAge: 24 * 60 * 60 * 1000
-    });
-    
+    const options = { 
+        httpOnly: true,
+        secure: true,
+        //sameSite: "strict",
+    }
 
     return res
     .status(200)
@@ -244,15 +247,19 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
        
         // cookie
         // now send in cookie
-        const isProduction = process.env.NODE_ENV === 'production';
+        const options = {
+            httpOnly: true,
+            secure: true,
+            // sameSite: "strict",
+           // sameSite: "None",
+        }
 
-        res.cookie("token", token, {
-          httpOnly: true,
-          secure: isProduction,
-          sameSite: isProduction ? "None" : "Lax",
-          maxAge: 24 * 60 * 60 * 1000
-        });
-        
+        // res.cookie("token", token, {
+        //     httpOnly: true,
+        //     secure: isProduction,
+        //     sameSite: isProduction ? "None" : "Lax",
+        //     maxAge: 24 * 60 * 60 * 1000
+        //   });
     
         const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id);
 
