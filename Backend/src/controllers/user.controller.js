@@ -221,12 +221,13 @@ const loginUser = asyncHandler(async (req, res) => {
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
     const isProduction = process.env.NODE_ENV === "production";
-    const options = {
-        httpOnly: true,
-        secure: isProduction, // Only true in production (HTTPS)
-        sameSite: isProduction ? "None" : "Lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    };
+  
+const options = {
+    httpOnly: true,
+    secure: isProduction, // true in production (HTTPS)
+    sameSite: isProduction ? "None" : "Lax", // Important for cross-origin requests
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  };
 
     return res.status(200)
         .cookie("accessToken", accessToken, options)  // Setting the cookies

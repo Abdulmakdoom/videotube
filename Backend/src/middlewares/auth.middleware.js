@@ -41,10 +41,10 @@ import { User } from "../models/user.models.js";
 export const verifyJWT = asyncHandler(async (req, _, next) => {
   // Check if the access token is provided via cookies or Authorization header
   const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "").trim();
-
   if (!token) {
-      throw new ApiError(401, "Access token missing");
+    throw new ApiError(401, "Access token missing");
   }
+  console.log("Cookies:", req.cookies); 
 
   let decodedToken;
   try {
