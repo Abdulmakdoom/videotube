@@ -14,6 +14,9 @@ function LogoutBtn() {
         await fetch(url+"/api/v1/users/logout", {
             method: "POST",
             credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
         dispatch(authLogout())
         // alert("Logout successfully!");

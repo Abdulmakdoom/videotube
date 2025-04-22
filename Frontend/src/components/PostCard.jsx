@@ -34,7 +34,10 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
         try {
             const response = await fetch(`${url}/api/v1/tweets/${postId}`, {
                 method: "DELETE",
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
 
             if (response.ok) {
@@ -54,7 +57,10 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
     const handleLike = async () => {
         const response = await fetch(`${url}/api/v1/likes/toggle/v/tweet/${postId}`, {
             method: "POST",
-            credentials: "include"
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
         const result = await response.json()
         setLikeData(result)
@@ -62,7 +68,10 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
 
     const getLikes = async () => {
         const response = await fetch(`${url}/api/v1/likes/post/c/${postId}`, {
-            credentials: "include"
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
         const result = await response.json()
         setLiked(result)

@@ -23,7 +23,10 @@ function OwnerAllPlaylist() {
     
         try {
             let response = await fetch(`${url}/api/v1/playlist/user/${userId}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             let result = await response.json();
     

@@ -14,7 +14,10 @@ function SubscriberPost (){
         setLoader(true)
         try {
             const response = await fetch(`${url}/api/v1/tweets/user/p/post`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
             const result = await response.json()
 

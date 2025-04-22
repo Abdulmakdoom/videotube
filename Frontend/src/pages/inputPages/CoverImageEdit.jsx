@@ -23,6 +23,9 @@ function CoverImageEdit ({userId, data}){
             const response = await fetch(url+"/api/v1/users/cover-image", {
             method: "PATCH",
             credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: formData,
             });
 

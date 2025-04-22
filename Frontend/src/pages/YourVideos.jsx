@@ -30,7 +30,10 @@ function YourVideos () {
     
         try {
             let response = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             let result = await response.json();
     
@@ -62,7 +65,10 @@ function YourVideos () {
     
         try {
             let response = await fetch(`${url}/api/v1/playlist/user/${userId}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             let result = await response.json();
     
@@ -96,7 +102,10 @@ function YourVideos () {
     
         try {
             let response = await fetch(`${url}/api/v1/tweets/user/${userId}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             let result = await response.json();
     

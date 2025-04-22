@@ -102,6 +102,9 @@ function PublishVideo() {
         method: "POST",
         body: formDataToSend,
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+      },
       });
 
       if (!response.ok) {

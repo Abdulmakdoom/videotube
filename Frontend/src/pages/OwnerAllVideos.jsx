@@ -49,7 +49,10 @@ function OwnerAllVideos() {
     
         try {
             let response = await fetch(`${url}/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             let result = await response.json();
 

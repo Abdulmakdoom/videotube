@@ -72,6 +72,9 @@ function Signup() {
                 method: "POST",
                 credentials: 'include',
                 body: formDataToSend,
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
 
             const data = await response.json();

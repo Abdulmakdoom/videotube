@@ -17,7 +17,10 @@ function History() {
         const historyData = async () => {
             try {
                 let response = await fetch(url+"/api/v1/users/history", {
-                    credentials: "include"
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 if (!response.ok) {
                     throw new Error("Failed to fetch video history");
@@ -40,7 +43,10 @@ function History() {
         try {
             let response = await fetch(`${url}/api/v1/users/delete-history`, {
                 method: "DELETE",
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
 
             if(response.ok){

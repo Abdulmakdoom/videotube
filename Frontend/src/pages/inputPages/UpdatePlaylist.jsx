@@ -178,7 +178,10 @@ function UpdatePlaylist() {
   const playlistData = async () => {
     try {
       const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
-        credentials:"include"
+        credentials:"include",
+        headers: {
+          "Content-Type": "application/json",
+      },
       });
       const result = await response.json();
 
@@ -221,6 +224,9 @@ function UpdatePlaylist() {
         method: "PATCH",
         credentials: "include",
         body: formDataToSend,
+        headers: {
+          "Content-Type": "application/json",
+      },
       });
 
       if (!response.ok) {

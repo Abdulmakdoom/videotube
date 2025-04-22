@@ -75,6 +75,9 @@ function Subscribers() {
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
                         }
                 );
 

@@ -64,7 +64,10 @@ function formatDuration(seconds) {
       setUserVideoData([])
       try {
         let response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
-          credentials: "include"
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+        },
         });
        
         if (!response?.ok) {
@@ -78,7 +81,10 @@ function formatDuration(seconds) {
 
         
         const response2 = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${result?.data.owner._id}`, {
-          credentials: "include"
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+        },
         })
         let result2 = await response2.json();
        //console.log(result2.data);
@@ -112,7 +118,10 @@ function formatDuration(seconds) {
     try {
       const response = await fetch(`${url}/api/v1/playlist/add/${videoId}/${playlistId}`, {
         method: "PATCH",
-        credentials: "include"
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+      },
       })
       const result = await response.json()
       //console.log(result);
@@ -138,7 +147,10 @@ function formatDuration(seconds) {
     try {
       const response = await fetch(`${url}/api/v1/playlist/remove/${videoId}/${playlistId}`, {
         method: "PATCH",
-        credentials: "include"
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+      },
       })
       const result = await response.json()
       console.log(result);
@@ -160,7 +172,10 @@ function formatDuration(seconds) {
    try {
     const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
       method: "DELETE",
-      credentials: "include"
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+    },
     })
     await response.json()
     if (response.ok){

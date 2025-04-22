@@ -25,6 +25,9 @@ function AccountEdit () {
             const response = await fetch(`${url}/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             const result = await response.json();
             setData(result?.data);

@@ -62,10 +62,16 @@ function VideoPlayCard({
       try {
         const response1 = await fetch(`${url}/api/v1/likes/videos/${videoId}`, {
           credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+        },
         });
         const response2 = await fetch(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
           method: "GET",
           credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+        },
         })
 
         const result = await response1.json();
@@ -111,6 +117,9 @@ function VideoPlayCard({
     const response = await fetch(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
       method: "POST",
       credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+    },
     })
     let result = await response.json()
      console.log(result);
@@ -128,7 +137,10 @@ function VideoPlayCard({
     try {
       const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
         method: "DELETE",
-       credentials: "include"
+       credentials: "include",
+       headers: {
+        "Content-Type": "application/json",
+    },
       })
       const result =  await response.json()
       //console.log(result);
@@ -169,6 +181,9 @@ function VideoPlayCard({
           const response = await fetch(`${url}/api/v1/videos/views/${videoId}`, {
             method: "POST", // Assuming the API uses POST to update views
             credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+          },
           });
           const result = await response.json();
           //console.log(result);
@@ -193,6 +208,9 @@ function VideoPlayCard({
       const response = await fetch(`${url}/api/v1/likes/toggle/v/video/${videoId}`, {
         method: "POST", // Assuming the API uses POST to toggle likes
         credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+      },
       });
       const data = await response.json();
       //console.log(data);

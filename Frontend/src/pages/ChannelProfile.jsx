@@ -49,6 +49,9 @@ function ChannelProfile() {
             const response = await fetch(`${url}/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             const result = await response.json();
             setData(result.data);
@@ -63,6 +66,9 @@ function ChannelProfile() {
             const response = await fetch(`${url}/api/v1/subscriptions/c/${data?._id}`, {
             method: "POST",
             credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+            },
             })
             let result = await response.json()
             //console.log(result);
@@ -86,6 +92,9 @@ function ChannelProfile() {
                 const response2 = await fetch(`${url}/api/v1/subscriptions/c/${data._id}`, {
                     method: "GET",
                     credentials: 'include',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 
                 const result2 = await response2?.json();
@@ -123,7 +132,10 @@ function ChannelProfile() {
         
             try {
                 let response = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`, {
-                    credentials: "include"
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 let result = await response.json();
         
@@ -151,7 +163,10 @@ function ChannelProfile() {
                 return; // Prevent the fetch call if there is no valid ID
             }
             let response = await fetch(`${url}/api/v1/playlist/user/${data?._id}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
             let result = await response.json()
             //console.log(result);
@@ -166,7 +181,10 @@ function ChannelProfile() {
                 return; // Prevent the fetch call if there is no valid ID
             }
             let response = await fetch(`${url}/api/v1/videos/views/${data?._id}`,{
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
             let result = await response.json()
             //console.log(result);

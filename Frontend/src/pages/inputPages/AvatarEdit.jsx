@@ -24,7 +24,11 @@ function AvatarEdit ({userId, data}) {
                 const response = await fetch(url+"/api/v1/users/avatar", {
                 method: "PATCH",
                 credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: formData,
+                
                 });
 
                 const data = await response.json();

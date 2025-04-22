@@ -455,7 +455,10 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
             // Fetch updated comments
             const responseComments = await fetch(`${url}/api/v1/comments/${videoId}`, {
-                credentials: "include"
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             const resultComments = await responseComments.json();
 
@@ -478,7 +481,10 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
         const fetchComments = async () => {
             try {
                 const response = await fetch(`${url}/api/v1/comments/${videoId}`, {
-                    credentials: "include"
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
                 const result = await response.json();
 
@@ -504,6 +510,9 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             const response = await fetch(`${url}/api/v1/comments/c/${commentId}`, {
                 method: 'DELETE',
                 credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             const result = await response.json();
 

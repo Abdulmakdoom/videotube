@@ -17,6 +17,9 @@ function VideoPlay() {
             try {
                 let response = await fetch(`${url}/api/v1/videos/${videoId}`, {
                     credentials: 'include',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 });
 
                 if (!response.ok) {

@@ -32,7 +32,10 @@ function PublishVideo() {
 
   const originalData = async(e)=> {
     const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
-      credentials: "include"
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+    },
     })
     const result = await response.json()
 

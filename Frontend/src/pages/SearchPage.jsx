@@ -47,7 +47,10 @@ function SearchPage (){
             setLoading(true)
             try {
                 const response = await fetch(`${url}/api/v1/videos/u/videos`, {
-                    credentials: "include"
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
                 })
             const result = await response.json()
             //console.log(result.data);
