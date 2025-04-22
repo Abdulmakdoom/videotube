@@ -159,12 +159,15 @@ const loginUser = asyncHandler(async (req, res)=> {
    // send token via cookies
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
-    const options = {  
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-       // maxAge: 7 * 24 * 60 * 60 * 1000,
-    }
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
+      maxAge: 24 * 60 * 60 * 1000
+    });
+    
 
     return res.status(200)
     .cookie("accessToken", accessToken, options) // (key, value, options)
@@ -202,11 +205,15 @@ const logoutUser = asyncHandler(async(req, res) => {
         }
     )
 
-    const options = { 
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-    }
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
+      maxAge: 24 * 60 * 60 * 1000
+    });
+    
 
     return res
     .status(200)
@@ -247,12 +254,15 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
        
         // cookie
         // now send in cookie
-        const options = {
-            httpOnly: true,
-            secure: true,
-            // sameSite: "strict",
-            sameSite: "None",
-        }
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: isProduction,
+          sameSite: isProduction ? "None" : "Lax",
+          maxAge: 24 * 60 * 60 * 1000
+        });
+        
     
         const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefereshTokens(user._id);
 
