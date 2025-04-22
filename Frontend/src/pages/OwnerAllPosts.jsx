@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Spinner from "../components/Loader";
 import PostCard from "../components/PostCard";
 import timeAgo from "../components/time";
+import fetchWithAuth from "../utils/api";
 
 
 
@@ -27,7 +28,7 @@ function OwnerAllPosts (){
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`${url}/api/v1/tweets/user/${userId}`, {
+                let response = await fetchWithAuth(`${url}/api/v1/tweets/user/${userId}`, {
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",

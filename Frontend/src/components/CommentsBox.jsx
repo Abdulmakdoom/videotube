@@ -414,6 +414,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import { faEllipsisVertical, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
+import fetchWithAuth from "../utils/api.js";
+
 
 function CommentBox ({videoId, className, formatNumber, userId}) {
     const [input, setInput] = useState({content: ""});
@@ -435,7 +437,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${url}/api/v1/comments/${videoId}`, {
+            const response = await fetchWithAuth(`${url}/api/v1/comments/${videoId}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -454,7 +456,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             setInput({ content: "" });
 
             // Fetch updated comments
-            const responseComments = await fetch(`${url}/api/v1/comments/${videoId}`, {
+            const responseComments = await fetchWithAuth(`${url}/api/v1/comments/${videoId}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
@@ -480,7 +482,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await fetch(`${url}/api/v1/comments/${videoId}`, {
+                const response = await fetchWithAuth(`${url}/api/v1/comments/${videoId}`, {
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
@@ -507,7 +509,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
     const deleteCommentHandler = async (commentId) => {
         try {
-            const response = await fetch(`${url}/api/v1/comments/c/${commentId}`, {
+            const response = await fetchWithAuth(`${url}/api/v1/comments/c/${commentId}`, {
                 method: 'DELETE',
                 credentials: "include",
                 headers: {

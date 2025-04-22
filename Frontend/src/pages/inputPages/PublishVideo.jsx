@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../components/Loader.jsx";
+import fetchWithAuth from "../../utils/api.js";
 
 function PublishVideo() {
   const userData = useSelector((state) => state.auth.userData);
@@ -98,7 +99,7 @@ function PublishVideo() {
 
     try {
     
-      const response = await fetch(url+"/api/v1/videos/", {
+      const response = await fetchWithAuth(url+"/api/v1/videos/", {
         method: "POST",
         body: formDataToSend,
         credentials: "include",

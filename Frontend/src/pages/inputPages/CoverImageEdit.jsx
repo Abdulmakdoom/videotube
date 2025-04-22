@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CiCamera } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import fetchWithAuth from "../../utils/api";
 
 function CoverImageEdit ({userId, data}){
     const [coverImage, setCoverImage] = useState({coverImage : null})
@@ -20,7 +21,7 @@ function CoverImageEdit ({userId, data}){
             const formData = new FormData();
             formData.append("coverImage", file)
 
-            const response = await fetch(url+"/api/v1/users/cover-image", {
+            const response = await fetchWithAuth(url+"/api/v1/users/cover-image", {
             method: "PATCH",
             credentials: "include",
             headers: {

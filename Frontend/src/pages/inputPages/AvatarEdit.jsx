@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CiCamera } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
+import fetchWithAuth from "../../utils/api";
 
 function AvatarEdit ({userId, data}) {
     const [avatar, setAvatar] = useState({avatar: null})
@@ -21,7 +22,7 @@ function AvatarEdit ({userId, data}) {
                 const formData = new FormData();
                 formData.append("avatar", file);
 
-                const response = await fetch(url+"/api/v1/users/avatar", {
+                const response = await fetchWithAuth(url+"/api/v1/users/avatar", {
                 method: "PATCH",
                 credentials: "include",
                 headers: {

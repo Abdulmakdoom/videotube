@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Spinner, Card, timeAgo, PlaylistCard, PostCard} from '../components/allComponents.js'
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import fetchWithAuth from '../utils/api.js';
 
 function YourVideos () {
     const [videoData, setVideoData] = useState([])
@@ -27,7 +27,7 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
+            let response = await fetchWithAuth(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`${url}/api/v1/playlist/user/${userId}`, {
+            let response = await fetchWithAuth(`${url}/api/v1/playlist/user/${userId}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
@@ -99,7 +99,7 @@ function YourVideos () {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`${url}/api/v1/tweets/user/${userId}`, {
+            let response = await fetchWithAuth(`${url}/api/v1/tweets/user/${userId}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",

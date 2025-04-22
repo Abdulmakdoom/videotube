@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import fetchWithAuth from "../../utils/api";
 
 function PublishPost() {
     const [formData, setFormData] = useState({ content: "" });
@@ -22,7 +23,7 @@ function PublishPost() {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${url}/api/v1/tweets/`, {
+            const response = await fetchWithAuth(`${url}/api/v1/tweets/`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

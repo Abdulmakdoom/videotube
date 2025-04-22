@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Spinner from "../../components/Loader";
+import fetchWithAuth from "../../utils/api";
 
 
 
@@ -22,7 +23,7 @@ function AccountEdit () {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const response = await fetch(`${url}/api/v1/users/c/${username}`, {
+            const response = await fetchWithAuth(`${url}/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -54,7 +55,7 @@ function AccountEdit () {
         setLoading(true)
         try {
 
-            const response = await fetch(url+'/api/v1/users/update-account', {
+            const response = await fetchWithAuth(url+'/api/v1/users/update-account', {
                 method: "PATCH",
                 credentials: "include",
                 headers: {

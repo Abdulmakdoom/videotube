@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Spinner, timeAgo, PlaylistCard} from '../components/allComponents.js'
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import fetchWithAuth from "../utils/api.js";
 
 
 function OwnerAllPlaylist() {
@@ -22,7 +23,7 @@ function OwnerAllPlaylist() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`${url}/api/v1/playlist/user/${userId}`, {
+            let response = await fetchWithAuth(`${url}/api/v1/playlist/user/${userId}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",

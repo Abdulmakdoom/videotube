@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/Loader";
 import { VideoPlayCard } from "./allpage";
-// import fetchWithAuth from "../utils/api";
+import fetchWithAuth from "../utils/api";
 function VideoPlay() {
     let { videoId } = useParams();
     const [videoLink, setVideoLink] = useState(null); // Start with null
@@ -15,7 +15,7 @@ function VideoPlay() {
         const videoDetails = async () => {
             setLoader(true); 
             try {
-                let response = await fetch(`${url}/api/v1/videos/${videoId}`, {
+                let response = await fetchWithAuth(`${url}/api/v1/videos/${videoId}`, {
                     credentials: 'include',
                     headers: {
                         "Content-Type": "application/json",

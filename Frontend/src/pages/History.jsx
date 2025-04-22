@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import fetchWithAuth from "../utils/api";
 
 
 function History() {
@@ -16,7 +17,7 @@ function History() {
     useEffect(() => {
         const historyData = async () => {
             try {
-                let response = await fetch(url+"/api/v1/users/history", {
+                let response = await fetchWithAuth(url+"/api/v1/users/history", {
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
@@ -41,7 +42,7 @@ function History() {
 
     const deleteHistoryHandler = async()=>{
         try {
-            let response = await fetch(`${url}/api/v1/users/delete-history`, {
+            let response = await fetchWithAuth(`${url}/api/v1/users/delete-history`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {

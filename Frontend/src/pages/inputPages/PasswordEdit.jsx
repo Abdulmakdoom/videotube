@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import fetchWithAuth from "../../utils/api";
 
 function PasswordEdit () {
     const { username } = useParams();
@@ -20,7 +21,7 @@ function PasswordEdit () {
 
      useEffect(() => {
             const fetchUser = async () => {
-                const response = await fetch(`${url}/api/v1/users/c/${username}`, {
+                const response = await fetchWithAuth(`${url}/api/v1/users/c/${username}`, {
                     method: 'GET',
                     credentials: 'include',
                     headers: {
@@ -48,7 +49,7 @@ function PasswordEdit () {
             setError("")
 
             try {
-                const response = await fetch(`${url}/api/v1/users/change-password`, {
+                const response = await fetchWithAuth(`${url}/api/v1/users/change-password`, {
                     method: "PATCH",
                     credentials: "include",
                     headers: {

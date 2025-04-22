@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Spinner, Card, timeAgo, Button} from '../components/allComponents.js'
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-
+import fetchWithAuth from "../utils/api.js";
 
 
 // Utility function to format the like count
@@ -48,7 +48,7 @@ function OwnerAllVideos() {
         setLoading(true); // Set loader to true before fetching
     
         try {
-            let response = await fetch(`${url}/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
+            let response = await fetchWithAuth(`${url}/api/v1/videos/u?page=${page}&limit=10&sortBy=createdAt&sortType=desc&userId=${userId}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",

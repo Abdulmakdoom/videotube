@@ -3,6 +3,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import fetchWithAuth from "../../utils/api";
 
 function PublishPlaylist (){
     const [formData, setFormData] = useState({name : "", description: ""})
@@ -26,7 +27,7 @@ function PublishPlaylist (){
         e.preventDefault();
 
        try {
-        const response = await fetch(`${url}/api/v1/playlist/`, {
+        const response = await fetchWithAuth(`${url}/api/v1/playlist/`, {
             method: "POST",
             credentials: "include",
             headers: {

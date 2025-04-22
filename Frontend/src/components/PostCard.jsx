@@ -5,7 +5,7 @@ import { IoMdMore } from "react-icons/io";
 import { useSelector } from "react-redux";
 // import { useParams } from "react-router-dom";
 // import timeAgo from "./time";
-
+import fetchWithAuth from "../utils/api";
 // Utility function to format the like count
 const formatNumber = (number) => {
     if (number >= 1_000_000) {
@@ -32,7 +32,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
   
     const deleteHandler = async () => {
         try {
-            const response = await fetch(`${url}/api/v1/tweets/${postId}`, {
+            const response = await fetchWithAuth(`${url}/api/v1/tweets/${postId}`, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {
@@ -55,7 +55,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
 
     // Toggle the like state
     const handleLike = async () => {
-        const response = await fetch(`${url}/api/v1/likes/toggle/v/tweet/${postId}`, {
+        const response = await fetchWithAuth(`${url}/api/v1/likes/toggle/v/tweet/${postId}`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -67,7 +67,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
     };
 
     const getLikes = async () => {
-        const response = await fetch(`${url}/api/v1/likes/post/c/${postId}`, {
+        const response = await fetchWithAuth(`${url}/api/v1/likes/post/c/${postId}`, {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",

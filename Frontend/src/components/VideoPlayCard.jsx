@@ -3,7 +3,7 @@ import Container from "./container/Container";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import fetchWithAuth from "../utils/api";
+import fetchWithAuth from "../utils/api";
 import {CommentBox, timeAgo, Button, Spinner} from "./allComponents.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare, faDownload } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +12,7 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+
 
 
 
@@ -60,13 +61,13 @@ function VideoPlayCard({
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response1 = await fetch(`${url}/api/v1/likes/videos/${videoId}`, {
+        const response1 = await fetchWithAuth(`${url}/api/v1/likes/videos/${videoId}`, {
           credentials: 'include',
           headers: {
             "Content-Type": "application/json",
         },
         });
-        const response2 = await fetch(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
+        const response2 = await fetchWithAuth(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
           method: "GET",
           credentials: 'include',
           headers: {
@@ -114,7 +115,7 @@ function VideoPlayCard({
 
   const handleSubscribeButtion = async()=> {
    try {
-    const response = await fetch(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
+    const response = await fetchWithAuth(`${url}/api/v1/subscriptions/c/${userChannelId}`, {
       method: "POST",
       credentials: 'include',
       headers: {
@@ -135,7 +136,7 @@ function VideoPlayCard({
   const deleteHandler = async()=> {
     setLoader(true)
     try {
-      const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/videos/${videoId}`, {
         method: "DELETE",
        credentials: "include",
        headers: {
@@ -178,7 +179,7 @@ function VideoPlayCard({
       // Call the API to increase the view count
       const updateViews = async () => {
         try {
-          const response = await fetch(`${url}/api/v1/videos/views/${videoId}`, {
+          const response = await fetchWithAuth(`${url}/api/v1/videos/views/${videoId}`, {
             method: "POST", // Assuming the API uses POST to update views
             credentials: 'include',
             headers: {
@@ -205,7 +206,7 @@ function VideoPlayCard({
   // Handle like button click
   const handleLike = async () => {
     try {
-      const response = await fetch(`${url}/api/v1/likes/toggle/v/video/${videoId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/likes/toggle/v/video/${videoId}`, {
         method: "POST", // Assuming the API uses POST to toggle likes
         credentials: 'include',
         headers: {

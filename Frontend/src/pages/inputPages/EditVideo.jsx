@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../components/Loader.jsx";
+import fetchWithAuth from "../../utils/api.js";
 
 function PublishVideo() {
   const userData = useSelector((state) => state.auth.userData);
@@ -31,7 +32,7 @@ function PublishVideo() {
     };
 
   const originalData = async(e)=> {
-    const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
+    const response = await fetchWithAuth(`${url}/api/v1/videos/${videoId}`, {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -163,7 +164,7 @@ function PublishVideo() {
 
     try {
     
-      const response = await fetch(`${url}/api/v1/videos/${videoId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/videos/${videoId}`, {
         method: "PATCH",
         body: formDataToSend,
         credentials: "include",

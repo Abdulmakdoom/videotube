@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 // import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 // import Card from "../components/Card";
 import { HiDotsVertical } from "react-icons/hi";
+import fetchWithAuth from "../utils/api";
 
 
 
@@ -63,7 +64,7 @@ function formatDuration(seconds) {
       
       setUserVideoData([])
       try {
-        let response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
+        let response = await fetchWithAuth(`${url}/api/v1/playlist/${playlistId}`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +81,7 @@ function formatDuration(seconds) {
         // setData(result?.data.owner._id)
 
         
-        const response2 = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${result?.data.owner._id}`, {
+        const response2 = await fetchWithAuth(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${result?.data.owner._id}`, {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -116,7 +117,7 @@ function formatDuration(seconds) {
   const addVideoInPlaylistHandler = async (videoId)=> {
     //console.log(videoId);
     try {
-      const response = await fetch(`${url}/api/v1/playlist/add/${videoId}/${playlistId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/playlist/add/${videoId}/${playlistId}`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -145,7 +146,7 @@ function formatDuration(seconds) {
 
     setRemoveData({})
     try {
-      const response = await fetch(`${url}/api/v1/playlist/remove/${videoId}/${playlistId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/playlist/remove/${videoId}/${playlistId}`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -170,7 +171,7 @@ function formatDuration(seconds) {
 
   const detetePlayListHandler = async ()=> {
    try {
-    const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
+    const response = await fetchWithAuth(`${url}/api/v1/playlist/${playlistId}`, {
       method: "DELETE",
       credentials: "include",
       headers: {

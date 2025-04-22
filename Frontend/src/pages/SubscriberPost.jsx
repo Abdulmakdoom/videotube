@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 import timeAgo from "../components/time";
 import Spinner from "../components/Loader";
+import fetchWithAuth from "../utils/api";
 
 
 function SubscriberPost (){
@@ -13,7 +14,7 @@ function SubscriberPost (){
         setPostData([])
         setLoader(true)
         try {
-            const response = await fetch(`${url}/api/v1/tweets/user/p/post`, {
+            const response = await fetchWithAuth(`${url}/api/v1/tweets/user/p/post`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",

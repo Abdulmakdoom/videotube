@@ -137,6 +137,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Spinner from "../../components/Loader";
+import fetchWithAuth from "../../utils/api";
 
 function UpdatePlaylist() {
   const [formData, setFormData] = useState({
@@ -177,7 +178,7 @@ function UpdatePlaylist() {
   // Fetch existing playlist data
   const playlistData = async () => {
     try {
-      const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/playlist/${playlistId}`, {
         credentials:"include",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +221,7 @@ function UpdatePlaylist() {
     }
 
     try {
-      const response = await fetch(`${url}/api/v1/playlist/${playlistId}`, {
+      const response = await fetchWithAuth(`${url}/api/v1/playlist/${playlistId}`, {
         method: "PATCH",
         credentials: "include",
         body: formDataToSend,

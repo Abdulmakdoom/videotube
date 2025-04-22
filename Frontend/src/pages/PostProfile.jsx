@@ -7,6 +7,7 @@ import { RiPlayList2Fill } from "react-icons/ri";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 import Footer from './Footer.jsx';
 import { FaEdit } from "react-icons/fa";
+import fetchWithAuth from '../utils/api.js';
 
 
 // Utility function to format the like count
@@ -39,7 +40,7 @@ function PostProfile() {
     useEffect(() => {
         const fetchUser = async () => {
             setLoading(true);
-            const response = await fetch(`${url}/api/v1/users/c/${username}`, {
+            const response = await fetchWithAuth(`${url}/api/v1/users/c/${username}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -57,7 +58,7 @@ function PostProfile() {
 
         const handleSubscribeButtion = async()=> {
             try {
-            const response = await fetch(`${url}/api/v1/subscriptions/c/${data?._id}`, {
+            const response = await fetchWithAuth(`${url}/api/v1/subscriptions/c/${data?._id}`, {
             method: "POST",
             credentials: 'include',
             headers: {
@@ -83,7 +84,7 @@ function PostProfile() {
             }
         
             try {
-                const response2 = await fetch(`${url}/api/v1/subscriptions/c/${data._id}`, {
+                const response2 = await fetchWithAuth(`${url}/api/v1/subscriptions/c/${data._id}`, {
                     method: "GET",
                     credentials: 'include',
                     headers: {
@@ -125,7 +126,7 @@ function PostProfile() {
             setLoader(true); // Set loader to true before fetching
         
             try {
-                let response = await fetch(`${url}/api/v1/tweets/user/${data?._id}`, {
+                let response = await fetchWithAuth(`${url}/api/v1/tweets/user/${data?._id}`, {
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
@@ -156,7 +157,7 @@ function PostProfile() {
             if (!data?._id) {
                 return; // Prevent the fetch call if there is no valid ID
             }
-            let response = await fetch(`${url}/api/v1/videos/views/${data?._id}`, {
+            let response = await fetchWithAuth(`${url}/api/v1/videos/views/${data?._id}`, {
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
@@ -185,7 +186,7 @@ function PostProfile() {
                     }
                     setVideoCount([])
                     try {
-                        let response = await fetch(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`, {
+                        let response = await fetchWithAuth(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${data?._id}`, {
                             credentials: "include",
                             headers: {
                                 "Content-Type": "application/json",

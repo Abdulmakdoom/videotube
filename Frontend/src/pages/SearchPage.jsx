@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Spinner from "../components/Loader";
 import timeAgo from "../components/time";
+import fetchWithAuth from "../utils/api";
 
 
 function formatDuration(seconds) {
@@ -46,7 +47,7 @@ function SearchPage (){
         if(topic != ""){
             setLoading(true)
             try {
-                const response = await fetch(`${url}/api/v1/videos/u/videos`, {
+                const response = await fetchWithAuth(`${url}/api/v1/videos/u/videos`, {
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",

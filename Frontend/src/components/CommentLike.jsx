@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as darkHeart} from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
+import fetchWithAuth from "../utils/api";
+
 
 // Utility function to format the like count
 const formatNumber = (number) => {
@@ -29,7 +31,7 @@ function CommentLike({commentId, userId}) {
     
     
     const commentLikeHandler = async()=> {
-        const response = await fetch(`${url}/api/v1/likes/toggle/v/comment/${commentId}`, {
+        const response = await fetchWithAuth(`${url}/api/v1/likes/toggle/v/comment/${commentId}`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -45,7 +47,7 @@ function CommentLike({commentId, userId}) {
 
     const fetchInitialLikeCount = async () => {   
     //console.log(commentId.commentId);         
-        const response = await fetch(`${url}/api/v1/likes/videos/c/${commentId}`, {
+        const response = await fetchWithAuth(`${url}/api/v1/likes/videos/c/${commentId}`, {
         credentials: 'include',
         });
         const result = await response.json();

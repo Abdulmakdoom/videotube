@@ -5,6 +5,7 @@ import Button from "../components/Button";
 // import { Link } from "react-router-dom";
 import "../../public/signup.css"
 import { useNavigate } from "react-router-dom";
+import fetchWithAuth from "../utils/api";
 
 function Signup() {
     const navigate = useNavigate()
@@ -68,7 +69,7 @@ function Signup() {
         
 
         try {
-            const response = await fetch(url+"/api/v1/users/register", {
+            const response = await fetchWithAuth(url+"/api/v1/users/register", {
                 method: "POST",
                 credentials: 'include',
                 body: formDataToSend,
