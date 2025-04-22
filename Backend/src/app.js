@@ -12,7 +12,7 @@ const app = express()
 //     }))
 
 
-const allowedOrigins = 'https://videotube-frontend-one.vercel.app';
+const allowedOrigins = ['https://videotube-frontend-one.vercel.app', "http://localhost:5173"];
 // const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
 
 app.use(cors({
