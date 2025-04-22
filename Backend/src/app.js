@@ -13,12 +13,14 @@ const app = express()
 
 
 // const allowedOrigin = 'http://localhost:5173';
-const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
+// const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true, // allow cookies/auth headers
-}));
+// app.use(cors({
+//   origin: allowedOrigins,
+//   credentials: true, // allow cookies/auth headers
+// }));
+
+app.use(cors())
 
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", process.env.CORS_ORIGIN);
