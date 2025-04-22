@@ -7,19 +7,18 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
 import { v2 as cloudinary } from 'cloudinary';
 
-const generateAccessAndRefereshTokens = async(userId)=> {
+const generateAccessAndRefereshTokens = async (userId) => {
     try {
-       const user = await User.findById(userId)
-       const accessToken = user.generateAccessToken()
-       const refreshToken = user.generateRefreshToken()
+        const user = await User.findById(userId);
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
 
-       user.refreshToken = refreshToken
-       await user.save({ validateBeforeSave: false }) // validateBeforeSave -- validation kuch mat lagao bus save krdo without validation like password required hai , bcz we don't need to used validation in this place
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false }); // Save without validation
 
-       return {accessToken, refreshToken}
-
+        return { accessToken, refreshToken };
     } catch (error) {
-        throw new ApiError(500, "Something went wrong while generating referesh and access token ")
+        throw new ApiError(500, "Something went wrong while generating refresh and access token.");
     }
 }
 
@@ -118,76 +117,125 @@ const registerUser = asyncHandler( async (req, res) => {
 
 // //--------------------------------------------Login User
 
-const loginUser = asyncHandler(async (req, res)=> {
+// const loginUser = asyncHandler(async (req, res)=> {
     
-    // steps
+//     // steps
 
-    // req body -> data
-    // username or email
-    //find the user
-    //password check
-    //access and referesh token generate
-    //send these token via cookie
+//     // req body -> data
+//     // username or email
+//     //find the user
+//     //password check
+//     //access and referesh token generate
+//     //send these token via cookie
 
  
-    const {email, username, password} = req.body
+//     const {email, username, password} = req.body
+
+//     if (!username && !email) {
+//         throw new ApiError(400, "username or email is required")
+//     }
+
+    
+//     //find the user
+//     const user = await User.findOne({
+//         $or: [{username}, {email}]
+//     })
+
+//     if (!user) {
+//         throw new ApiError(404, "User does not exist")
+//     }
+ 
+//     //password check
+//    const isPasswordValid = await user.isPasswordCorrect(password) // o/p - true or false
+
+//    if (!isPasswordValid) {
+//     throw new ApiError(401, "Invalid user credentials")
+//     }
+ 
+//     //access and referesh token
+//    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+
+//    // send token via cookies
+//     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+//     // const options = {  
+//     //     httpOnly: true,
+//     //     secure: true,
+//     //     //sameSite: "strict",
+//     //    // maxAge: 7 * 24 * 60 * 60 * 1000,
+//     // }
+
+//     const isProduction = process.env.NODE_ENV === "production";
+
+//     const options = {
+//     httpOnly: true,
+//     secure: isProduction, // true in production (HTTPS)
+//     sameSite: isProduction ? "None" : "Lax",
+//     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//     };
+
+//     console.log(accessToken);
+    
+
+//     return res.status(200)
+//     .cookie("accessToken", accessToken, options) // (key, value, options)
+//     .cookie("refreshToken", refreshToken, options)
+//     .json(
+//         new ApiResponse(
+//             200, 
+//             {
+//                 user: loggedInUser, accessToken, refreshToken
+//             },
+//             "User logged In Successfully"
+//         )
+//     )
+      
+// })
+
+
+
+
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, username, password } = req.body;
 
     if (!username && !email) {
-        throw new ApiError(400, "username or email is required")
+        throw new ApiError(400, "Username or email is required");
     }
 
-    
-    //find the user
     const user = await User.findOne({
-        $or: [{username}, {email}]
-    })
+        $or: [{ username }, { email }]
+    });
 
     if (!user) {
-        throw new ApiError(404, "User does not exist")
+        throw new ApiError(404, "User does not exist");
     }
- 
-    //password check
-   const isPasswordValid = await user.isPasswordCorrect(password) // o/p - true or false
 
-   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentials")
+    const isPasswordValid = await user.isPasswordCorrect(password);
+
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid user credentials");
     }
- 
-    //access and referesh token
-   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
 
-   // send token via cookies
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
 
-    // const options = {  
-    //     httpOnly: true,
-    //     secure: true,
-    //     //sameSite: "strict",
-    //    // maxAge: 7 * 24 * 60 * 60 * 1000,
-    // }
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
     const isProduction = process.env.NODE_ENV === "production";
-
     const options = {
-    httpOnly: true,
-    secure: isProduction, // true in production (HTTPS)
-    sameSite: isProduction ? "None" : "Lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        httpOnly: true,
+        secure: isProduction, // Only true in production (HTTPS)
+        sameSite: isProduction ? "None" : "Lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     };
 
     return res.status(200)
-    .cookie("accessToken", accessToken, options) // (key, value, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-        new ApiResponse(
-            200, 
-            {
-                user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged In Successfully"
-        )
-    )
-      
+        .cookie("accessToken", accessToken, options)  // Setting the cookies
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(200, {
+            user: loggedInUser,
+            accessToken,
+            refreshToken
+        }, "User logged in successfully"));
 })
 
 
