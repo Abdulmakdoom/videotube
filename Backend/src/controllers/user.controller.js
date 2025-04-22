@@ -159,14 +159,14 @@ const loginUser = asyncHandler(async (req, res)=> {
    // send token via cookies
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
-    const options = {  
+
+    return res.status(200)
+    .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-    }
-
-    return res.status(200)
-    .cookie("accessToken", accessToken, options) // (key, value, options)
+    }) // (key, value, options)
+    
     .cookie("refreshToken", refreshToken, options)
     .json(
         new ApiResponse(
