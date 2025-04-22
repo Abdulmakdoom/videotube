@@ -75,31 +75,45 @@ userSchema.methods.isPasswordCorrect = async function(password){
 }
 
 
-userSchema.methods.generateAccessToken = function(){  // access token 
-    return jwt.sign(
-        {
-            // payload
-            _id: this._id,
-            email: this.email,
-            username: this.username,
-            fullName: this.fullName
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-        }
-    )
-}
-userSchema.methods.generateRefreshToken = function(){ // Refresh token 
-    return jwt.sign(
-        {
-            _id: this._id,
-        },
-        process.env.REFRESH_TOKEN_SECRET,
-        {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
-        }
-    )
-}
+userSchema.methods.generateAccessToken = function() {
+    // Access token (short-lived)
+    try {
+        return jwt.sign(
+            {
+                _id: this._id,
+                email: this.email,
+                username: this.username,
+                fullName: this.fullName
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '1h',  // Default expiry: 1 hour
+            }
+        );
+    } catch (error) {
+        console.error("Error generating access token:", error);
+        throw new Error("Token generation failed");
+    }
+};
 
-export const User = mongoose.model("User", userSchema)
+userSchema.methods.generateRefreshToken = function() {
+    // Refresh token (long-lived)
+    try {
+        return jwt.sign(
+            {
+                _id: this._id
+            },
+            process.env.REFRESH_TOKEN_SECRET,
+            {
+                expiresIn: process.env.REFRESH_TOKEN_EXPIRY || '7d',  // Default expiry: 7 days
+            }
+        );
+    } catch (error) {
+        console.error("Error generating refresh token:", error);
+        throw new Error("Token generation failed");
+    }
+};
+
+export const User = mongoose.model("User", userSchema);
+
+

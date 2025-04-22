@@ -38,37 +38,3 @@ export const verifyJWT = asyncHandler(async(req, _, next) => {
 })
 
 
-// export const verifyJWT = asyncHandler(async (req, _, next) => {
-//   // Check if the access token is provided via cookies or Authorization header
-//   const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "").trim();
-//   if (!token) {
-//     throw new ApiError(401, "Access token missing");
-//   }
-//   console.log("Cookies:", req.cookies); 
-
-//   let decodedToken;
-//   try {
-//       // Verify the token
-//       decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-//   } catch (err) {
-//       // Handle invalid or expired token
-//       throw new ApiError(401, "Access token invalid or expired");
-//   }
-
-//   // Find the user associated with the token
-//   const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
-
-//   if (!user) {
-//       throw new ApiError(401, "User not found for this token");
-//   }
-
-//   // Attach the user to the request object
-//   req.user = user;
-
-//   // Proceed to the next middleware or route handler
-//   next();
-// });
-
-  
-
-
