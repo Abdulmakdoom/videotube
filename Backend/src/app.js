@@ -17,8 +17,8 @@ const allowedOrigins = ['https://videotube-frontend-one.vercel.app', "http://loc
 
 app.use(cors({
   origin: allowedOrigins,
-  methods: ["GET", "POST","PATCH", "DELETE" ],
-  allowedHeaders: ["Content-Type", "Authorization"],
+//   methods: ["GET", "POST","PATCH", "DELETE" ],
+//   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // allow cookies/auth headers
 }));
 
