@@ -118,67 +118,56 @@ const registerUser = asyncHandler( async (req, res) => {
 
 // //--------------------------------------------Login User
 
-const loginUser = asyncHandler(async (req, res)=> {
-    
-    // steps
-
-    // req body -> data
-    // username or email
-    //find the user
-    //password check
-    //access and referesh token generate
-    //send these token via cookie
-
- 
-    const {email, username, password} = req.body
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, username, password } = req.body;
 
     if (!username && !email) {
-        throw new ApiError(400, "username or email is required")
+        throw new ApiError(400, "Username or email is required");
     }
 
-    
-    //find the user
-    const user = await User.findOne({
-        $or: [{username}, {email}]
-    })
+    // Find the user by username or email
+    const user = await User.findOne({ $or: [{ username }, { email }] });
 
     if (!user) {
-        throw new ApiError(404, "User does not exist")
+        throw new ApiError(404, "User does not exist");
     }
- 
-    //password check
-   const isPasswordValid = await user.isPasswordCorrect(password) // o/p - true or false
 
-   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentials")
+    // Password check
+    const isPasswordValid = await user.isPasswordCorrect(password);
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid user credentials");
     }
- 
-    //access and referesh token
-   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
 
-   // send token via cookies
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+    // Generate access and refresh tokens
+    const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
 
+    // Prepare user data to send back (exclude password and refreshToken)
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
-    return res.status(200)
-    .cookie("accessToken", accessToken, {
+    // Define cookie options
+    const cookieOptions = {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
         sameSite: "None",
-    }) // (key, value, options)
-    
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-        new ApiResponse(
-            200, 
-            {
-                user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged In Successfully"
-        )
-    )
-      
-})
+    };
+
+    // Send response with cookies
+    return res.status(200)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    user: loggedInUser, 
+                    accessToken, 
+                    refreshToken
+                },
+                "User logged in successfully"
+            )
+        );
+});
+
 
 
 
