@@ -217,13 +217,6 @@ function ChannelProfile() {
  <>
         <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20 pl-20">
         {/* {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>} */}
-            
-             {/* Loader spinner when loading */}
-                {loader ? (
-                    <div className="flex justify-center items-center w-full h-screen">
-                    <Spinner />
-                    </div>
-                ) : null}
                 
                 {/* Banner Section */}
                 <div className="w-full h-50 relative overflow-hidden rounded-lg shadow-lg mb-6 group">
