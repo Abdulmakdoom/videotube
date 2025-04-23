@@ -82,7 +82,7 @@ function Signup() {
             }
 
             alert("Account created successfully!");
-            navigate("/home")
+            navigate("/login")
         } catch (error) {
             setError(error.message);
             //console.log(error.message !== String || "Something went wrong!");
