@@ -130,7 +130,7 @@ function SearchPage (){
 
                         {/* Description */}
                         <p className="text-sm text-gray-400 mt-3 line-clamp-2 hidden sm:block">
-                        {data.description}
+                        {data?.description.slice(0,200)+ "..."}
                         </p>
                     </div>
                     </div>
