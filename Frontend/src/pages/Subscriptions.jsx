@@ -20,11 +20,13 @@ const formatNumber = (number) => {
 function Subscribers() {
     const [error, setError] = useState("");
     const [data, setData] = useState([]);
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
     // const dispatch = useDispatch()
 
     const userData = useSelector((state) => state.auth.userData);
     // console.log(userData);
+    const userId = userData?._id;
+    let url = import.meta.env.VITE_API_URL
 
     
     // const accessToken = Cookies.get("accessToken"); 
@@ -61,17 +63,12 @@ function Subscribers() {
     // }, [accessToken, dispatch, userData]);
     // console.log(userData);
     
-    const userId = userData?._id;
-    let url = import.meta.env.VITE_API_URL
 
     useEffect(() => {
         const listData = async () => {
             setLoader(true); // Set loader to true before fetching
             try {
-                const response = await fetchWithAuth(
-                    userId
-                        ? `${url}/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`
-                        : `${url}/api/v1/videos/u/videos`,
+                const response = await fetchWithAuth( `${url}/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request
@@ -95,7 +92,7 @@ function Subscribers() {
             }
         };
 
-        listData();
+        userId && listData();
         
         
 
@@ -112,11 +109,49 @@ function Subscribers() {
 
             <main className="flex-grow p-4 flex flex-col items-center justify-start">
                
-               {loader ? <div className="mt-60"><Spinner /> </div>: null}
+              
           
                 {error && <p className="text-red-500">{error}</p>}
+
+                {userData && (
+                    <>
+                        {loader ? (
+                        <div className="flex justify-center items-center h-screen">
+                            <Spinner />
+                        </div>
+                        ) : data.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-screen text-center px-4 pb-50">
+                            <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-4">
+                            No followed videos available
+                            </h2>
+                            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+                            You are not following any creators or they haven’t uploaded new videos yet.
+                            Follow creators to discover and enjoy fresh content.
+                            </p>
+                        </div>
+                        ) : null}
+                    </>
+                )}
+
+                {!userId && (
+                    <div className="flex flex-col items-center justify-center h-screen text-center px-4 pb-50">
+                        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-4">
+                        Please log in to view followed creators' videos
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+                        Sign in to see the latest videos from creators you follow and never miss an update.
+                        </p>
+                        <a
+                        href="/login"
+                        className="inline-block px-6 py-2 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-medium transition duration-200"
+                        >
+                        Go to Login
+                        </a>
+                    </div>
+                )}
+
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
+                {userId && <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full"> {/* Ensure full width */}
                     {data.map((video) => (
                         <Link to={`/home/videos/${video._id}`} key={video._id}>
                             <Card 
@@ -130,7 +165,7 @@ function Subscribers() {
                             />
                         </Link>
                     ))}
-                </div>
+                </div>}
             </main>
         </div>
     );

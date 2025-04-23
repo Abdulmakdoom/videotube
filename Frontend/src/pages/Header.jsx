@@ -33,7 +33,7 @@ const Sidebar = () => {
     { name: 'Posts', icon: <BsPostcard className="text-xl"/> , path: `/posts` },
     { name: 'Following', icon: <FontAwesomeIcon icon={faCirclePlay} />, path: '/subscriptions' },
     { name: 'History', icon: <FontAwesomeIcon icon={faClockRotateLeft} />, path: '/home/history' },
-    userData && { name: 'Your Videos', icon: <BiSolidVideos className="text-xl" />, path: '/videos' },
+    { name: 'Your Videos', icon: <BiSolidVideos className="text-xl" />, path: '/videos' },
     // { name: 'Watch Later', icon: <MdOutlineWatchLater className="text-xl"/>, path: '' },
     userData && { name: 'User', icon: <FontAwesomeIcon icon={faCircleUser} />, path: `/${userData.username}` },
     !userData && {name: 'Login', icon: <CgLogIn /> , path: '/login' },

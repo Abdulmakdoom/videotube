@@ -9,13 +9,14 @@ import fetchWithAuth from "../utils/api";
 
 function History() {
     const [videoData, setVideoData] = useState([]);
-    const [loading, setLoading] = useState(true);  // Define loading state
+    const [loading, setLoading] = useState(false);  // Define loading state
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
     let url = import.meta.env.VITE_API_URL
 
     useEffect(() => {
         const historyData = async () => {
+            setLoading(true)
             try {
                 let response = await fetchWithAuth(url+"/api/v1/users/history", {
                     credentials: "include",
@@ -71,13 +72,49 @@ function History() {
             </p>
         </div>
 
-      {loading ? (
-                <div className="flex justify-center items-center mt-60">
-                    <Spinner />
-                </div>
-            ) : null}
+       
+
+            {userData && (
+                <>
+                    {loading ? (
+                    <div className="flex justify-center items-center h-screen">
+                        <Spinner />
+                    </div>
+                    ) : videoData.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-screen text-center px-4 pb-50">
+                        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-4">
+                        No watch history available
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+                        You haven’t watched any videos yet. Start watching to track your history.
+                        </p>
+                    </div>
+                    ) : null}
+                </>
+            )}
+
+                
+
+
+            {!userId && (
+            <div className="flex flex-col items-center justify-center h-screen text-center px-4">
+                <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-white mb-4">
+                Please log in to view your watch history
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+                To see your watch history, please sign in to your account. Track what you’ve watched and continue from where you left off.
+                </p>
+                <a
+                href="/login"
+                className="inline-block px-6 py-2 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-medium transition duration-200"
+                >
+                Go to Login
+                </a>
+            </div>
+            )}
+
         
-            <div className="mt-10 pl-25 pr-5">
+            {userId && <div className="mt-10 pl-25 pr-5">
                 {videoData.map((data) => (
                 <Link to={`/home/videos/${data._id}`} key={data._id}>
                     <SmallCard
@@ -95,7 +132,7 @@ function History() {
                     />
                 </Link>
                 ))}
-            </div>
+            </div>}
       
         </>
     );
