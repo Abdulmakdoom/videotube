@@ -57,7 +57,7 @@ function ChannelProfile() {
                 },
             });
             const result = await response.json();
-            setData(result.data);
+            setData(result.data);        
         };
 
         fetchUser();
@@ -290,7 +290,7 @@ function ChannelProfile() {
                         </div>
 
                         <p className="text-gray-500 mt-4 text-sm sm:text-md">
-                            {data?.bio || 'Welcome to my channel! Here you will find awesome content about technology and tutorials.'}
+                            {data?.bio || "Thank you for visiting! Here, you'll find a collection of high-quality content designed to inform, entertain, and inspire. I’m excited to share my work with you, and I hope you enjoy the journey!"}
                         </p>
 
                         {userData._id !== data._id && userId ? (
