@@ -5,15 +5,7 @@ import cookieParser from "cookie-parser";
 
 const app = express()
 
-
-// app.use(cors({
-//     origin: process.env.CORS_ORIGIN,
-//     credentials: true,  // Allow credentials (cookies)
-//     }))
-
-
-const allowedOrigins = ['https://videotube-frontend-one.vercel.app', "http://localhost:5173"];
-// const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
+const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
 
 app.use(cors({
   origin: allowedOrigins,
@@ -34,20 +26,6 @@ app.use(cors({
 //     next();
 //   });
 
-
-//const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173"];
-// const allowedOrigins = "https://videotube-frontend-uvlu.onrender.com";
-
-// app.use(cors({
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true, // Allow cookies and other credentials
-// }));
 
   
 app.use(express.json({limit: "16kb"}))
