@@ -12,7 +12,7 @@ function LogoutBtn() {
     let url = import.meta.env.VITE_API_URL
 
     const logoutHandler = async()=> {
-        await fetch(url+"/api/v1/users/logout", {
+        await fetchWithAuth(url+"/api/v1/users/logout", {
             method: "POST",
             credentials: "include",
             headers: {
