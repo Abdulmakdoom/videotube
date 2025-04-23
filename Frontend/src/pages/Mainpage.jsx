@@ -95,11 +95,21 @@ function Mainpage() {
 
                 const result = await response.json();
 
+
+                // Fisher-Yates shuffle to randomize the array
+                const shuffledData = [...result?.data]; // Copy the array to avoid mutating the original one
+
+                for (let i = shuffledData.length - 1; i > 0; i--) {
+                const randomIndex = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+                // Swap elements at indices i and randomIndex
+                [shuffledData[i], shuffledData[randomIndex]] = [shuffledData[randomIndex], shuffledData[i]];
+                }
+                
                 if (!response.ok) {
                     throw new Error(result.message || "Failed to fetch videos");
                 }
 
-                setData(result.data); // Set the data after successful fetch
+                setData(shuffledData); // Set the data after successful fetch
             } catch (err) {
                 setError(err.message || "An unexpected error occurred");
             } finally {
