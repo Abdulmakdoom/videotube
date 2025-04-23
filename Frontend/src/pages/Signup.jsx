@@ -73,9 +73,6 @@ function Signup() {
                 method: "POST",
                 credentials: 'include',
                 body: formDataToSend,
-                headers: {
-                    "Content-Type": "application/json",
-                },
             });
 
             const data = await response.json();
@@ -88,7 +85,7 @@ function Signup() {
             navigate("/home")
         } catch (error) {
             setError(error.message);
-            console.log(error.message !== String || "Something went wrong!");
+            //console.log(error.message !== String || "Something went wrong!");
             
         }
     };

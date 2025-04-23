@@ -44,7 +44,7 @@ function YourVideos () {
             setVideoData(result.data);
     
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
             // Optionally, set an error state here to show an error message to the user
             // setError(error.message); // example
         } finally {
@@ -79,7 +79,7 @@ function YourVideos () {
             setPlaylistData(result.data);
     
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
             // Optionally, set an error state here to show an error message to the user
             // setError(error.message); // example
         } finally {
@@ -116,7 +116,7 @@ function YourVideos () {
             setPostData(result.data);
     
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
             // Optionally, set an error state here to show an error message to the user
             // setError(error.message); // example
         } finally {
@@ -243,7 +243,7 @@ return (
                             <PostCard
                             avatar={post?.owner?.avatar}
                             channelName={post?.owner?.username}
-                            content={post?.content}
+                            content={post?.content.slice(0, 200) + "..."}
                             uploadTime={timeAgo(post?.createdAt)}
                             postId={post?._id}
                             userId={post?.owner?._id}

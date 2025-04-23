@@ -76,7 +76,7 @@ function AccountEdit () {
             
         } catch (error) {
             setError(false)
-            console.log(error.message);
+            //console.log(error.message);
         }
 
         

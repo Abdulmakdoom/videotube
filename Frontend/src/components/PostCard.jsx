@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 // import { useParams } from "react-router-dom";
 // import timeAgo from "./time";
 import fetchWithAuth from "../utils/api";
+import { Link } from "react-router-dom";
 // Utility function to format the like count
 const formatNumber = (number) => {
     if (number >= 1_000_000) {
@@ -45,7 +46,7 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
                 alert('Post deleted')
             }
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
         }
     }
 
@@ -168,6 +169,12 @@ function PostCard({ avatar, channelName, uploadTime, content, postId, likes, cla
                         )}
                         <span className="text-sm">{formatNumber(liked?.data?.LikePostCount)}</span>
                     </button>
+
+                   {<Link to={`/posts/${userId}`}>
+                        <button className="text-sm hover:text-green-600">
+                            See more
+                        </button>
+                    </Link>}
                     {/* <button
                         //   onClick={handleComment}
                         className="flex items-center space-x-1 hover:text-blue-600 transition duration-200"

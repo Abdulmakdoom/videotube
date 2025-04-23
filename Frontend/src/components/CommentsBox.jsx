@@ -475,7 +475,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
 
 
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
         }
     };
 
@@ -500,7 +500,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
                 //setGetCommentsLike(getComments.filter((comment) => comment._id !== commentId));
 
             } catch (error) {
-                console.log(error.message);
+                //console.log(error.message);
             }
         };
 
@@ -527,7 +527,7 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
             setShowModalId(null); // Close the modal after deletion
 
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
         }
     };
 
@@ -537,7 +537,6 @@ function CommentBox ({videoId, className, formatNumber, userId}) {
     };
 
 
-    console.log();
     
 
     return (

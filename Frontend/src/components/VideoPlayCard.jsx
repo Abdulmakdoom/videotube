@@ -123,13 +123,13 @@ function VideoPlayCard({
     },
     })
     let result = await response.json()
-     console.log(result);
+     //console.log(result);
      setButtonPressed(result)
      if (!result.success) {
       throw new Error("Failed to fetch video");
   }
    } catch (error) {
-    console.error("Error during fetch:", error);
+    //console.error("Error during fetch:", error);
    }
   }
 
@@ -192,10 +192,10 @@ function VideoPlayCard({
           if (result.success) {
             console.log("View count updated successfully.");
           } else {
-            console.error("Error updating views:", result.message);
+            //console.error("Error updating views:", result.message);
           }
         } catch (error) {
-          console.error("Error during updating views:", error);
+          //console.error("Error during updating views:", error);
         }
       };
 

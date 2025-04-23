@@ -55,7 +55,7 @@ function History() {
                 window.location.reload()
             }  
         } catch (error) {
-            console.log(error.message);
+            //console.log(error.message);
             
         }
     }

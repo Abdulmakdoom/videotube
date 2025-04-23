@@ -66,14 +66,14 @@ function PostProfile() {
             },
             })
             let result = await response.json()
-            console.log(result);
+            //console.log(result);
             setButtonPressed(result)
             if (!result.success) {
             throw new Error("Failed to fetch video");
         }
         window.location.reload()
             } catch (error) {
-            console.error("Error during fetch:", error);
+            //console.error("Error during fetch:", error);
             }
         }
 
@@ -143,7 +143,7 @@ function PostProfile() {
                 setPostData(result.data);
         
             } catch (error) {
-                console.log(error.message);
+                //console.log(error.message);
                 // Optionally, set an error state here to show an error message to the user
                 // setError(error.message); // example
             } finally {
@@ -203,7 +203,7 @@ function PostProfile() {
                         setVideoCount(result.data);
                 
                     } catch (error) {
-                        console.log(error.message);
+                        //console.log(error.message);
                         // Optionally, set an error state here to show an error message to the user
                         // setError(error.message); // example
                     }

@@ -66,7 +66,7 @@ function PlaylistProfile() {
             },
             })
             let result = await response.json()
-            console.log(result);
+            //console.log(result);
             setButtonPressed(result)
             if (!result.success) {
             throw new Error("Failed to fetch video");
@@ -74,7 +74,7 @@ function PlaylistProfile() {
             }
             window.location.reload()
             } catch (error) {
-            console.error("Error during fetch:", error);
+            //console.error("Error during fetch:", error);
             }
         }
 
@@ -144,7 +144,7 @@ function PlaylistProfile() {
                 setVideoData(result.data);
         
             } catch (error) {
-                console.log(error.message);
+                //console.log(error.message);
                 // Optionally, set an error state here to show an error message to the user
                 // setError(error.message); // example
             } finally {
@@ -203,7 +203,7 @@ function PlaylistProfile() {
                         setVideoCount(result.data);
                 
                     } catch (error) {
-                        console.log(error.message);
+                        //console.log(error.message);
                         // Optionally, set an error state here to show an error message to the user
                         // setError(error.message); // example
                     }

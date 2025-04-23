@@ -154,7 +154,7 @@ function formatDuration(seconds) {
       },
       })
       const result = await response.json()
-      console.log(result);
+      //console.log(result);
       if(response?.ok){
         //setPopupPage(false)
         setRemoveData(result)
@@ -163,7 +163,7 @@ function formatDuration(seconds) {
         setError2(result?.message)
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
     
   }
@@ -183,7 +183,7 @@ function formatDuration(seconds) {
       naviagte(`/${playlistData?.owner?.username}/playlist`)
     }
    } catch (error) {
-    console.log(error.message);
+    //console.log(error.message);
    }
   }
 
@@ -398,7 +398,7 @@ function formatDuration(seconds) {
                     <Link to={`/home/videos/${video?._id}`}>
                       <h3 className="text-lg sm:text-xl font-semibold">{video?.title}</h3>
                       <p className="text-sm text-gray-400 mt-2">{video?.owner?.username} • {formatNumber(video?.views)} views • {timeAgo(video?.createdAt)}</p>
-                      <p className="text-sm text-gray-400 mt-2">{video?.description}</p>
+                      <p className="text-sm text-gray-400 mt-2">{video?.description?.slice(0,200) + "..."}</p>
                     </Link>
                     <div className="mt-4 flex justify-between items-center">
                       <div className="flex-1"></div>

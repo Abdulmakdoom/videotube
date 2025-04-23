@@ -103,9 +103,6 @@ function PublishVideo() {
         method: "POST",
         body: formDataToSend,
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-      },
       });
 
       if (!response.ok) {
@@ -144,7 +141,7 @@ function PublishVideo() {
     <div className="flex items-center justify-center h-screen pl-20">
         
       <div className=" p-6 rounded-lg shadow-lg mx-auto">
-        {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>}
+        {error && <p className="text-red-600 mt-4 text-center font-medium pt-40">{error}</p>}
         <h2 className="text-white text-lg font-semibold mb-4">Upload Video</h2>
         <form onSubmit={dataHandler} className="space-y-6">
           <div className="flex">
