@@ -214,6 +214,7 @@ function PlaylistProfile() {
         
     //console.log(videoCount);
     
+        if (loading) return <Spinner />;
 
     return (
   <>

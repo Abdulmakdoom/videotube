@@ -212,6 +212,7 @@ function ChannelProfile() {
         //console.log(playlistCount);
 
        
+           if (loader) return <Spinner />;
 
     return (
  <>
