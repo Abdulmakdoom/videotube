@@ -13,6 +13,7 @@ import { FaLock } from 'react-icons/fa';
 import fetchWithAuth from '../utils/api.js';
 
 
+
 // Utility function to format the like count
 const formatNumber = (number) => {
     if (number >= 1_000_000) {
@@ -41,7 +42,7 @@ function ChannelProfile() {
     //console.log(userData);
     let url = import.meta.env.VITE_API_URL
    
-    
+
     
     
 
@@ -208,6 +209,7 @@ function ChannelProfile() {
     return (
  <>
         <div className="bg-[#0A0A0A] mt-18 mx-4 sm:mx-6 md:mx-8 lg:mx-20 pl-20">
+        {/* {error && <p className="text-red-600 mt-4 text-center font-medium">{error}</p>} */}
             
              {/* Loader spinner when loading */}
                 {loader ? (

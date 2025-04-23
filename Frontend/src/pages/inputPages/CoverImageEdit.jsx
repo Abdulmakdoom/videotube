@@ -5,6 +5,7 @@ import fetchWithAuth from "../../utils/api";
 
 function CoverImageEdit ({userId, data}){
     const [coverImage, setCoverImage] = useState({coverImage : null})
+     const [error, setError] = useState("")
     const navigate = useNavigate()
     let url = import.meta.env.VITE_API_URL
 
@@ -33,13 +34,17 @@ function CoverImageEdit ({userId, data}){
             const data = await response.json();
 
             if (response.ok) {
-            console.log("Avatar updated successfully!", data);
+            //console.log("Avatar updated successfully!", data);
             navigate(0);
             } else {
-            console.error("Failed to update avatar:", data.message || "Unknown error");
+                setError("The file could not be uploaded. It may be too large or an unsupported format.")
+                setTimeout(()=> {
+                   setError("")
+                }, 3000)
+            //console.error("Failed to update avatar:", data.message || "Unknown error");
             }
         } catch (error) {
-            console.error("Error uploading avatar:", error.message);
+            //console.error("Error uploading avatar:", error.message);
         }
     }
     return (
@@ -47,6 +52,12 @@ function CoverImageEdit ({userId, data}){
           {/* Edit Overlay */}
             {userId === data?._id &&
                 <>
+                {/* Error popup */}
+                    {error && (
+                    <div className="absolute top-8 right-0 left-2 bg-red-500 text-white text-sm px-3 py-1 rounded-md shadow-lg mt-2 mr-2 z-50 animate-fadeIn">
+                        {error}
+                    </div>
+                )}
                 <label
                 htmlFor="cover-upload"
                 className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
