@@ -57,20 +57,17 @@ function OwnerAllPlaylist() {
          <div className="flex flex-col h-screen mt-20 pl-20">
             {/* Main content */}
             <div className="flex-grow p-4 flex flex-col justify-start">
-                {/* Loader spinner when loading */}
-                {loading ? (
-                <div className="flex justify-center items-center mt-60">
-                    <Spinner />
-                </div>
-                ) : null}
 
                 {/* Playlists Title */}
                  <div className="relative z-10 mb-10">
                     <h2 className="font-bold text-3xl text-white">Your Playlists</h2>
                 </div>
-
-                
-
+                   {/* Loader spinner when loading */}
+                   {loading ? (
+                <div className="flex justify-center items-center mt-60">
+                    <Spinner />
+                </div>
+                ) : null}
                 {/* Grid layout for playlists */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
                     {playlistData.map((video, index) => (
