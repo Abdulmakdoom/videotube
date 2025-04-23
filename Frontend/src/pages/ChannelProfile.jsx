@@ -377,8 +377,6 @@ function ChannelProfile() {
                     {/* Videos Content */}
                     <div className="flex flex-col h-screen mt-20 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-rounded-lg">
                         <main className="flex-grow p-4 flex flex-col items-center justify-start">
-                            {loader ? <div className="mt-60"><Spinner /></div> : null}
-
                             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
                             {videoData.map((video) => (
                                 <Link to={`/home/videos/${video._id}`} key={video._id}>

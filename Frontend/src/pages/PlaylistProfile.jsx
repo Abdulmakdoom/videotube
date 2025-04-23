@@ -358,13 +358,6 @@ function PlaylistProfile() {
                 <div className="flex flex-col h-screen mt-20 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-rounded-lg">
                     {/* Main content */}
                     <div className="flex-grow p-4 flex flex-col items-center justify-start">
-                        {/* Loader spinner when loading */}
-                        {loader ? (
-                            <div className="flex justify-center items-center mt-60">
-                                <Spinner />
-                            </div>
-                        ) : null}
-
                         {/* Grid layout for playlists */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 mt-10">
                             {videoData.map((video, index) => (

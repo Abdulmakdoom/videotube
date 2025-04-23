@@ -360,12 +360,6 @@ function PostProfile() {
 
                 {/* Post Content */}
                 <div className="flex flex-col h-screen mt-20">
-                    {/* Loader spinner when loading */}
-                    {loader ? (
-                        <div className="flex justify-center items-center mt-60">
-                            <Spinner />
-                        </div>
-                    ) : null}
 
                     {/* Main content */}
                     <div className="flex-grow p-4 flex flex-col items-start justify-start overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 scrollbar-rounded-lg">
