@@ -68,7 +68,7 @@ function Subscribers() {
         const listData = async () => {
             setLoader(true); // Set loader to true before fetching
             try {
-                const response = await fetchWithAuth( `${url}/api/v1/videos/u/${userId}?sortBy=views&sortType=desc`,
+                const response = await fetchWithAuth( `${url}/api/v1/videos/u/${userId}?sortBy=createdAt&sortType=desc`,
                         {
                             method: "GET", // The correct place to define the HTTP method
                             credentials: 'include', // To ensure cookies are sent with the request
