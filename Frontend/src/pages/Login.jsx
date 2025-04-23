@@ -8,7 +8,6 @@ import { login as authLogin } from "../store/authSlice";
 // import fetchWithAuth from "../utils/api";
 // import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import fetchWithAuth from "../utils/api";
 
 
 
@@ -41,7 +40,7 @@ function Login() {
             setError("")
             
         try {
-            const response = await fetchWithAuth(url+"/api/v1/users/login", {
+            const response = await fetch(url+"/api/v1/users/login", {
                 method: "POST",
                 credentials: "include", // Ensures cookies are sent
                 headers: {

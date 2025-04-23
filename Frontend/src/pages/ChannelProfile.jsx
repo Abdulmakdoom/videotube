@@ -37,6 +37,7 @@ function ChannelProfile() {
      const [viewsCount, setViewsCount] = useState("")
     
     const { username } = useParams();
+    
     const userData = useSelector((state) => state.auth.userData);
     const userId = userData?._id;
     //console.log(userData);
@@ -91,7 +92,7 @@ function ChannelProfile() {
             }
         
             try {
-                const response2 = await fetchWithAuth(`${url}/api/v1/subscriptions/c/${data._id}`, {
+                const response2 = await fetchWithAuth(`${url}/api/v1/subscriptions/c/${data?._id}`, {
                     method: "GET",
                     credentials: 'include',
                     headers: {
@@ -179,18 +180,24 @@ function ChannelProfile() {
 
         
         const viewsHandler = async()=> {
-            if (!data?._id) {
-                return; // Prevent the fetch call if there is no valid ID
-            }
-            let response = await fetchWithAuth(`${url}/api/v1/videos/views/${data?._id}`,{
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            let result = await response.json()
-            //console.log(result);
-            setViewsCount(result)
+           try {
+                if (!data?._id) {
+                    return; // Prevent the fetch call if there is no valid ID
+                }
+                let response = await fetchWithAuth(`${url}/api/v1/videos/views/${data?._id}`,{
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                let result = await response.json() 
+                
+                if(response.ok){
+                    setViewsCount(result)
+                }
+           } catch (error) {
+
+           }
         }
         
 
@@ -306,8 +313,6 @@ function ChannelProfile() {
                             ""
                         )}
                         </div>
-
-                    
                 </div>
             
                 {/* Channel Stats Section */}
@@ -378,13 +383,13 @@ function ChannelProfile() {
                             {videoData.map((video) => (
                                 <Link to={`/home/videos/${video._id}`} key={video._id}>
                                 <Card 
-                                    title={video.title}
-                                    duration={video.duration} 
-                                    thumbnail={video.thumbnail} 
-                                    ownerAvatar={video.ownerDetails.avatar} 
-                                    channelName={video.ownerDetails.username} 
-                                    views={formatNumber(video.views)} 
-                                    uploadDate={timeAgo(video.createdAt)} 
+                                    title={video?.title}
+                                    duration={video?.duration} 
+                                    thumbnail={video?.thumbnail} 
+                                    ownerAvatar={video?.ownerDetails?.avatar} 
+                                    channelName={video?.ownerDetails?.username} 
+                                    views={formatNumber(video?.views)} 
+                                    uploadDate={timeAgo(video?.createdAt)} 
                                 />
                                 </Link>
                             ))}
