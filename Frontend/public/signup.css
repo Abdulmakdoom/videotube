@@ -274,3 +274,12 @@ input[type="submit"]:active {
     font-size: 1em;
   }
 }
+
+@media (max-width: 600px) {
+  .signin1 {
+    width: 320px;
+    height: 500px;
+    margin-left: 20%;
+   
+  }
+}
