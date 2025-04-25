@@ -172,7 +172,6 @@ function Signup() {
                             </div>
                         </div>
                     <div className="links">
-                    <a href="#">Forgot Password</a>
                     <a href="/login">Login</a>
                     </div>
                     <Button  type="submit" className="inputBox bg-red-800 hover:bg-red-600">
