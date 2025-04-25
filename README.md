@@ -48,7 +48,7 @@
 ## ⚙️ Installation & Setup
 
 1. **Clone the repository**
-git clone https://github.com/Abdulmakdoom/videotube.git
+<!-- git clone https://github.com/Abdulmakdoom/videotube.git -->
 
 
 2. **Goto backend directory**
