@@ -47,13 +47,13 @@
 **Clone the repository**
 <pre>git clone https://github.com/Abdulmakdoom/videotube.git</pre>
 
-1. **Backend Setup (Node.js + Express)**
+## Backend Setup (Node.js + Express)**
 <pre>cd Backend</pre>
 
-2. **Install the dependencies**
+1. **Install the dependencies**
 <pre>npm i</pre>
 
-3. **Create a .env file in the backend folder**
+2. **Create a .env file in the backend folder**
 <pre>PORT=your_port (ex:- 5000)
 MONGODB_URI=Your_mongodb_url
 
@@ -68,19 +68,19 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret</pre>
 
-## Run the backend:
+3. **Run the backend:**
 <pre>npm run dev</pre>
 
-1. **Frontend Setup (Vite + React)**
+## Frontend Setup (Vite + React)**
 <pre>cd Frontend</pre>
 
-2. **Install the dependencies**
+1. **Install the dependencies**
 <pre>npm i</pre>
 
-3. **Create a .env file in the frontend folder**
+2. **Create a .env file in the frontend folder**
 <pre>VITE_API_URL="Backend url"</pre>
 
-## Run the frontend:
+3. **Run the frontend:**
 <pre>npm run dev</pre>
 
 ## 🌐 Deployment
