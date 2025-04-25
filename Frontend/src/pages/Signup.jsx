@@ -172,7 +172,7 @@ function Signup() {
                             </div>
                         </div>
                     <div className="links">
-                    <a href="/login">Login</a>
+                    <a href="/login" className="text-red-700">Login</a>
                     </div>
                     <Button  type="submit" className="inputBox bg-red-800 hover:bg-red-600">
                         Signup

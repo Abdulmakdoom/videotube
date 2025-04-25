@@ -98,7 +98,7 @@ function Login() {
                 </div>
                 <div className="links">
                 {/* <a href="#">Forgot Password</a> */}
-                <a href="/signup">Signup</a>
+                <a href="/signup" className="text-red-700">Signup</a>
                 </div>
                 <Button type="submit" className="inputBox bg-red-800 hover:bg-red-600">
                    Login
