@@ -52,7 +52,7 @@
 
 
 2. **Goto backend directory**
-```cd Backend```
+<pre>```cd Backend```</pre>
 3. **Install the dependencies**
 npm i
 4. **Create a .env file in the backend folder**
