@@ -1,9 +1,6 @@
-# VideoTube
+# 🎬 VideoTube - Full Stack MERN Project
 
 -[Model link](https://videotube-gules.vercel.app/)
-
-
-# 🎬 VideoTube - Full Stack MERN Project
 
 **VideoTube** is a full-featured video-sharing platform built with the MERN stack — **MongoDB**, **Express.js**, **React (Vite)**, and **Node.js**. Users can register, upload and stream videos, manage their profile, subscribe to other users, and track their watch history. All wrapped in a clean and responsive UI.
 
