@@ -107,71 +107,56 @@ http://localhost:8080
 
 ### ✨ Features
 🔐 User Authentication and Authorization
-User Registration & Login – Secure authentication using bcrypt for password hashing.
-
-JWT Token Usage – Protect routes using accessToken and refreshToken.
-
-Refresh Token Mechanism – Supports token renewal for persistent sessions.
-
-Change Password – Users can securely change their passwords.
-
-Update User Profile – Modify user details such as avatar or bio.
-
-Watch History – Track and view previously watched videos.
+- User Registration & Login – Secure authentication using bcrypt for password hashing.
+- JWT Token Usage – Protect routes using accessToken and refreshToken.
+- Refresh Token Mechanism – Supports token renewal for persistent sessions.
+- Change Password – Users can securely change their passwords.
+- Update User Profile – Modify user details such as avatar or bio.
+- Watch History – Track and view previously watched videos.
 
 ### 🎬 Video Management
-Get All Videos – Retrieve a list of all uploaded videos.
-
-Publish Video with Thumbnail – Upload and publish videos with thumbnails (via Cloudinary).
-
-Toggle Video Publishing – Enable/disable video visibility.
-
-Get Video by ID – Fetch detailed video information.
-
-Update & Delete Videos – Full video management support.
+- Get All Videos – Retrieve a list of all uploaded videos.
+- Publish Video with Thumbnail – Upload and publish videos with thumbnails (via Cloudinary).
+- Toggle Video Publishing – Enable/disable video visibility.
+- Get Video by ID – Fetch detailed video information.
+- Update & Delete Videos – Full video management support.
 
 ### 🔔 Subscriptions
-Toggle Subscriptions – Subscribe/unsubscribe to channels.
-
-Subscribers List – View subscribers of a channel.
-
-Channels Subscribed By User – View user’s subscribed channels.
+- Toggle Subscriptions – Subscribe/unsubscribe to channels.
+- Subscribers List – View subscribers of a channel.
+- Channels Subscribed By User – View user’s subscribed channels.
 
 ### 👍 Likes
-Toggle Likes – Like/unlike videos, comments, and tweets.
-
-Get Liked Videos – View all liked videos of a user.
+- Toggle Likes – Like/unlike videos, comments, and tweets.
+- Get Liked Videos – View all liked videos of a user.
 
 ### 💬 Comments
-Get All Comments for a Video – Fetch all related comments.
-
-Add, Update & Delete Comments – Interact with videos via comments.
+- Get All Comments for a Video – Fetch all related comments.
+- Add, Update & Delete Comments – Interact with videos via comments.
 
 ### 🐦 Tweets
-CRUD Operations – Create, Read, Update, Delete tweets to engage users.
+- CRUD Operations – Create, Read, Update, Delete tweets to engage users.
 
 ### 📺 Playlist Management
-Playlist CRUD – Create and manage playlists.
-
-Add & Remove Videos – Manage videos within playlists.
+- Playlist CRUD – Create and manage playlists.
+- Add & Remove Videos – Manage videos within playlists.
 
 ### 📊 Dashboard
-Get Channel Status – View basic channel analytics.
-
-Get Full Channel Details – Access in-depth channel insights.
+- Get Channel Status – View basic channel analytics.
+- Get Full Channel Details – Access in-depth channel insights.
 
 ## 🧩 Dependencies
-Package: Description
-bcrypt: Password hashing
-cloudinary: Cloud media storage
-cookie-parser: Cookie parsing middleware
-cors: Enable cross-origin requests
-dotenv: Environment variable loader
-express: Web server framework
-jsonwebtoken: JWT handling for auth
-mongoose: MongoDB ODM
-mongoose-aggregate-paginate-v2: Pagination for aggregate pipelines
-multer: File upload middleware
+- Package: Description
+- bcrypt: Password hashing
+- cloudinary: Cloud media storage
+- cookie-parser: Cookie parsing middleware
+- cors: Enable cross-origin requests
+- dotenv: Environment variable loader
+- express: Web server framework
+- jsonwebtoken: JWT handling for auth
+- mongoose: MongoDB ODM
+- mongoose-aggregate-paginate-v2: Pagination for aggregate pipelines
+- multer: File upload middleware
 
 
 ## 🙏 Acknowledgements
