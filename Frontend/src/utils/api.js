@@ -33,7 +33,7 @@ const fetchWithAuth = async (url, options = {}) => {
         }
       } catch (refreshError) {
         // If there is an error in refreshing the token, handle accordingly
-        alert('Please enable third-party cookies to ensure proper access to data, or your session may expire.')
+        alert('Please allow third-party cookies to ensure proper access to data, or your session may expire.')
         window.location.href = '/login';
         throw new Error("Session expired, please log in again");
       }
