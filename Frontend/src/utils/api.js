@@ -26,7 +26,7 @@ const fetchWithAuth = async (url, options = {}) => {
         } else {
           // If the refresh token request fails, it likely means the user is logged out
 
-          alert('Please enable third-party cookies to ensure proper access to data, or your session may expire.')
+          alert('Please allow third-party cookies to ensure proper access to data, or your session may expire.')
           window.location.href = '/login';
           throw new Error("Session expired, please log in again");
           
