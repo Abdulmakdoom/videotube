@@ -47,7 +47,7 @@
 **Clone the repository**
 <pre>git clone https://github.com/Abdulmakdoom/videotube.git</pre>
 
-## Backend Setup (Node.js + Express)**
+## Backend Setup (Node.js + Express)
 <pre>cd Backend</pre>
 
 1. **Install the dependencies**
@@ -71,7 +71,7 @@ CLOUDINARY_API_SECRET=your_api_secret</pre>
 3. **Run the backend:**
 <pre>npm run dev</pre>
 
-## Frontend Setup (Vite + React)**
+## Frontend Setup (Vite + React)
 <pre>cd Frontend</pre>
 
 1. **Install the dependencies**
