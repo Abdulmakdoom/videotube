@@ -30,7 +30,7 @@
 - React (Vite)
 - Tailwind CSS
 - React Router DOM
-- Axios
+- Fetch/Axios
 - Framer Motion
 
 ### Backend
