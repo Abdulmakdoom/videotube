@@ -13,30 +13,12 @@ app.use(cors({
 }));
 
 
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", process.env.CORS_ORIGIN);
-//     res.header("Access-Control-Allow-Credentials", "true");
-//     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  
-//     if (req.method === "OPTIONS") {
-//       return res.sendStatus(204);
-//     }
-  
-//     next();
-//   });
-
-
   
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
-// app.use('/', (req, res)=>{
-//     res.send("Done")
-// })
-//routes import
 import userRouter from './routes/user.routes.js'
 import healthcheckRouter from "./routes/healthcheck.routes.js"
 import tweetRouter from "./routes/tweet.routes.js"

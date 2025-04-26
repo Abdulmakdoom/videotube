@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { restoreUser } from "../store/authSlice";
 import fetchWithAuth from "../utils/api";
-// import Cookies from "js-cookie"; 
 import {Card, Spinner, timeAgo} from "../components/allComponents.js"
 
 // Utility function to format the like count
@@ -21,48 +18,10 @@ function Subscribers() {
     const [error, setError] = useState("");
     const [data, setData] = useState([]);
     const [loader, setLoader] = useState(false);
-    // const dispatch = useDispatch()
 
     const userData = useSelector((state) => state.auth.userData);
-    // console.log(userData);
     const userId = userData?._id;
-    let url = import.meta.env.VITE_API_URL
-
-    
-    // const accessToken = Cookies.get("accessToken"); 
-    // console.log(accessToken);
-    
-    // useEffect(() => {
-    //     const fetchUserData = async () => {
-    //         if (!userData && accessToken) {
-    //             try {
-    //                 const response = await fetch("/api/v1/users/login", {
-    //                     method: "GET",
-    //                     credentials: "include",
-    //                     headers: {
-    //                         "Authorization": `Bearer ${accessToken}`, // Send token
-    //                         "Content-Type": "application/json"
-    //                     }
-    //                 });
-
-    //                 if (!response.ok) {
-    //                     throw new Error("Failed to fetch user data");
-    //                 }
-
-    //                 const result = await response.json();
-    //                 console.log(result);
-                    
-    //                // dispatch(restoreUser(result.user)); // Store user in Redux
-    //             } catch (err) {
-    //                 console.error("Error fetching user data:", err);
-    //             }
-    //         }
-    //     };
-
-    //     fetchUserData();
-    // }, [accessToken, dispatch, userData]);
-    // console.log(userData);
-    
+    let url = import.meta.env.VITE_API_URL   
 
     useEffect(() => {
         const listData = async () => {

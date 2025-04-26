@@ -47,16 +47,6 @@ function PublishVideo() {
             videoFile: null,
 
         })
-
-        // Set preview for thumbnail if it exists
-      // if (result.data.thumbnail) {
-      //   setThumbnailPreview(result.data.thumbnail); // Assuming 'thumbnail' is a URL
-      // }
-
-      // // Set preview for video file if it exists
-      // if (result.data.videoFile) {
-      //   setVideoFileName(result.data.videoFile); // Assuming 'videoFile' is a URL or filename
-      // }
     }
     
   }
@@ -146,12 +136,6 @@ function PublishVideo() {
     // Only append new files, otherwise use the original ones.
     if (formData[key]) {
       formDataToSend.append(key, formData[key]);
-    // } else if (key === "thumbnail" && thumbnailPreview) {
-    //   // If thumbnail was not updated, use the old one
-    //   formDataToSend.append(key, thumbnailPreview);
-    // } else if (key === "videoFile" && videoFileName) {
-    //   // If video file was not updated, use the old one
-    //   formDataToSend.append(key, videoFileName);
     }
   }
 

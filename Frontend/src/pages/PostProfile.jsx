@@ -79,7 +79,6 @@ function PostProfile() {
 
         const fetchLikes = async () => {
             if (!data?._id) {
-                //console.error("Channel ID is missing.");
                 return; // Prevent the fetch call if there is no valid ID
             }
         
@@ -144,8 +143,6 @@ function PostProfile() {
         
             } catch (error) {
                 //console.log(error.message);
-                // Optionally, set an error state here to show an error message to the user
-                // setError(error.message); // example
             } finally {
                 setLoader(false); // Always set loader to false, whether success or failure
             }
@@ -174,10 +171,6 @@ function PostProfile() {
             viewsHandler()
         }, [data])
 
-
-        //console.log(data);
-
-        
         
         const videoHandler = async () => {
                     if (!data?._id) {
@@ -204,8 +197,6 @@ function PostProfile() {
                 
                     } catch (error) {
                         //console.log(error.message);
-                        // Optionally, set an error state here to show an error message to the user
-                        // setError(error.message); // example
                     }
                 }
                 useEffect(()=> {

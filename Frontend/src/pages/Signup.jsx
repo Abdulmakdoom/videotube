@@ -1,8 +1,6 @@
 
 import React, { useState } from "react";
-// import Input from "../components/Input";
 import Button from "../components/Button";
-// import { Link } from "react-router-dom";
 import "../../public/signup.css"
 import { useNavigate } from "react-router-dom";
 import fetchWithAuth from "../utils/api";
@@ -35,24 +33,11 @@ function Signup() {
         const fileName = files[0] ? files[0].name : 'No file chosen';
         document.getElementById(`file-name-${name}`).textContent = fileName;
         }
-    };
-
-    // console.log(formData);
-    
-    
+    };    
 
     const handleCreate = async (e) => {
         e.preventDefault();
         setError("");
-
-        // // Prepare FormData for multipart/form-data
-        // const formDataToSend = new FormData();
-        // formDataToSend.append("fullName", formData.fullName);
-        // formDataToSend.append("email", formData.email);
-        // formDataToSend.append("username", formData.username.toLowerCase()); // Convert to lowercase
-        // formDataToSend.append("password", formData.password);
-        // if (formData.avatar) formDataToSend.append("avatar", formData.avatar);
-        // if (formData.coverImage) formDataToSend.append("coverImage", formData.coverImage);
 
         const formDataToSend = new FormData();
         for (const key in formData) {
@@ -64,9 +49,6 @@ function Signup() {
             setError("All fields are required.");
             return;
         }
-
-        // console.log(formDataToSend);
-        
 
         try {
             const response = await fetchWithAuth(url+"/api/v1/users/register", {
@@ -84,9 +66,7 @@ function Signup() {
             alert("Account created successfully!");
             navigate("/login")
         } catch (error) {
-            setError(error.message);
-            //console.log(error.message !== String || "Something went wrong!");
-            
+            setError(error.message);        
         }
     };
 
@@ -163,12 +143,6 @@ function Signup() {
                                     {/* Display file name for cover image */}
                                     <div id="file-name-coverImage" className="mt-2 text-gray-600 italic">No file chosen</div>
                                 </div>
-
-                                {/* <div className="inputBox box6">
-                                    <input label="Cover Image" type="file" name="coverImage" onChange={inputHandler} required />
-                                    <i>Cover Image</i>
-                                </div> */}
-                              
                             </div>
                         </div>
                     <div className="links">

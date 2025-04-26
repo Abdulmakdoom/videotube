@@ -55,8 +55,6 @@ function VideoPlayCard({
 
     let url = import.meta.env.VITE_API_URL
     
-    //console.log(userId);        
-
   // Fetch the likes count when the component mounts
   useEffect(() => {
     const fetchLikes = async () => {
@@ -77,7 +75,6 @@ function VideoPlayCard({
 
         const result = await response1.json();
         const result2 = await response2.json();
-        //console.log(result2.data.subscribers);
 
         setLikeUsers(result.data.video)
         
@@ -85,11 +82,7 @@ function VideoPlayCard({
         let data = result2.data.subscribers
         const match = data.find(item => item.subscriber._id === userId);
         let switchColor = match ? true : false;
-        //console.log(switchColor);
         setSubscrbeDone(switchColor)
-        //console.log(subscribeDone);
-        
-       // console.log(result2.data.countSubscribers);
         
         if (result.success) {
           setLikes(result.data.LikeVideoCount); // Update the like count from API response
@@ -123,7 +116,6 @@ function VideoPlayCard({
     },
     })
     let result = await response.json()
-     //console.log(result);
      setButtonPressed(result)
      if (!result.success) {
       throw new Error("Failed to fetch video");
@@ -144,7 +136,6 @@ function VideoPlayCard({
     },
       })
       const result =  await response.json()
-      //console.log(result);
       
 
       if (result.success) {
@@ -163,9 +154,6 @@ function VideoPlayCard({
   }
 
 
-  // const editHandler = async()=> {
-  //     navigate(`/home/videos/edit=${videoId}`)
-  // }
   
   const handleVideoProgress = (event) => {
     const videoElement = event.target;

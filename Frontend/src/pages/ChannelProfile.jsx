@@ -74,7 +74,6 @@ function ChannelProfile() {
             },
             })
             let result = await response.json()
-            //console.log(result);
             setButtonPressed(result)
                 if (!result.success) {
                 throw new Error("Failed to fetch video");
@@ -87,7 +86,6 @@ function ChannelProfile() {
 
         const fetchLikes = async () => {
             if (!data?._id) {
-                //console.error("Channel ID is missing.");
                 return; // Prevent the fetch call if there is no valid ID
             }
         
@@ -172,7 +170,6 @@ function ChannelProfile() {
                 },
             })
             let result = await response.json()
-            //console.log(result);
             setPlaylistCount(result)
             
         }
@@ -206,13 +203,6 @@ function ChannelProfile() {
             playListHandler()
             viewsHandler()
         }, [data])
-
-        //console.log(videoData);
-        //console.log(viewsCount);
-        //console.log(playlistCount);
-
-       
-        //    if (loader) return <Spinner />;
 
     return (
  <>

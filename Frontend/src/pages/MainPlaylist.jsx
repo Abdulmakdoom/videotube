@@ -6,9 +6,6 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import Spinner from "../components/Loader";
 import Button from "../components/Button";
 import { useSelector } from "react-redux";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
-// import Card from "../components/Card";
 import { HiDotsVertical } from "react-icons/hi";
 import fetchWithAuth from "../utils/api";
 
@@ -28,8 +25,6 @@ const PlaylistPage = () => {
   const { playlistId } = useParams();
   const userData = useSelector((state) => state.auth.userData);
   const userId = userData?._id;
-  //const [data, setData] = useState();
-  
   const [userVideoData, setUserVideoData] = useState([])
   const [removeData, setRemoveData] = useState({})
   const [playlistData, setPlaylistData] = useState(null);
@@ -75,11 +70,8 @@ function formatDuration(seconds) {
           throw new Error('Failed to fetch playlist');
         }
         let result = await response.json();
-        //console.log(result?.data);
         
         setPlaylistData(result?.data);
-        // setData(result?.data.owner._id)
-
         
         const response2 = await fetchWithAuth(`${url}/api/v1/videos/u?page=1&limit=10&sortBy=views&sortType=desc&userId=${result?.data.owner._id}`, {
           credentials: "include",
@@ -88,7 +80,6 @@ function formatDuration(seconds) {
         },
         })
         let result2 = await response2.json();
-       //console.log(result2.data);
         setUserVideoData(result2.data)
         
         setLoading(false);
@@ -106,16 +97,12 @@ function formatDuration(seconds) {
     return <div>Error: {error}</div>;
   }
 
-
-  //console.log(playlistData);
-
   const popupToggle = ()=> {
     setPopupPage(!popupPage)
   }
 
 
   const addVideoInPlaylistHandler = async (videoId)=> {
-    //console.log(videoId);
     try {
       const response = await fetchWithAuth(`${url}/api/v1/playlist/add/${videoId}/${playlistId}`, {
         method: "PATCH",
@@ -125,7 +112,6 @@ function formatDuration(seconds) {
       },
       })
       const result = await response.json()
-      //console.log(result);
       if(response?.ok){
        
         setPopupPage(false)
@@ -142,7 +128,6 @@ function formatDuration(seconds) {
 
 
   const removeVideoInPlaylistHandler = async (videoId)=> {
-    //console.log(videoId);
 
     setRemoveData({})
     try {
@@ -154,9 +139,7 @@ function formatDuration(seconds) {
       },
       })
       const result = await response.json()
-      //console.log(result);
       if(response?.ok){
-        //setPopupPage(false)
         setRemoveData(result)
         naviagte(`/playlist/${playlistId}`)
       } else {
@@ -190,17 +173,6 @@ function formatDuration(seconds) {
   const openHandler = ()=> {
     setOpen(!open)
   }
-
-
-  //console.log(userVideoData);
-  //console.log(playlistData?.owner?.username);
-
-  // console.log(playlistData?.videos?.[0]?._id)
-  
-
-  //console.log(error2);
-  
-  
 
   return (
     <>
@@ -309,33 +281,6 @@ function formatDuration(seconds) {
                   )}
                 </div>
 
-
-              {/* {open && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-                      <h2 className="text-lg font-semibold mb-4">Playlist Options</h2>
-                      <div className="flex justify-center space-x-4">
-                        <Button
-                          onClick={detetePlayListHandler}
-                          className="bg-red-600 text-white rounded-full px-4 py-2 text-sm md:text-base"
-                        >
-                          Delete
-                        </Button>
-                        <Link to={`/playlist/edit/${playlistId}`}>
-                          <Button className="bg-blue-600 text-white rounded-full px-4 py-2 text-sm md:text-base">
-                            Edit
-                          </Button>
-                        </Link>
-                      </div>
-                      <button
-                        onClick={() => setOpen(false)}
-                        className="mt-4 text-sm text-gray-500 hover:underline"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                )} */}
 
             </div>
             <div className="flex items-center mt-2">

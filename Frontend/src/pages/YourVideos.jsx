@@ -45,8 +45,6 @@ function YourVideos () {
     
         } catch (error) {
             //console.log(error.message);
-            // Optionally, set an error state here to show an error message to the user
-            // setError(error.message); // example
         } finally {
             setLoading(false); // Always set loader to false, whether success or failure
         } 
@@ -80,8 +78,6 @@ function YourVideos () {
     
         } catch (error) {
             //console.log(error.message);
-            // Optionally, set an error state here to show an error message to the user
-            // setError(error.message); // example
         } finally {
             setLoading(false); // Always set loader to false, whether success or failure
         }
@@ -105,10 +101,7 @@ function YourVideos () {
                     "Content-Type": "application/json",
                 },
             });
-            let result = await response.json();
-    
-            //console.log(result);
-            
+            let result = await response.json();            
             if (!response.ok) {
                 throw new Error(result.message || "Failed to fetch tweets");
             }
@@ -117,8 +110,6 @@ function YourVideos () {
     
         } catch (error) {
             //console.log(error.message);
-            // Optionally, set an error state here to show an error message to the user
-            // setError(error.message); // example
         } finally {
             setLoading(false); // Always set loader to false, whether success or failure
         }
@@ -130,10 +121,6 @@ function YourVideos () {
         playListHandler()
     }, [userId])
 
-
-
-
-    //console.log(videoData);
 return (
         <>
     <div className='pl-20'>

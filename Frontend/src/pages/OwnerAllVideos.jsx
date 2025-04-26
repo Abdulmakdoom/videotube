@@ -67,8 +67,6 @@ function OwnerAllVideos() {
     
         } catch (error) {
             //console.log(error.message);
-            // Optionally, set an error state here to show an error message to the user
-            // setError(error.message); // example
         } finally {
             setLoading(false); // Always set loader to false, whether success or failure
         } 

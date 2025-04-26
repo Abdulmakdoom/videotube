@@ -1,9 +1,7 @@
 import React from "react";
-// import {Link} from 'react-router-dom'
-// import { useNavigate } from "react-router-dom"; 
+
 
 function Card({title, duration, thumbnail, ownerAvatar, channelName, views, uploadDate, className = "", ...props }) {
-    // const navigate = useNavigate();
 
     function formatDuration(seconds) {
         // Ensure we are working with an integer value by truncating the float
@@ -38,7 +36,6 @@ function Card({title, duration, thumbnail, ownerAvatar, channelName, views, uplo
                
                     <h2 className="text-md font-semibold text-white truncate">{title}</h2> {/* Truncate long titles */}
                     <div className="text-sm text-gray-400">
-                        {/* <Link to={`/${channelName}`}> */}
                            <p className="truncate">{channelName}</p> {/* Truncate long channel names */}
                         {/* </Link> */}
                         <p>{views} views • {uploadDate}</p>

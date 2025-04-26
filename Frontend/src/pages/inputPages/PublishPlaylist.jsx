@@ -48,21 +48,9 @@ function PublishPlaylist (){
 
         
     }
-
-    //console.log(formData);
     
     return (
         <>
-        {/* <form onSubmit={formDataHandler}>
-            <Input onChange={inputHandler} label={"Name"} type={"text"} placeholder="Enter playlist name" name="name" className="text-white mt-23"/>
-            <textarea className="text-white" onChange={inputHandler} name="description" type="text" placeholder="Enter playlist description here...">
-                Description
-            </textarea>
-            <button className="text-white" type="submit">
-                Create Playlist
-            </button>
-        </form> */}
-
 
         <div className="flex justify-center items-center min-h-screen bg-[#0A0A0A] py-6 px-4 pl-20">
             <div className="w-full max-w-lg bg-[#212121] rounded-lg p-8 shadow-lg">

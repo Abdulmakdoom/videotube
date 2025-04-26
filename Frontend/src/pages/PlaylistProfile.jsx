@@ -80,7 +80,6 @@ function PlaylistProfile() {
 
         const fetchLikes = async () => {
             if (!data?._id) {
-                //console.error("Channel ID is missing.");
                 return; // Prevent the fetch call if there is no valid ID
             }
         
@@ -145,8 +144,6 @@ function PlaylistProfile() {
         
             } catch (error) {
                 //console.log(error.message);
-                // Optionally, set an error state here to show an error message to the user
-                // setError(error.message); // example
             } finally {
                 setLoader(false); // Always set loader to false, whether success or failure
             }
@@ -204,16 +201,12 @@ function PlaylistProfile() {
                 
                     } catch (error) {
                         //console.log(error.message);
-                        // Optionally, set an error state here to show an error message to the user
-                        // setError(error.message); // example
                     }
                 }
                 useEffect(()=> {
                     videoHandler();
                 }, [data])
         
-    //console.log(videoCount);
-    
         if (loading) return <Spinner />;
 
     return (

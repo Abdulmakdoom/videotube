@@ -79,21 +79,6 @@ const Sidebar = () => {
     setSearchInput(value)
   }
 
-  // const dataHandler = async ()=>{
-  //   //console.log(searchInput);
-    
-  //  if(searchInput != ""){
-  //     const response = await fetch(`/api/v1/videos/u/videos`)
-  //     const result = await response.json()
-  //     //console.log(result.data);
-  //     const videosArray = result.data
-
-  //     const searchVideos = videosArray.filter(video => video.description.includes(searchInput)) 
-  //     console.log(searchVideos);
-         
-  //  }
-    
-  // }
 
 
   return (
@@ -252,24 +237,6 @@ const Sidebar = () => {
                   </Link>
                 </div>
                 
-                {/* Logout Button */}
-                {/* <div className="flex items-center gap-3 mt-6">
-                  {userData ? (
-                    <div onClick={() => setSettingOpen(false)} className="relative group">
-                      <div className="absolute inset-0 bg-gray-100 opacity-80 group-hover:opacity-100 transition duration-500 rounded-lg shadow-lg transform group-hover:scale-105"></div>
-                      <button
-                        className="flex items-center gap-2 text-sm text-gray-800 hover:text-red-600 relative z-10 py-3 px-6 rounded-lg transition-all duration-300 ease-in-out transform hover:translate-x-3 cursor-pointer shadow-md group-hover:shadow-2xl"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-800 group-hover:text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 12l-7 7-7-7" />
-                        </svg>
-                        <span>Logout</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-gray-600">Not logged in</p>
-                  )}
-                </div> */}
                   <div className="flex items-center justify-between border-t">
                           {userData ? (
                            <div className="flex-1">
@@ -336,7 +303,6 @@ const Sidebar = () => {
           <div className="flex items-center justify-between px-4 py-5">
             <div>
               <h2 className="text-xl font-semibold text-white">VideoTube</h2>
-              {/* <h3 className="text-xs font-medium text-[#9fa4af]">store.untitledui.com</h3> */}
             </div>
           </div>
 
@@ -346,8 +312,6 @@ const Sidebar = () => {
                 <li key={item.name}>
                   <button
                     onClick={() => navigate(item.path)}
-                    //className="flex items-center space-x-3 text-white hover:bg-gray-400 hover:text-black px-4 py-2 rounded-md w-full"
-                    //className="ml-auto text-xs opacity-0 group-hover:opacity-100 transition text-white"
                     className="w-full h-11 px-3 flex items-center gap-2 text-sm rounded-md text-white hover:bg-[#e8ecf4] hover:text-[#384251] transition"
                   >
                     <span>{item.icon}</span>

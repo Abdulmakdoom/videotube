@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import "../../public/login.css"
-// import Input from "../components/Input";
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
 import { login as authLogin } from "../store/authSlice";
-// import {restoreUser} from "../store/authSlice"
-// import fetchWithAuth from "../utils/api";
-// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
@@ -20,7 +16,6 @@ function Login() {
             email: "",
             password: "",
         })
-        // const userData1 = useSelector((state)=> state.auth.userData)
         let url = import.meta.env.VITE_API_URL
     
     
@@ -32,8 +27,6 @@ function Login() {
                 [name]: value
             }))
         }
-
-        // console.log(formData);
         
         const loginHandler = async(e)=> {
             e.preventDefault();
@@ -50,18 +43,13 @@ function Login() {
                 
             })
 
-            //console.log(formData);
             
             
             const Data = await response.json()
-            //console.log(Data.message);
-            //console.log("Response Data:", Data);
 
             const userData = Data.data?.user
-        // console.log(userData);
             
             dispatch(authLogin(userData))
-            // dispatch(restoreUser(userData))
 
             if(!response.ok) {
                 throw new Error(Data.message || "Something went wrong")

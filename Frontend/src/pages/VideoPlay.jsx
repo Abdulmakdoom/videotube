@@ -44,8 +44,6 @@ function VideoPlay() {
 
         videoDetails();
     }, [videoId]);
-
-    //console.log(videoLink);
     
 
     return (

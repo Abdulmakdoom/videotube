@@ -1,22 +1,7 @@
 
     /* Font import and global reset */
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-    /* Global reset */
-    /* * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Quicksand', sans-serif;
-    } */
 
-    /* Body styling */
-    /* body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #000;
-    } */
 
     /* Section styles */
     section {
