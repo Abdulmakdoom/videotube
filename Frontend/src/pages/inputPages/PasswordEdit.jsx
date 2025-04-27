@@ -85,7 +85,7 @@ function PasswordEdit () {
                     <form 
                     onSubmit={dataHandler}
                     className="space-y-6">
-                    {/* Playlist Name */}
+                  
                     <Input
                         onChange={inputHandler}
                         className="bg-[#2b2b2b] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white w-full p-3 placeholder-gray-400 transition duration-300 ease-in-out"
@@ -96,7 +96,7 @@ function PasswordEdit () {
                         required
                     />
 
-                    {/* Playlist Description */}
+                
                     <Input
                         onChange={inputHandler}
                         className="bg-[#2b2b2b] border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white w-full p-3 placeholder-gray-400 transition duration-300 ease-in-out"
