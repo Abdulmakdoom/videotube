@@ -68,8 +68,8 @@ function PublishVideo() {
     if (!thumbnail) {
       return setError("Please select a thumbnail.");
     }
-    if (thumbnail.size > 4 * 1024 * 1024) {
-      return setError("Thumbnail file size should not exceed 5MB.");
+    if (thumbnail.size > 2 * 1024 * 1024) {
+      return setError("Thumbnail file size should not exceed 2MB.");
     }
     if (!videoFile) {
       return setError("Please select a video file.");
