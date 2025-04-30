@@ -267,7 +267,7 @@ const Sidebar = () => {
     >
       {/* Left Section */}
       <div className="z-10 w-[80px] flex flex-col items-center bg-[#0A0A0A]">
-        <img src="https://media-hosting.imagekit.io/5c7833d9652a4f28/ChatGPT Image Apr 16, 2025, 06_57_22 PM.png?Expires=1839422393&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=GP2y6yRlDMmGpGtiCr-~pA9Z0KgpQz8hXFHRMECLamwZbqHtM6kLoL5zkeabZnmwLzuCz8jkrfTWNdynV2bzGnIWi~~uIpRDVf8yYa~OYwUcSMgIuzEmQ8uKAJbSCNi4e-wa1WFzsFIegF7c6n4WVu7x92gpKxtEeMu1n95kMYc~UO7HfRASAiEzJWs3LBMfMTd08wWtJlsoV1TS9toq6yZ8cli-BWT0WfeGTOfgXPVB~-27IDXQW2Ha3iQyyLTxVIN9znQ4CtXKizDPzFPI3nqRtPo7RTww7-xg5ueEi9jFqhOPJ0JbtDR4u~EX5huXKuxpnK2c05B-ef~QywRSTg__" alt="Logo" className="w-15 h-15 my-1.5" />
+        <img src="media/logo.png" />
         <button onClick={()=> navigate('/home')} className="mt-7 w-11 h-11 grid place-items-center rounded-lg text-white hover:bg-[#f4f6fa] hover:text-[#384251] text-2xl">
           <AiOutlineHome />
         </button>
