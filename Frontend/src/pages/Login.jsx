@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../public/login.css"
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
-import { login as authLogin } from "../store/authSlice";
+import { login as authLogin, resetAuth } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import {persistor} from '../store/store.js'
 
@@ -89,6 +89,7 @@ function Login() {
 
                 // Optional: clear persisted state before setting new user
                 await persistor.purge(); // This will clear `persist:root` in localStorage
+                dispatch(resetAuth());  
         
                 // Dispatch user data to store (if you're using Redux)
                 dispatch(authLogin(userData));
