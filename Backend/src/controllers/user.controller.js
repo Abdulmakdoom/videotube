@@ -216,36 +216,65 @@ const loginUser = asyncHandler(async (req, res) => {
 
 //--------------------------------------------Logout User
 
-const logoutUser = asyncHandler(async(req, res) => {
-    // steps 
+// const logoutUser = asyncHandler(async(req, res) => {
+//     // steps 
 
-// clear user cookies
-// refreshToken in data also reset
-    await User.findByIdAndUpdate(
-        req.user._id,
-        {
-            $unset: {
-                refreshToken: 1 
-            }
-        },
-        {
-            new: true
-        }
-    )
+// // clear user cookies
+// // refreshToken in data also reset
+//     await User.findByIdAndUpdate(
+//         req.user._id,
+//         {
+//             $unset: {
+//                 refreshToken: 1 
+//             }
+//         },
+//         {
+//             new: true
+//         }
+//     )
 
-    const options = { 
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
+//     const options = { 
+//         httpOnly: true,
+//         secure: true,
+//         sameSite: "None",
 
+//     }
+
+//     return res
+//     .status(200)
+//     .clearCookie("accessToken", options)
+//     .clearCookie("refreshToken", options)
+//     .json(new ApiResponse(200, {}, "User logged Out"))
+// })
+
+
+const logoutUser = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.body.refreshToken;
+  
+    if (!incomingRefreshToken) {
+      throw new ApiError(400, "Refresh token is required");
     }
-
-    return res
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, {}, "User logged Out"))
-})
+  
+    try {
+      const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+  
+      const user = await User.findById(decoded._id);
+      if (!user) {
+        throw new ApiError(404, "User not found");
+      }
+  
+      // Clear the refresh token in DB
+      user.refreshToken = null;
+      await user.save();
+  
+      return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "User logged out successfully"));
+    } catch (error) {
+      throw new ApiError(401, "Invalid or expired refresh token");
+    }
+  });
+  
 
 
 //-------------------------------------------refresh AccessToken

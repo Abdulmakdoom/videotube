@@ -11,18 +11,44 @@ function LogoutBtn() {
     const navigate = useNavigate()
     let url = import.meta.env.VITE_API_URL
 
-    const logoutHandler = async()=> {
-        await fetchWithAuth(url+"/api/v1/users/logout", {
+    // const logoutHandler = async()=> {
+    //     await fetchWithAuth(url+"/api/v1/users/logout", {
+    //         method: "POST",
+    //         credentials: "include",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //     })
+    //     dispatch(authLogout())
+    //     // alert("Logout successfully!");
+    //     navigate("/login")
+    // }
+
+    const logoutHandler = async () => {
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+      
+          // Call logout API with refreshToken in the body
+          await fetch(url + "/api/v1/users/logout", {
             method: "POST",
-            credentials: "include",
             headers: {
-                "Content-Type": "application/json",
+              "Content-Type": "application/json",
             },
-        })
-        dispatch(authLogout())
-        // alert("Logout successfully!");
-        navigate("/login")
-    }
+            body: JSON.stringify({ refreshToken }), // Send it manually
+          });
+      
+          // Clear tokens and logout state
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          dispatch(authLogout());
+      
+          // Navigate to login
+          navigate("/login");
+        } catch (error) {
+          console.error("Logout failed:", error.message);
+        }
+      };
+      
 
     return (
         <>

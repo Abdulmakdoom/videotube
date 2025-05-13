@@ -94,7 +94,7 @@ function Login() {
                 localStorage.setItem("refreshToken", data.data.refreshToken);
                 
                 // Optionally, store user data in localStorage for persistence
-                localStorage.setItem("user", JSON.stringify(userData));
+                // localStorage.setItem("user", JSON.stringify(userData));
         
                 // Redirect to the home page
                 navigate("/home");
