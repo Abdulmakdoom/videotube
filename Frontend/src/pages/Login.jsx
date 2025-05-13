@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { useDispatch } from "react-redux";
 import { login as authLogin } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import {persistor} from '../store/store.js'
 
 
 
@@ -85,6 +86,9 @@ function Login() {
                 }
         
                 const userData = data.data?.user;
+
+                // Optional: clear persisted state before setting new user
+                await persistor.purge(); // This will clear `persist:root` in localStorage
         
                 // Dispatch user data to store (if you're using Redux)
                 dispatch(authLogin(userData));
