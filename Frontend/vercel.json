@@ -1,9 +1,11 @@
 
+
 {
-  "headers": [
+  "rewrites": [
     {
       "source": "/(.*)",
-      "headers": [
+      "destination": "/index.html",
+      "headers":  [
         {
           "key": "Access-Control-Allow-Credentials",
           "value": "true"
@@ -12,3 +14,4 @@
     }
   ]
 }
+  
