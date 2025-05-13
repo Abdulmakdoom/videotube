@@ -118,6 +118,58 @@ const registerUser = asyncHandler( async (req, res) => {
 
 // //--------------------------------------------Login User
 
+// const loginUser = asyncHandler(async (req, res) => {
+//     const { email, username, password } = req.body;
+
+//     if (!username && !email) {
+//         throw new ApiError(400, "Username or email is required");
+//     }
+
+//     // Find the user by username or email
+//     const user = await User.findOne({ $or: [{ username }, { email }] });
+
+//     if (!user) {
+//         throw new ApiError(404, "User does not exist");
+//     }
+
+//     // Password check
+//     const isPasswordValid = await user.isPasswordCorrect(password);
+//     if (!isPasswordValid) {
+//         throw new ApiError(401, "Invalid user credentials");
+//     }
+
+//     // Generate access and refresh tokens
+//     const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
+
+//     // Prepare user data to send back (exclude password and refreshToken)
+//     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+//     // Define cookie options
+//     const cookieOptions = {
+//         httpOnly: true,
+//         // secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
+//         secure: true,
+//         sameSite: "None",
+//     };
+
+//     // Send response with cookies
+//     return res.status(200)
+//         .cookie("accessToken", accessToken, cookieOptions)
+//         .cookie("refreshToken", refreshToken, cookieOptions)
+//         .json(
+//             new ApiResponse(
+//                 200,
+//                 {
+//                     user: loggedInUser, 
+//                     accessToken, 
+//                     refreshToken
+//                 },
+//                 "User logged in successfully"
+//             )
+//         );
+// });
+
+
 const loginUser = asyncHandler(async (req, res) => {
     const { email, username, password } = req.body;
 
@@ -144,18 +196,8 @@ const loginUser = asyncHandler(async (req, res) => {
     // Prepare user data to send back (exclude password and refreshToken)
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
-    // Define cookie options
-    const cookieOptions = {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
-        secure: true,
-        sameSite: "None",
-    };
-
-    // Send response with cookies
+    // Send response with tokens
     return res.status(200)
-        .cookie("accessToken", accessToken, cookieOptions)
-        .cookie("refreshToken", refreshToken, cookieOptions)
         .json(
             new ApiResponse(
                 200,
