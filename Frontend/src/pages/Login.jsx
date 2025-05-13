@@ -79,6 +79,9 @@ function Login() {
                 });
         
                 const data = await response.json();
+
+                console.log(data);
+                
         
                 if (!response.ok) {
                     throw new Error(data.message || "Something went wrong");
