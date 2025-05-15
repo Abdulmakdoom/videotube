@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors"; 
 import cookieParser from "cookie-parser"; 
+import session from "express-session"
 
 
 const app = express()
@@ -20,6 +21,20 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 // app.use(express.urlencoded({extended: true, limit: '100mb'}))
 app.use(express.static("public"))
 app.use(cookieParser())
+
+
+// 3. Session
+// app.use(session({
+//     secret: process.env.ACCESS_TOKEN_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {   
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production", // <-- toggles on HTTPS only
+//       sameSite: "lax",                              // you need None for cross-site
+//       maxAge: 1000 * 60 * 60 * 24,                    // 1 day
+//     }
+//   }));
 
 import userRouter from './routes/user.routes.js'
 import healthcheckRouter from "./routes/healthcheck.routes.js"

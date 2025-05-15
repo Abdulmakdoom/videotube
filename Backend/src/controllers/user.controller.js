@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
 import { v2 as cloudinary } from 'cloudinary';
 
+
 const generateAccessAndRefereshTokens = async(userId)=> {
     try {
        const user = await User.findById(userId)
@@ -149,7 +150,7 @@ const loginUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         // secure: process.env.NODE_ENV === 'production',  // Use secure cookies only in production
         secure: true,
-        sameSite: "None",
+        sameSite: "lax",
     };
 
     // Send response with cookies
@@ -168,6 +169,49 @@ const loginUser = asyncHandler(async (req, res) => {
             )
         );
 });
+
+// const loginUser = asyncHandler(async (req, res) => {
+//     const { email, username, password } = req.body;
+//     if (!username && !email) {
+//       throw new ApiError(400, "Username or email is required");
+//     }
+  
+//     const user = await User.findOne({ $or: [{ username }, { email }] });
+    
+//     if (!user) {
+//       throw new ApiError(404, "User does not exist");
+//     }
+//     const isPasswordValid = await user.isPasswordCorrect(password);
+//     if (!isPasswordValid) {
+//       throw new ApiError(401, "Invalid user credentials");
+//     }
+  
+//     // 1) Generate tokens
+//     const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
+
+//     // 3) Store tokens in session
+//     // req.session.tokens = { accessToken, refreshToken };
+    
+//     req.session.user = {
+//       _id: user._id,
+//       username: user.username,
+//       email: user.email,
+//     };
+  
+//     // 4) Send back user + accessToken so your React app can call protected APIs
+//     //    (you could omit sending refreshToken if you handle refresh entirely server-side)
+//     const safeUser = await User.findById(user._id).select("-password -refreshToken");
+
+//     return res.status(200).json(new ApiResponse(
+//       200,
+//       {
+//         user: safeUser,
+//         accessToken,
+//       },
+//       "User logged in successfully"
+//     ));
+//   });
+  
 
 
 // const loginUser = asyncHandler(async (req, res) => {
@@ -236,7 +280,7 @@ const logoutUser = asyncHandler(async(req, res) => {
     const options = { 
         httpOnly: true,
         secure: true,
-        sameSite: "None",
+        sameSite: "lax",
 
     }
 
@@ -247,6 +291,47 @@ const logoutUser = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, {}, "User logged Out"))
 })
 
+
+
+// const logoutUser = asyncHandler(async (req, res) => {
+//     // 1) Grab the userId from the session (or from req.user if you populated that)
+//     // const userId = req.session.user?._id;
+//     // if (!userId) {
+//     //   throw new ApiError(401, "Not authenticated");
+//     // }
+  
+//     // 2) Remove refreshToken from the User document
+//     await User.findByIdAndUpdate(
+//       req.user._id,
+//       { $unset: { refreshToken: "" } },
+//       { new: true }
+//     );
+  
+//     // 3) Clear out tokens from the session
+//     delete req.session.tokens;
+//     delete req.session.user;
+  
+//     // 4) Destroy the session entirely
+//     req.session.destroy(err => {
+//       if (err) {
+//         // If destroy fails, still try to clear the cookie
+//         console.error("Session destroy error:", err);
+//       }
+  
+//       // 5) Clear the session cookie on the client
+//       const cookieOptions = {
+//         httpOnly: true,
+//         secure: process.env.NODE_ENV === "production",
+//         sameSite: "none",
+//       };
+  
+//       res
+//         .clearCookie("connect.sid", cookieOptions)  // default cookie name
+//         .status(200)
+//         .json(new ApiResponse(200, {}, "User logged out successfully"));
+//     });
+//   });
+  
 
 // const logoutUser = asyncHandler(async (req, res) => {
 //     const incomingRefreshToken = req.body.refreshToken;
@@ -311,7 +396,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            sameSite: "None",
+            sameSite: "lax",
 
         }
     
@@ -330,6 +415,45 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 
 })
+
+
+
+// const refreshAccessToken = asyncHandler(async (req, res) => {
+//     // 1) pull the stored refreshToken out of the session
+//     const incomingRefreshToken = req.session.tokens?.refreshToken;
+//     if (!incomingRefreshToken) {
+//       throw new ApiError(401, "Unauthorized — no refresh token in session");
+//     }
+  
+//     let decoded;
+//     try {
+//       // 2) verify it
+//       decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+//     } catch (err) {
+//       throw new ApiError(401, "Invalid or expired refresh token");
+//     }
+  
+//     // 3) lookup user and ensure the DB‐stored token matches
+//     const user = await User.findById(decoded._id);
+//     if (!user || user.refreshToken !== incomingRefreshToken) {
+//       throw new ApiError(401, "Refresh token mismatch or user not found");
+//     }
+  
+//     // 4) mint new tokens
+//     const { accessToken, refreshToken: newRefreshToken } = await generateAccessAndRefereshTokens(user._id);
+  
+//     // 5) overwrite session.tokens with the new ones
+//     req.session.tokens = { accessToken, refreshToken: newRefreshToken };
+  
+//     // 6) send back JSON with the new accessToken (client keeps it in memory)
+//     return res.status(200).json(
+//       new ApiResponse(
+//         200,
+//         { accessToken, refreshToken: newRefreshToken },
+//         "Tokens refreshed successfully"
+//       )
+//     );
+//   });
 
 
 // const refreshAccessToken = asyncHandler(async (req, res) => {
