@@ -29,88 +29,88 @@ function Login() {
             }))
         }
         
-        // const loginHandler = async(e)=> {
-        //     e.preventDefault();
-        //     setError("")
-            
-        // try {
-        //     const response = await fetch(url+"/api/v1/users/login", {
-        //         method: "POST",
-        //         credentials: "include", // Ensures cookies are sent
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(formData),
-                
-        //     })
-
-            
-            
-        //     const Data = await response.json()
-
-        //     const userData = Data.data?.user
-            
-        //     dispatch(authLogin(userData))
-
-        //     if(!response.ok) {
-        //         throw new Error(Data.message || "Something went wrong")
-        //     }
-
-        //     // alert("Login successfully!");
-        //     navigate("/home")
-        //     setError(Data.message)
-            
-        // } catch (error) {
-        //     setError(error.message)
-        // }
-        
-        // }
-
-        const loginHandler = async (e) => {
+        const loginHandler = async(e)=> {
             e.preventDefault();
-            setError(""); // Clear any previous errors
+            setError("")
             
-            try {
-                const response = await fetch(url + "/api/v1/users/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                });
-        
-                const data = await response.json();                
-        
-                if (!response.ok) {
-                    throw new Error(data.message || "Something went wrong");
-                }
-        
-                const userData = data.data?.user;
-
-                // Optional: clear persisted state before setting new user
-                await persistor.purge(); // This will clear `persist:root` in localStorage
-                dispatch(resetAuth());  
-        
-                // Dispatch user data to store (if you're using Redux)
-                dispatch(authLogin(userData));
-        
-                // Store accessToken and refreshToken in localStorage
-                localStorage.setItem("accessToken", data.data.accessToken);
-                localStorage.setItem("refreshToken", data.data.refreshToken);
-                localStorage.removeItem("persist:root");
-
-                // Optionally, store user data in localStorage for persistence
-                // localStorage.setItem("user", JSON.stringify(userData));
-        
-                // Redirect to the home page
-                navigate("/home");
+        try {
+            const response = await fetch(url+"/api/v1/users/login", {
+                method: "POST",
+                credentials: "include", // Ensures cookies are sent
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
                 
-                setError(""); // Clear the error message after successful login
-            } catch (error) {
-                // Handle any errors that occur during the login process
-                setError(error.message);
+            })
+
+            
+            
+            const Data = await response.json()
+
+            const userData = Data.data?.user
+            
+            dispatch(authLogin(userData))
+
+            if(!response.ok) {
+                throw new Error(Data.message || "Something went wrong")
             }
-        };
+
+            // alert("Login successfully!");
+            navigate("/home")
+            setError(Data.message)
+            
+        } catch (error) {
+            setError(error.message)
+        }
+        
+        }
+
+        // const loginHandler = async (e) => {
+        //     e.preventDefault();
+        //     setError(""); // Clear any previous errors
+            
+        //     try {
+        //         const response = await fetch(url + "/api/v1/users/login", {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //             body: JSON.stringify(formData),
+        //         });
+        
+        //         const data = await response.json();                
+        
+        //         if (!response.ok) {
+        //             throw new Error(data.message || "Something went wrong");
+        //         }
+        
+        //         const userData = data.data?.user;
+
+        //         // Optional: clear persisted state before setting new user
+        //         await persistor.purge(); // This will clear `persist:root` in localStorage
+        //         dispatch(resetAuth());  
+        
+        //         // Dispatch user data to store (if you're using Redux)
+        //         dispatch(authLogin(userData));
+        
+        //         // Store accessToken and refreshToken in localStorage
+        //         localStorage.setItem("accessToken", data.data.accessToken);
+        //         localStorage.setItem("refreshToken", data.data.refreshToken);
+        //         localStorage.removeItem("persist:root");
+
+        //         // Optionally, store user data in localStorage for persistence
+        //         // localStorage.setItem("user", JSON.stringify(userData));
+        
+        //         // Redirect to the home page
+        //         navigate("/home");
+                
+        //         setError(""); // Clear the error message after successful login
+        //     } catch (error) {
+        //         // Handle any errors that occur during the login process
+        //         setError(error.message);
+        //     }
+        // };
         
     return (
         <section>

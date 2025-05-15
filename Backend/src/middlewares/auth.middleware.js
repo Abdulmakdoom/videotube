@@ -9,10 +9,10 @@ export const verifyJWT = asyncHandler(async(req, _, next) => {
         //  get token
         // const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
         
-        // const token = req.cookies?.accessToken
+        const token = req.cookies?.accessToken
         // const token = (req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "") || "").trim();
-        const token = (req.header("Authorization")?.replace("Bearer ", "") || "").trim();
-        console.log(token);
+        // const token = (req.header("Authorization")?.replace("Bearer ", "") || "").trim();
+        // console.log(token);
         
 
         // console.log(token);
