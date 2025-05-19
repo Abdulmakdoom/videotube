@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 
 const fetchWithAuth = async (url, options = {}) => {
-      const userData = useSelector((state) => state.auth.userData);
-      const userId = userData?._id;
+      // const userData = useSelector((state) => state.auth.userData);
+      // const userId = userData?._id;
     // Ensure credentials (cookies) are included in the request
     let response = await fetch(url, {
       ...options,
@@ -31,10 +31,13 @@ const fetchWithAuth = async (url, options = {}) => {
         } else {
           // If the refresh token request fails, it likely means the user is logged out
 
-          if(userId) {
-             alert('Please allow third-party cookies to ensure proper access to data, or your session may expire.')
-             window.location.href = '/login';
-          }
+          // if(userId) {
+          //    alert('Please allow third-party cookies to ensure proper access to data, or your session may expire.')
+          //    window.location.href = '/login';
+          // }
+
+          alert('Please allow third-party cookies to ensure proper access to data, or your session may expire.')
+          window.location.href = '/login';
           throw new Error("Session expired, please log in again");
           
         }
