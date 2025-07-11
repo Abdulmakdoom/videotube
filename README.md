@@ -1,8 +1,48 @@
-# 🎬 VideoTube - Full Stack MERN Project
+<div align="center">
 
--[Model link](https://videotube-gules.vercel.app/)
+# 🎬 VIDEOTUBE  
+### 🚀 Full Stack MERN Project
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge&logo=vercel)](https://videotube-gules.vercel.app/)
+
+</div>
+<br/>
 
 **VideoTube** is a full-featured video-sharing platform built with the MERN stack — **MongoDB**, **Express.js**, **React (Vite)**, and **Node.js**. Users can register, upload and stream videos, manage their profile, subscribe to other users, and track their watch history. All wrapped in a clean and responsive UI.
+
+---
+
+**Transforming Video Sharing Into Limitless Possibilities**
+<br/>
+<div align="center"> 
+  
+![Last Commit](https://img.shields.io/github/last-commit/Abdulmakdoom/videotube?color=blue)&nbsp;&nbsp;&nbsp;![JavaScript](https://img.shields.io/badge/javascript-97.4%25-yellow)&nbsp;&nbsp;&nbsp;![Languages](https://img.shields.io/github/languages/count/Abdulmakdoom/videotube)
+
+</div>
+---
+## Built with the tools and technologies:
+
+<div align="center"> 
+ <br/> 
+  
+![Express](https://img.shields.io/badge/-Express-black?logo=express)&nbsp;&nbsp;&nbsp;
+![JSON](https://img.shields.io/badge/-JSON-000000?logo=json)&nbsp;&nbsp;&nbsp;
+![Markdown](https://img.shields.io/badge/-Markdown-lightgrey?logo=markdown&logoColor=black)&nbsp;&nbsp;&nbsp;
+![npm](https://img.shields.io/badge/-npm-red?logo=npm)&nbsp;&nbsp;&nbsp;
+![Mongoose](https://img.shields.io/badge/-Mongoose-darkred?logo=mongodb)&nbsp;&nbsp;&nbsp;
+![Prettier](https://img.shields.io/badge/Prettier-ffffff?logo=prettier&logoColor=black)
+&nbsp;&nbsp;&nbsp;
+![ENV](https://img.shields.io/badge/-ENV-yellow?logo=dotenv&logoColor=red)<br/>
+
+![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black)&nbsp;&nbsp;&nbsp;
+![Nodemon](https://img.shields.io/badge/-Nodemon-green?logo=nodemon&logoColor=white)&nbsp;&nbsp;&nbsp;
+![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=black)&nbsp;&nbsp;&nbsp;
+![Cloudinary](https://img.shields.io/badge/-Cloudinary-blue?logo=cloudinary)&nbsp;&nbsp;&nbsp;
+![Vite](https://img.shields.io/badge/-Vite-646CFF?logo=vite&logoColor=white)&nbsp;&nbsp;&nbsp;
+![ESLint](https://img.shields.io/badge/-ESLint-4B32C3?logo=eslint)&nbsp;&nbsp;&nbsp;
+![Axios](https://img.shields.io/badge/-Axios-5A29E4?logo=axios)
+  
+</div>
 
 ---
 
@@ -154,11 +194,6 @@ http://localhost:8080
 - mongoose: MongoDB ODM
 - mongoose-aggregate-paginate-v2: Pagination for aggregate pipelines
 - multer: File upload middleware
-
-
-## 🙏 Acknowledgements
-Special thanks to @hiteshchoudhary for his inspiration and valuable resources.
-
 
 
 ## 👨‍💻 Author
