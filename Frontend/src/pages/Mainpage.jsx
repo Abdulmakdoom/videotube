@@ -88,7 +88,7 @@ function Mainpage() {
                {loader ? <div className="mt-60"><Spinner /> 
                {/* informative message */}
                     <p className="mt-4 text-center text-lg font-medium text-gray-300 animate-pulse">
-                      Optimizing your experience...,<br />
+                      Optimizing your experience...<br />
                       please wait a few moments.
                     </p>
                </div>: null}
