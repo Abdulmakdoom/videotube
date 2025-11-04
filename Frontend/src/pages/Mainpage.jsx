@@ -86,6 +86,19 @@ function Mainpage() {
             <main className="flex-grow p-4 flex flex-col items-center justify-start">
                
                {loader ? <div className="mt-60"><Spinner /> </div>: null}
+               {loader ? (
+                  <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white transition-opacity duration-700">
+                    {/* your existing loader spinner */}
+                    <div className="loader mb-6"></div>
+                
+                    {/* informative message */}
+                    <p className="text-center text-lg font-medium text-gray-300 animate-pulse">
+                      Please wait a moment,<br />
+                      it takes a few seconds to load initially...
+                    </p>
+                  </div>
+                ) : null}
+
           
                 {error && <p className="text-red-500">{error}</p>}
                 
