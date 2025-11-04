@@ -85,14 +85,13 @@ function Mainpage() {
 
             <main className="flex-grow p-4 flex flex-col items-center justify-start">
                
-               {loader ? <div className="mt-60"><Spinner /> </div>: null}
-               {loader ? (
-                    {/* informative message */}
+               {loader ? <div className="mt-60"><Spinner /> 
+               {/* informative message */}
                     <p className="text-center text-lg font-medium text-gray-300 animate-pulse">
                       Please wait a moment,<br />
                       it takes a few seconds to load initially...
                     </p>
-                ) : null}
+               </div>: null}
 
           
                 {error && <p className="text-red-500">{error}</p>}
