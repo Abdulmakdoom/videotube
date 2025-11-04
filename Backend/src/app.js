@@ -44,6 +44,13 @@ import likeRouter from "./routes/like.routes.js"
 import playlistRouter from "./routes/playlist.routes.js"
 import dashboardRouter from "./routes/dashboard.routes.js"
 
+
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from backend!' });
+});
+
+
 //routes declaration
 app.use("/api/v1/healthcheck", healthcheckRouter)
 app.use("/api/v1/users", userRouter)
