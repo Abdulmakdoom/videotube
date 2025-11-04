@@ -46,7 +46,7 @@ import dashboardRouter from "./routes/dashboard.routes.js"
 
 
 
-app.get('/', (req, res) => {
+app.get('/sample', (req, res) => {
   res.json({ message: 'Hello from backend!' });
 });
 
